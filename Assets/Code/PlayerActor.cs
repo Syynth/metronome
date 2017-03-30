@@ -12,7 +12,9 @@ namespace Assets.Code
     class PlayerActor : MonoBehaviour
     {
 
+        public float moveSpeed = 10f;
         public Vector3 velocity;
+
         MotionController motionController;
 
         void Start()
@@ -22,6 +24,7 @@ namespace Assets.Code
 
         void Update()
         {
+            velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * Time.deltaTime * moveSpeed;
             motionController.Move(velocity);
         }
 
