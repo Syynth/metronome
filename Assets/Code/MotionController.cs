@@ -17,7 +17,11 @@ namespace Assets.Code
             var hit = BoxCast(boxCollider.bounds, velocity, velocity.magnitude, solidLayer);
             if (hit)
             {
-                transform.position += velocity.normalized * (hit.distance - skinWidth);
+                var travel = velocity.normalized * (hit.distance - skinWidth);
+                transform.position += travel;
+                var rem = velocity - travel;
+                var rot = new Vector2(-hit.normal.y, hit.normal.x).normalized;
+                Move(rot * Vector3.Dot(rem, rot));
                 return;
             }
             transform.position += velocity;
