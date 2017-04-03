@@ -38,17 +38,18 @@ namespace Assets.Code
         {
             RaycastHit2D hit;
             hit = BoxCast(boxCollider.bounds, down, skinWidth * 2, solidLayer);
-            if (hit)
+            if (hit && Vector3.Dot(velocity, down) > 0)
             {
+                var info = new CollisionInfo()
+                {
+                    Below = true
+                };
                 if (Vector3.Distance(velocity.normalized, down.normalized) < 0.01f)
                 {
-                    return new CollisionInfo()
-                    {
-                        Below = true
-                    };
+                    return info;
                 }
                 var move = GetMoveVector(hit.normal, velocity);
-                return Travel(move, down);
+                return info.Or(Travel(move, down));
             }
             return Travel(velocity, down);
         }

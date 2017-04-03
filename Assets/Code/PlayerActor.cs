@@ -26,8 +26,12 @@ namespace Assets.Code
         void UpdateVelocity()
         {
             velocity += gravity * Time.deltaTime;
-            velocity.x = Input.GetAxisRaw("Horizontal");
+            velocity.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
             velocity.y = Mathf.Max(-10f, velocity.y);
+            if (Input.GetButtonDown("Jump"))
+            {
+                velocity.y = moveSpeed;
+            }
         }
 
         void Update()
