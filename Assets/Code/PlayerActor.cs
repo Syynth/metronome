@@ -12,7 +12,7 @@ namespace Assets.Code
     class PlayerActor : MonoBehaviour
     {
 
-        public float moveSpeed = 10f;
+        public Vector2 moveSpeed = new Vector2(10f, 25f);
         public Vector3 velocity;
         public Vector3 gravity = Vector3.down * 10;
 
@@ -26,11 +26,11 @@ namespace Assets.Code
         void UpdateVelocity()
         {
             velocity += gravity * Time.deltaTime;
-            velocity.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
-            velocity.y = Mathf.Max(-10f, velocity.y);
+            velocity.x = Input.GetAxisRaw("Horizontal") * moveSpeed.x;
+            velocity.y = Mathf.Max(-100f, velocity.y);
             if (Input.GetButtonDown("Jump"))
             {
-                velocity.y = moveSpeed;
+                velocity.y = moveSpeed.y;
             }
         }
 

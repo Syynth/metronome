@@ -12,7 +12,7 @@ namespace Assets.Code
     class RaycastController : MonoBehaviour
     {
 
-        public const float skinWidth = 0.01f;
+        public const float skinWidth = 0.025f;
         public LayerMask solidLayer;
 
         protected BoxCollider2D boxCollider;
@@ -31,7 +31,7 @@ namespace Assets.Code
         protected virtual RaycastHit2D BoxCast(Bounds bounds, Vector3 direction, float distance, LayerMask layer)
         {
             bounds.Expand(-skinWidth);
-            var hit = Physics2D.BoxCast(bounds.center, bounds.extents * 2, 0, direction, distance, layer);
+            var hit = Physics2D.BoxCast(bounds.center, bounds.size, 0, direction, distance, layer);
             Color col = hit ? Color.red : Color.white;
             Color col2 = hit ? Color.green : Color.blue;
             var min = bounds.min + direction;
