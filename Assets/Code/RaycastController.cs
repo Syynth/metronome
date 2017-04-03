@@ -48,7 +48,6 @@ namespace Assets.Code
             {
                 DrawX(hit.point, .15f, Color.cyan);
                 DrawX(hit.centroid, .15f, Color.black);
-                print(hit.distance);
             }
             return hit;
         }
