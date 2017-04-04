@@ -37,7 +37,7 @@ namespace Assets.Code
             return angle + (90 - angle) * 2;
         }
 
-        CollisionInfo Travel(Vector3 velocity, Vector3 down)
+        CollisionInfo Travel(Vector3 velocity, Vector3 down, Vector3 original)
         {
             var hit = BoxCast(boxCollider.bounds, velocity, velocity.magnitude + skinWidth, solidLayer);
             if (hit)
@@ -45,15 +45,15 @@ namespace Assets.Code
                 var travel = velocity.normalized * (Mathf.Max(hit.distance - skinWidth, 0));
                 transform.position += travel;
                 var rem = velocity - travel;
-                var rot = new Vector3(-hit.normal.y, hit.normal.x).normalized;
-                if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth)
+                var rot = GetMoveVector(hit.normal, rem).normalized;
+                if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth) // moving directly downwards
                 {
-                    if (ClampAngle(Vector3.Angle(down, rot)) >= ReflectAngle(maxClimbAngle))
+                    if (ClampAngle(Vector3.Angle(down, rot)) >= ReflectAngle(maxClimbAngle)) // standing on slope steeper than max climb angle
                     {
                         return new CollisionInfo();
                     }
                 }
-                else if (ClampAngle(Vector3.Angle(down, rot)) > maxClimbAngle)
+                else if (ClampAngle(Vector3.Angle(down, rot)) > maxClimbAngle && Vector3.Dot(down, original) >= 0) // trying to move up a wall while originally not moving upwards
                 {
                     return new CollisionInfo();
                 }
@@ -65,6 +65,11 @@ namespace Assets.Code
         }
 
         public CollisionInfo Move(Vector3 velocity, Vector3 down)
+        {
+            return Move_Impl(velocity, down, velocity);
+        }
+
+        CollisionInfo Move_Impl(Vector3 velocity, Vector3 down, Vector3 original)
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -91,9 +96,9 @@ namespace Assets.Code
                         info.Below = false;
                     }
                 }
-                return info.Or(Travel(move, down));
+                return info.Or(Travel(move, down, original));
             }
-            return Travel(velocity, down);
+            return Travel(velocity, down, original);
         }
 
     }
