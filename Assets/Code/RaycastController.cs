@@ -14,6 +14,7 @@ namespace Assets.Code
 
         public const float skinWidth = 0.025f;
         public LayerMask solidLayer;
+        public LayerMask oneWayLayer;
 
         protected BoxCollider2D boxCollider;
 

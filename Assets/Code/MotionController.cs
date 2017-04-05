@@ -58,7 +58,7 @@ namespace Assets.Code
                     return new CollisionInfo();
                 }
                 if (rem.magnitude < skinWidth) return new CollisionInfo();
-                return Move(rot * Vector3.Dot(rem, rot), down);
+                return Move_Impl(rot * Vector3.Dot(rem, rot), down, original);
             }
             transform.position += velocity;
             return new CollisionInfo();
@@ -76,7 +76,7 @@ namespace Assets.Code
                 print("boop");
             }
             RaycastHit2D hit;
-            hit = BoxCast(boxCollider.bounds, down, skinWidth * 2, solidLayer);
+            hit = BoxCast(boxCollider.bounds, down, skinWidth * 2, solidLayer | oneWayLayer);
             if (hit && Vector3.Dot(velocity, down) > 0)
             {
                 var info = new CollisionInfo { Below = true };

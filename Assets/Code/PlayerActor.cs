@@ -9,6 +9,7 @@ namespace Assets.Code
 {
 
     [RequireComponent(typeof(MotionController))]
+    [RequireComponent(typeof(Rigidbody2D))]
     class PlayerActor : MonoBehaviour
     {
 
@@ -16,11 +17,14 @@ namespace Assets.Code
         public Vector3 velocity;
         public Vector3 gravity = Vector3.down * 10;
 
+        public Vector2 maxSpeed = new Vector2(10f, 25f);
+
         MotionController motionController;
 
         void Start()
         {
             motionController = GetComponent<MotionController>();
+            GetComponent<Rigidbody2D>().isKinematic = true;
         }
 
         void UpdateVelocity()
