@@ -13,6 +13,8 @@ namespace Assets.Code
     {
 
         public float maxClimbAngle = 140f;
+        public float maxStepHeight = 0.1f;
+        public float stepDistance = 0.1f;
 
         Vector3 GetMoveVector(Vector3 normal, Vector3 velocity)
         {
@@ -35,6 +37,36 @@ namespace Assets.Code
                 return angle - (angle - 90) * 2;
             }
             return angle + (90 - angle) * 2;
+        }
+
+        Vector3 Clockwise(Vector3 input)
+        {
+            return new Vector3(-input.y, input.x);
+        }
+
+        Vector3 CounterClockwise(Vector3 input)
+        {
+            return Clockwise(input) * -1;
+        }
+
+        bool StepUp(Vector3 velocity, Vector3 down, Vector3 original, out CollisionInfo info)
+        {
+            info = new CollisionInfo();
+            var dx = GetMoveVector(down, velocity.normalized) * stepDistance;
+            var dy = down * -maxStepHeight;
+            var bounds = boxCollider.bounds;
+            bounds.center = transform.position + dx + dy;
+            var hit = BoxCast(bounds, down, maxStepHeight * 2, solidLayer);
+            if (hit && hit.distance > skinWidth) // hit should never be false. hit.distance needs to be greater than skinWidth or else you're casting from inside an object
+            {
+                if (ClampAngle(Vector3.Angle(down, GetMoveVector(hit.normal, down))) < maxClimbAngle && Vector3.Dot(down, hit.normal) < 0) // jump-through platform is standable
+                {
+                    info.Below = true;
+                    transform.position += dx + dy + (down * Mathf.Max(hit.distance - skinWidth, 0));
+                    return true;
+                }
+            }
+            return false;
         }
 
         CollisionInfo Travel(Vector3 velocity, Vector3 down, Vector3 original)
@@ -73,7 +105,15 @@ namespace Assets.Code
                 }
                 else if (ClampAngle(Vector3.Angle(down, rot)) > maxClimbAngle && Vector3.Dot(down, original) >= 0) // trying to move up a wall while originally not moving upwards
                 {
-                    return new CollisionInfo();
+                    if (StepUp(velocity, down, original, out var info))
+                    {
+                        return info;
+                    }
+                    return new CollisionInfo()
+                    {
+                        Left = Vector3.Dot(CounterClockwise(down), original) > 0,
+                        Right = Vector3.Dot(Clockwise(down), original) > 0
+                    };
                 }
                 if (rem.magnitude < skinWidth) return new CollisionInfo();
                 return Move_Impl(rot * Vector3.Dot(rem, rot), down, original);
@@ -84,7 +124,7 @@ namespace Assets.Code
 
         public CollisionInfo Move(Vector3 velocity, Vector3 down)
         {
-            return Move_Impl(velocity, down, velocity);
+            return Move_Impl(velocity, down.normalized, velocity);
         }
 
         CollisionInfo Move_Impl(Vector3 velocity, Vector3 down, Vector3 original)
