@@ -13,8 +13,8 @@ namespace Assets.Code
     {
 
         public float maxClimbAngle = 140f;
-        public float maxStepHeight = 0.1f;
-        public float stepDistance = 0.1f;
+        public float maxStepHeight = 0.15f;
+        public float stepDistance = 0.15f;
 
         Vector3 GetMoveVector(Vector3 normal, Vector3 velocity)
         {
