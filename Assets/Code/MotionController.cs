@@ -39,13 +39,31 @@ namespace Assets.Code
 
         CollisionInfo Travel(Vector3 velocity, Vector3 down, Vector3 original)
         {
-            var hit = BoxCast(boxCollider.bounds, velocity, velocity.magnitude + skinWidth, solidLayer);
+            var oneWayHit = BoxCast(boxCollider.bounds, velocity, velocity.magnitude, oneWayLayer);
+            var rem = velocity;
+            var hit = BoxCast(boxCollider.bounds, rem, rem.magnitude, solidLayer);
+
+            if (oneWayHit && (!hit || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > skinWidth)
+            {
+                var travel = rem.normalized * (Mathf.Max(oneWayHit.distance - skinWidth, 0));
+                transform.position += travel;
+                rem -= travel;
+                var rot = GetMoveVector(oneWayHit.normal, rem.normalized);
+                if (ClampAngle(Vector3.Angle(down, rot)) < maxClimbAngle && Vector3.Dot(down, oneWayHit.normal) < 0) // jump-through platform is standable
+                {
+                    if (rem.magnitude < skinWidth) return new CollisionInfo();
+                    var info = new CollisionInfo { Below = true };
+                    return info.Or(Move_Impl(rot * Vector3.Dot(rem, rot), down, original));
+                }
+            }
+
+            hit = BoxCast(boxCollider.bounds, rem, rem.magnitude, solidLayer);
             if (hit)
             {
                 var travel = velocity.normalized * (Mathf.Max(hit.distance - skinWidth, 0));
                 transform.position += travel;
-                var rem = velocity - travel;
-                var rot = GetMoveVector(hit.normal, rem).normalized;
+                rem -= travel;
+                var rot = GetMoveVector(hit.normal, rem.normalized);
                 if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth) // moving directly downwards
                 {
                     if (ClampAngle(Vector3.Angle(down, rot)) >= ReflectAngle(maxClimbAngle)) // standing on slope steeper than max climb angle
@@ -71,12 +89,11 @@ namespace Assets.Code
 
         CollisionInfo Move_Impl(Vector3 velocity, Vector3 down, Vector3 original)
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                print("boop");
-            }
             RaycastHit2D hit;
-            hit = BoxCast(boxCollider.bounds, down, skinWidth * 2, solidLayer | oneWayLayer);
+            var collider = BoxCheck(boxCollider.bounds, oneWayLayer);
+            var layer = collider ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
+            hit = BoxCast(boxCollider.bounds, down, skinWidth, layer);
+
             if (hit && Vector3.Dot(velocity, down) > 0)
             {
                 var info = new CollisionInfo { Below = true };
