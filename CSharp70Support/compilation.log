@@ -1,0 +1,64 @@
+********************************************************************************
+*                     Saturday, April 08, 2017 4:14:52 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\syynth\code\unity\platforming-test
+Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-1970aa0a35101dd479307cd52bb3ca33 
+Exit code: 0
+Elapsed time: 0.66 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (4 lines):
+0: Assets\Code\SmoothCameraFollow.cs(31,24): warning CS0108: 'SmoothCameraFollow.camera' hides inherited member 'Component.camera'. Use the new keyword if hiding was intended.
+1: Assets\Code\RaycastController.cs(17,26): warning CS0649: Field 'RaycastController.oneWayLayer' is never assigned to, and will always have its default value
+2: Assets\Code\SmoothCameraFollow.cs(10,28): warning CS0649: Field 'SmoothCameraFollow.target' is never assigned to, and will always have its default value null
+3: Assets\Code\RaycastController.cs(16,26): warning CS0649: Field 'RaycastController.solidLayer' is never assigned to, and will always have its default value
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.07 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                     Saturday, April 08, 2017 4:14:53 PM                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\syynth\code\unity\platforming-test
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Xml.dll" @Temp/UnityTempFile-9b3ede5679b860640aece9af55f4d3ae 
+Exit code: 0
+Elapsed time: 0.52 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.08 sec
+
+- pdb2mdb.exe output (0 lines):
