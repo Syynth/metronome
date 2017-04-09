@@ -1,5 +1,7 @@
 ﻿using System;
-using UnityEngine;    
+using UnityEngine;
+
+using Assets.Code.Player;
 
 namespace Assets.Code
 {
@@ -40,7 +42,7 @@ namespace Assets.Code
         void LateUpdate()
         {
             var percentSpeed = Mathf.Abs(target.velocity.x) / target.maxSpeed.x;
-            var percentAge = age / horizontalLagTime;
+            var percentAge = horizontalLagTime != 0 ? age / horizontalLagTime : 0;
 
             if (percentSpeed > 0.5f)
             {
