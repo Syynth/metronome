@@ -12,7 +12,7 @@ namespace Assets.Code.Player
         public bool wallGrab = false;
         public bool pressed = false;
         public bool held = false;
-        public bool control = false;
+        public bool control = true;
         public int count = 0;
 
         public float maxHeight = 4f;
