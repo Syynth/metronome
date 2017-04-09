@@ -1,5 +1,7 @@
 ﻿using System;
-using UnityEngine;    
+using UnityEngine;
+
+using Assets.Code.Player;
 
 namespace Assets.Code
 {
