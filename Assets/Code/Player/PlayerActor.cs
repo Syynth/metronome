@@ -9,11 +9,11 @@ namespace Assets.Code.Player
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
     {
 
-        public Vector2 moveSpeed = new Vector2(10f, 25f);
+        //public Vector2 moveSpeed = new Vector2(10f, 25f);
         public Vector3 velocity;
         public Vector3 gravity = Vector3.down * 10;
         public Vector2 input = Vector2.zero;
-        public Vector2 maxSpeed = new Vector2(10f, 25f);
+        //public Vector2 maxSpeed = new Vector2(10f, 25f);
 
         MotionController motionController;
 
@@ -52,22 +52,31 @@ namespace Assets.Code.Player
             CurrentState.OnEnter();
         }
 
-        void UpdateVelocity()
-        {
-            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            velocity += gravity * Time.deltaTime;
-            velocity.x = Input.GetAxisRaw("Horizontal") * moveSpeed.x;
-            velocity.y = Mathf.Max(-100f, velocity.y);
-            if (Input.GetButtonDown("Jump"))
-            {
-                velocity.y = moveSpeed.y;
-            }
-        }
+        //void UpdateVelocity()
+        //{
+        //    input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        //    velocity += gravity * Time.deltaTime;
+        //    velocity.x = Input.GetAxisRaw("Horizontal") * moveSpeed.x;
+        //    velocity.y = Mathf.Max(-100f, velocity.y);
+        //    if (Input.GetButtonDown("Jump"))
+        //    {
+        //        velocity.y = moveSpeed.y;
+        //    }
+        //}
 
         void Update()
         {
             CurrentState.Update();
             CurrentState.Render();
+            var spriteRenderer = GetComponent<SpriteRenderer>();
+            if (velocity.x < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+            if (velocity.x > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
         }
 
         public void InputX()
@@ -114,7 +123,7 @@ namespace Assets.Code.Player
             }
             else
             {
-                velocity.x -= states.Run.friction * Mathf.Sign(states.Run.vMax) * Time.deltaTime;
+                velocity.x -= states.Run.friction * Mathf.Sign(velocity.x) * Time.deltaTime;
             }
         }
 

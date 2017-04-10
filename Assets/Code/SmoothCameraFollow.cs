@@ -11,22 +11,22 @@ namespace Assets.Code
 
         public PlayerActor target;
 
-        [Range(0, 0.9f)]
-        public float horizontalLag = 1f / 9f;
+        [Range(0.01f, 0.9f)]
+        public float horizontalLag = 0.2f;
         
         private float age;
         public float horizontalLagTime = 1.5f;
 
-        [Range(0, 1)]
-        public float minimumHorizontalLead = 0.4f;
-        [Range(0, 1)]
-        public float maxHorizontalLead = 0.6f;
+        [Range(0.01f, 1)]
+        public float minimumHorizontalLead = 0.125f;
+        [Range(0.01f, 1)]
+        public float maxHorizontalLead = 0.4f;
 
-        [Range(0, 0.9f)]
-        public float verticalLag = 0.5f;
+        [Range(0.01f, 0.9f)]
+        public float verticalLag = 0.4f;
 
-        [Range(0, 0.5f)]
-        public float maxVerticalLead = 0.3f;
+        [Range(0.01f, 0.5f)]
+        public float maxVerticalLead = 0.1f;
 
         private float dx, dy;
 
@@ -41,7 +41,7 @@ namespace Assets.Code
 
         void LateUpdate()
         {
-            var percentSpeed = Mathf.Abs(target.velocity.x) / target.maxSpeed.x;
+            var percentSpeed = Mathf.Abs(target.velocity.x) / target.states.Run.maxSpeed;
             var percentAge = horizontalLagTime != 0 ? age / horizontalLagTime : 0;
 
             if (percentSpeed > 0.5f)
@@ -58,7 +58,7 @@ namespace Assets.Code
 
             var rect = new Rect(p0.x, p1.y, p1.x - p0.x, p1.y - p0.y);
 
-            float gx = target.transform.position.x + (rect.width * minimumHorizontalLead) * Mathf.Sign(target.maxSpeed.x) * Mathf.Min(1, percentSpeed * Mathf.Min(percentAge, 1));
+            float gx = target.transform.position.x + (rect.width * minimumHorizontalLead) * Mathf.Sign(target.states.Run.vMax) * Mathf.Min(1, percentSpeed * Mathf.Min(percentAge, 1));
             float gy = target.transform.position.y;
 
             float xFac = 1f / horizontalLag;

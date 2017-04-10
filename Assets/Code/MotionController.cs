@@ -57,14 +57,15 @@ namespace Assets.Code
             var newBounds = bounds;
             newBounds.center = position + dx + dy;
             var hit = BoxCast(newBounds, down, maxStepHeight * 2, solidLayer);
-            if (hit && hit.distance > skinWidth) // hit should never be false. hit.distance needs to be greater than skinWidth or else you're casting from inside an object
+            if (hit && hit.distance > 0) // hit should never be false. hit.distance needs to be greater than skinWidth or else you're casting from inside an object
             {
                 if (ClampAngle(Vector3.Angle(down, GetMoveVector(hit.normal, down))) < maxClimbAngle && Vector3.Dot(down, hit.normal) < 0) // jump-through platform is standable
                 {
                     info.Below = true;
-                    var travel = dx + dy + (down * Mathf.Max(hit.distance - skinWidth, 0));
+                    var travel = dx + dy; // + (down * Mathf.Max(hit.distance - skinWidth, 0));
                     position += travel;
                     bounds.center += travel;
+                    info = Travel(down, down, down, ref position, ref bounds);
                     return true;
                 }
             }
