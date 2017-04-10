@@ -13,8 +13,8 @@ namespace Assets.Code.Player
         public SpriteAnimation jogAnimation;
         public SpriteAnimation startUp;
 
-        public float acceleration = 10f;
-        public float friction = 0.5f;
+        public float acceleration = 90f;
+        public float friction = 80f;
         public float maxSpeed = 10f;
 
         public float vMax = 10f;

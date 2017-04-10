@@ -49,51 +49,55 @@ namespace Assets.Code
             return Clockwise(input) * -1;
         }
 
-        bool StepUp(Vector3 velocity, Vector3 down, Vector3 original, out CollisionInfo info, ref Vector3 position)
+        bool StepUp(Vector3 velocity, Vector3 down, Vector3 original, out CollisionInfo info, ref Vector3 position, ref Bounds bounds)
         {
             info = new CollisionInfo();
             var dx = GetMoveVector(down, velocity.normalized) * stepDistance;
             var dy = down * -maxStepHeight;
-            var bounds = boxCollider.bounds;
-            bounds.center = position + dx + dy;
-            var hit = BoxCast(bounds, down, maxStepHeight * 2, solidLayer);
+            var newBounds = bounds;
+            newBounds.center = position + dx + dy;
+            var hit = BoxCast(newBounds, down, maxStepHeight * 2, solidLayer);
             if (hit && hit.distance > skinWidth) // hit should never be false. hit.distance needs to be greater than skinWidth or else you're casting from inside an object
             {
                 if (ClampAngle(Vector3.Angle(down, GetMoveVector(hit.normal, down))) < maxClimbAngle && Vector3.Dot(down, hit.normal) < 0) // jump-through platform is standable
                 {
                     info.Below = true;
-                    position += dx + dy + (down * Mathf.Max(hit.distance - skinWidth, 0));
+                    var travel = dx + dy + (down * Mathf.Max(hit.distance - skinWidth, 0));
+                    position += travel;
+                    bounds.center += travel;
                     return true;
                 }
             }
             return false;
         }
 
-        CollisionInfo Travel(Vector3 velocity, Vector3 down, Vector3 original, ref Vector3 position)
+        CollisionInfo Travel(Vector3 velocity, Vector3 down, Vector3 original, ref Vector3 position, ref Bounds bounds)
         {
-            var oneWayHit = BoxCast(boxCollider.bounds, velocity, velocity.magnitude, oneWayLayer);
+            var oneWayHit = BoxCast(bounds, velocity, velocity.magnitude, oneWayLayer);
             var rem = velocity;
-            var hit = BoxCast(boxCollider.bounds, rem, rem.magnitude, solidLayer);
+            var hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
 
             if (oneWayHit && (!hit || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > skinWidth)
             {
                 var travel = rem.normalized * (Mathf.Max(oneWayHit.distance - skinWidth, 0));
                 position += travel;
+                bounds.center += travel;
                 rem -= travel;
                 var rot = GetMoveVector(oneWayHit.normal, rem.normalized);
                 if (ClampAngle(Vector3.Angle(down, rot)) < maxClimbAngle && Vector3.Dot(down, oneWayHit.normal) < 0) // jump-through platform is standable
                 {
                     if (rem.magnitude < skinWidth) return new CollisionInfo();
                     var info = new CollisionInfo { Below = true };
-                    return info.Or(Move_Impl(rot * Vector3.Dot(rem, rot), down, original, ref position));
+                    return info.Or(Move_Impl(rot * Vector3.Dot(rem, rot), down, original, ref position, ref bounds));
                 }
             }
 
-            hit = BoxCast(boxCollider.bounds, rem, rem.magnitude, solidLayer);
+            hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
             if (hit)
             {
                 var travel = velocity.normalized * (Mathf.Max(hit.distance - skinWidth, 0));
                 position += travel;
+                bounds.center += travel;
                 rem -= travel;
                 var rot = GetMoveVector(hit.normal, rem.normalized);
                 if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth) // moving directly downwards
@@ -105,7 +109,7 @@ namespace Assets.Code
                 }
                 else if (ClampAngle(Vector3.Angle(down, rot)) > maxClimbAngle && Vector3.Dot(down, original) >= 0) // trying to move up a wall while originally not moving upwards
                 {
-                    if (StepUp(velocity, down, original, out var info, ref position))
+                    if (StepUp(velocity, down, original, out var info, ref position, ref bounds))
                     {
                         return info;
                     }
@@ -116,26 +120,28 @@ namespace Assets.Code
                     };
                 }
                 if (rem.magnitude < skinWidth) return new CollisionInfo();
-                return Move_Impl(rot * Vector3.Dot(rem, rot), down, original, ref position);
+                return Move_Impl(rot * Vector3.Dot(rem, rot), down, original, ref position, ref bounds);
             }
             position += velocity;
+            bounds.center += velocity;
             return new CollisionInfo();
         }
 
         public CollisionInfo Move(Vector3 velocity, Vector3 down)
         {
             var position = transform.position;
-            var info = Move_Impl(velocity, down.normalized, velocity, ref position);
+            var bounds = boxCollider.bounds;
+            var info = Move_Impl(velocity, down.normalized, velocity, ref position, ref bounds);
             transform.position = position;
             return info;
         }
 
-        CollisionInfo Move_Impl(Vector3 velocity, Vector3 down, Vector3 original, ref Vector3 position)
+        CollisionInfo Move_Impl(Vector3 velocity, Vector3 down, Vector3 original, ref Vector3 position, ref Bounds bounds)
         {
             RaycastHit2D hit;
-            var collider = BoxCheck(boxCollider.bounds, oneWayLayer);
-            var layer = collider ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
-            hit = BoxCast(boxCollider.bounds, down, skinWidth, layer);
+            var oneWayHit = BoxCast(bounds, down, skinWidth, oneWayLayer);
+            var layer = oneWayHit && oneWayHit.distance == 0 ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
+            hit = BoxCast(bounds, down, skinWidth, layer);
 
             if (hit && Vector3.Dot(velocity, down) > 0)
             {
@@ -148,7 +154,9 @@ namespace Assets.Code
                 {
                     if (ClampAngle(Vector3.Angle(down, move)) >= ReflectAngle(maxClimbAngle)) // we aren't standing on a steep slope, slide down
                     {
-                        position += velocity.normalized * (hit.distance - skinWidth);
+                        var travel = velocity.normalized * (hit.distance - skinWidth);
+                        position += travel;
+                        bounds.center += travel;
                         return info;
                     }
                     else
@@ -156,9 +164,9 @@ namespace Assets.Code
                         info.Below = false;
                     }
                 }
-                return info.Or(Travel(move, down, original, ref position));
+                return info.Or(Travel(move, down, original, ref position, ref bounds));
             }
-            return Travel(velocity, down, original, ref position);
+            return Travel(velocity, down, original, ref position, ref bounds);
         }
 
         public bool OnJumpThrough(Vector3 down)
@@ -170,7 +178,8 @@ namespace Assets.Code
 
         public CollisionInfo CheckMove(Vector3 direction, Vector3 down, Vector3 position)
         {
-            return Move_Impl(direction, down.normalized, direction, ref position);
+            var bounds = boxCollider.bounds;
+            return Move_Impl(direction, down.normalized, direction, ref position, ref bounds);
         }
 
     }
