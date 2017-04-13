@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
 
 namespace Assets.Code.Player
@@ -13,11 +12,14 @@ namespace Assets.Code.Player
         public SpriteAnimation jogAnimation;
         public SpriteAnimation startUp;
 
-        public float acceleration = 90f;
-        public float friction = 80f;
+        public float walkThreshold = 0.3f;
+        public float jogThreshold = 0.8f;
+
+        public float acceleration = 40f;
+        public float friction = 34f;
         public float maxSpeed = 10f;
 
-        public float vMax = 10f;
+        public float vMax = 16f;
         public bool pressed = false;
 
         bool CheckIdle()
@@ -41,7 +43,7 @@ namespace Assets.Code.Player
 
         public override void Update()
         {
-            base.Update();
+            Age += Time.deltaTime * (0.015f + Mathf.Abs(actor.velocity.x / maxSpeed) * 0.985f);
 
             actor.InputX();
             actor.AccelerateX();
@@ -62,6 +64,20 @@ namespace Assets.Code.Player
                 return;
             }
 
+        }
+
+        public override void Render()
+        {
+            SpriteAnimation anim = animation;
+            if (Mathf.Abs(actor.velocity.x / maxSpeed) < jogThreshold)
+            {
+                anim = jogAnimation;
+            }
+            if (Mathf.Abs(actor.velocity.x / maxSpeed) < walkThreshold)
+            {
+                anim = walkAnimation;
+            }
+            actor.GetComponent<SpriteRenderer>().sprite = anim.getFrame(Age);
         }
 
     }

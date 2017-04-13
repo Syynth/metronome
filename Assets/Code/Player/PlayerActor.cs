@@ -87,6 +87,7 @@ namespace Assets.Code.Player
             states.Jump.pressed = Input.GetButtonDown("Jump");
             states.Jump.held = Input.GetButton("Jump");
             states.Duck.pressed = input.y < 0 && downReleased;
+            states.Duck.held = input.y < 0;
             var sign = Math.Sign(input.x);
             if (sign == Direction.Right)
             {
