@@ -21,6 +21,7 @@ namespace Assets.Code
         protected virtual void Start()
         {
             boxCollider = GetComponent<BoxCollider2D>();
+            Physics2D.defaultContactOffset = float.MinValue;
         }
 
         void DrawX(Vector2 point, float xSize, Color color)

@@ -120,8 +120,20 @@ namespace Assets.Code
                         Right = Vector3.Dot(Clockwise(down), original) > 0
                     };
                 }
-                if (rem.magnitude < skinWidth) return new CollisionInfo();
-                return Move_Impl(rot * Vector3.Dot(rem, rot), down, original, ref position, ref bounds);
+                //if (rem.magnitude < skinWidth) return new CollisionInfo();
+                //return Move_Impl(rot * Vector3.Dot(rem, rot), down, original, ref position, ref bounds);
+                var go = rot * Vector3.Dot(rem, rot);
+                hit = BoxCast(bounds, go, go.magnitude + skinWidth, solidLayer);
+                if (hit)
+                {
+                    travel = go.normalized * (Mathf.Max(hit.distance - skinWidth, 0));
+                    position += travel;
+                    bounds.center += travel;
+                    return new CollisionInfo();
+                }
+                position += go;
+                bounds.center += go;
+                return new CollisionInfo();
             }
             position += velocity;
             bounds.center += velocity;
@@ -132,7 +144,16 @@ namespace Assets.Code
         {
             var position = transform.position;
             var bounds = boxCollider.bounds;
+            var before = Physics2D.OverlapBox(position, bounds.size, 0, solidLayer);
             var info = Move_Impl(velocity, down.normalized, velocity, ref position, ref bounds);
+            var after = Physics2D.OverlapBox(position, bounds.size, 0, solidLayer);
+            if (before == null && after != null)
+            {
+                Debug.Break();
+            }
+            position = transform.position;
+            bounds = boxCollider.bounds;
+            info = Move_Impl(velocity, down.normalized, velocity, ref position, ref bounds);
             transform.position = position;
             return info;
         }
@@ -144,25 +165,25 @@ namespace Assets.Code
             var layer = oneWayHit && oneWayHit.distance == 0 ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
             hit = BoxCast(bounds, down, skinWidth, layer);
 
-            if (hit && Vector3.Dot(velocity, down) > 0)
+            if (hit && Vector3.Dot(original, down) > 0) // we've hit something and we're originally travelling downwards
             {
-                var info = new CollisionInfo { Below = true };
-                var move = GetMoveVector(hit.normal, velocity);
+                var info = new CollisionInfo { Below = true }; // default case, we've hit something below us
+                var move = GetMoveVector(hit.normal, velocity); // get vector along ground in direction of velocity
 
-                if (ClampAngle(Vector3.Angle(down, move)) > maxClimbAngle) return info;
+                if (ClampAngle(Vector3.Angle(down, move)) > maxClimbAngle) return new CollisionInfo(); // new direction is too steep, return that we aren't on ground
 
-                if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth) // we are moving directly downwards
+                if (ClampAngle(Vector3.Angle(down, move)) < ReflectAngle(maxClimbAngle)) // we are standing on a steep slope, doesn't count as ground
                 {
-                    if (ClampAngle(Vector3.Angle(down, move)) >= ReflectAngle(maxClimbAngle)) // we aren't standing on a steep slope, slide down
+                    info.Below = false;
+                }
+                else if (Vector3.Distance(original.normalized, down.normalized) < skinWidth) // we are moving directly downwards
+                {
+                    if (ClampAngle(Vector3.Angle(down, move)) >= ReflectAngle(maxClimbAngle)) // we are standing on a steep slope, slide down
                     {
-                        var travel = velocity.normalized * (hit.distance - skinWidth);
+                        var travel = down.normalized * (Mathf.Max(hit.distance - skinWidth, 0));
                         position += travel;
                         bounds.center += travel;
                         return info;
-                    }
-                    else
-                    {
-                        info.Below = false;
                     }
                 }
                 return info.Or(Travel(move, down, original, ref position, ref bounds));
