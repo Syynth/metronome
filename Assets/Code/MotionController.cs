@@ -155,7 +155,7 @@ namespace Assets.Code
                 {
                     if (ClampAngle(Vector3.Angle(down, move)) >= ReflectAngle(maxClimbAngle)) // we aren't standing on a steep slope, slide down
                     {
-                        var travel = velocity.normalized * (hit.distance - skinWidth);
+                        var travel = velocity.normalized * Mathf.Max(hit.distance - skinWidth, 0);
                         position += travel;
                         bounds.center += travel;
                         return info;
