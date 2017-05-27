@@ -13,7 +13,7 @@ namespace Assets.Code
 
         public Sprite getFrame(float time)
         {
-            int index = (int)(time / framesPerSecond);
+            int index = (int)(time * framesPerSecond);
             return sprites[index % sprites.Count];
         }
 

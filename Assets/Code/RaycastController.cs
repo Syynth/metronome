@@ -31,8 +31,7 @@ namespace Assets.Code
 
         protected virtual RaycastHit2D BoxCast(Bounds bounds, Vector3 direction, float distance, LayerMask layer)
         {
-            bounds.Expand(-skinWidth);
-            var hit = Physics2D.BoxCast(bounds.center, bounds.size, 0, direction, distance + skinWidth, layer);
+            var hit = Physics2D.BoxCastAll(bounds.center, bounds.size, 0, direction, distance + skinWidth, layer).OrderBy(h => h.distance).FirstOrDefault();
             Color col = hit ? Color.red : Color.white;
             Color col2 = hit ? Color.green : Color.blue;
             var min = bounds.min + direction;

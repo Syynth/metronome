@@ -45,7 +45,14 @@ namespace Assets.Code.Player
             if (info.Below)
             {
                 actor.states.Jump.count = 0;
-                actor.ChangeState(actor.states.Idle);
+                if (actor.input.x != 0)
+                {
+                    actor.ChangeState(actor.states.Run);
+                }
+                else
+                {
+                    actor.ChangeState(actor.states.Idle);
+                }
                 return;
             }
 
