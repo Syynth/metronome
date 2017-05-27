@@ -617,3 +617,223 @@ Exit code: 0
 Elapsed time: 0.07 sec
 
 - pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Saturday, May 27, 2017 5:32:12 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\benco\code\unity\unity-plat-test
+Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-b46459fabb1151c47b644124869e85bf 
+Exit code: 0
+Elapsed time: 3.60 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (5 lines):
+0: Assets\Code\SmoothCameraFollow.cs(33,24): warning CS0108: 'SmoothCameraFollow.camera' hides inherited member 'Component.camera'. Use the new keyword if hiding was intended.
+1: Assets\Code\Player\PlayerIdle.cs(12,23): warning CS0108: 'PlayerIdle.info' hides inherited member 'ActorState<PlayerActor>.info'. Use the new keyword if hiding was intended.
+2: Assets\Code\RaycastController.cs(17,26): warning CS0649: Field 'RaycastController.oneWayLayer' is never assigned to, and will always have its default value
+3: Assets\Code\SmoothCameraFollow.cs(12,28): warning CS0649: Field 'SmoothCameraFollow.target' is never assigned to, and will always have its default value null
+4: Assets\Code\RaycastController.cs(16,26): warning CS0649: Field 'RaycastController.solidLayer' is never assigned to, and will always have its default value
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.21 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Saturday, May 27, 2017 5:32:17 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\benco\code\unity\unity-plat-test
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Xml.dll" @Temp/UnityTempFile-2c2e6ce9377a7ba4a903b839f044da9e 
+Exit code: 0
+Elapsed time: 2.56 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.12 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Saturday, May 27, 2017 5:32:21 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\benco\code\unity\unity-plat-test
+Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-78f7ccdee2e1f294db68c83ff950c8b3 
+Exit code: 0
+Elapsed time: 2.97 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (5 lines):
+0: Assets\Code\SmoothCameraFollow.cs(33,24): warning CS0108: 'SmoothCameraFollow.camera' hides inherited member 'Component.camera'. Use the new keyword if hiding was intended.
+1: Assets\Code\Player\PlayerIdle.cs(12,23): warning CS0108: 'PlayerIdle.info' hides inherited member 'ActorState<PlayerActor>.info'. Use the new keyword if hiding was intended.
+2: Assets\Code\RaycastController.cs(16,26): warning CS0649: Field 'RaycastController.solidLayer' is never assigned to, and will always have its default value
+3: Assets\Code\SmoothCameraFollow.cs(12,28): warning CS0649: Field 'SmoothCameraFollow.target' is never assigned to, and will always have its default value null
+4: Assets\Code\RaycastController.cs(17,26): warning CS0649: Field 'RaycastController.oneWayLayer' is never assigned to, and will always have its default value
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.13 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Saturday, May 27, 2017 5:32:25 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\benco\code\unity\unity-plat-test
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Xml.dll" @Temp/UnityTempFile-a0ebbc4ce1a6a564183d3eaa3e97ca6d 
+Exit code: 0
+Elapsed time: 2.48 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.12 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Saturday, May 27, 2017 5:34:02 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp.dll
+Project directory: C:\Users\benco\code\unity\unity-plat-test
+Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-b1d40a4352fee524f92c34294c77199f 
+Exit code: 0
+Elapsed time: 3.01 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (9 lines):
+0: Assets\Code\Player\PlayerIdle.cs(12,23): warning CS0108: 'PlayerIdle.info' hides inherited member 'ActorState<PlayerActor>.info'. Use the new keyword if hiding was intended.
+1: Assets\Code\SmoothCameraFollow.cs(33,24): warning CS0108: 'SmoothCameraFollow.camera' hides inherited member 'Component.camera'. Use the new keyword if hiding was intended.
+2: Assets\Code\RaycastController.cs(17,26): warning CS0649: Field 'RaycastController.oneWayLayer' is never assigned to, and will always have its default value
+3: Assets\Ferr\2DTerrain\Scripts\Ferr2DT_PathTerrain.cs(263,26): warning CS0649: Field 'Ferr2DT_PathTerrain.terrainMaterial' is never assigned to, and will always have its default value null
+4: Assets\Ferr\Common\Scripts\LogoLock.cs(15,24): warning CS0649: Field 'LogoLock.mLockHorizontal' is never assigned to, and will always have its default value
+5: Assets\Code\RaycastController.cs(16,26): warning CS0649: Field 'RaycastController.solidLayer' is never assigned to, and will always have its default value
+6: Assets\Ferr\Common\Scripts\LogoLock.cs(17,24): warning CS0649: Field 'LogoLock.mLockVertical' is never assigned to, and will always have its default value
+7: Assets\Ferr\Common\Scripts\LogoLock.cs(19,24): warning CS0649: Field 'LogoLock.mPadding' is never assigned to, and will always have its default value 0
+8: Assets\Code\SmoothCameraFollow.cs(12,28): warning CS0649: Field 'SmoothCameraFollow.target' is never assigned to, and will always have its default value null
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp.dll
+Exit code: 0
+Elapsed time: 0.16 sec
+
+- pdb2mdb.exe output (0 lines):
+********************************************************************************
+*                      Saturday, May 27, 2017 5:34:06 PM                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.3.30
+Platform: Windows
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: C:\Users\benco\code\unity\unity-plat-test
+Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api
+Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\csc.exe
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Xml.dll" @Temp/UnityTempFile-c728d4438ac878a4c9766c1ce27322d4 
+Exit code: 0
+Elapsed time: 2.77 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (21 lines):
+0: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(530,10): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+1: Assets\Ferr\2DTerrain\Editor\Ferr2DT_PathTerrainEditor.cs(117,9): warning CS0618: 'EditorUtility.SetSelectedWireframeHidden(Renderer, bool)' is obsolete: 'Use EditorUtility.SetSelectedRenderState'
+2: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(291,3): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+3: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(291,86): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+4: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(291,133): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+5: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(292,7): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
+6: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(302,33): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
+7: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(316,33): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
+8: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(339,3): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+9: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(340,50): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+10: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(340,96): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+11: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(341,50): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+12: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(341,96): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+13: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(343,20): warning CS0618: 'Handles.FreeMoveHandle(Vector3, Quaternion, float, Vector3, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
+14: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(368,32): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+15: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(369,9): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
+16: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(387,31): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+17: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(387,70): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
+18: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(389,24): warning CS0618: 'Handles.FreeMoveHandle(Vector3, Quaternion, float, Vector3, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
+19: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(411,8): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
+20: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(492,7): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
+
+- PDB to MDB conversion --------------------------------------
+
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Arguments: Temp\Assembly-CSharp-Editor.dll
+Exit code: 0
+Elapsed time: 0.13 sec
+
+- pdb2mdb.exe output (0 lines):
