@@ -149,20 +149,20 @@ namespace Assets.Code
                 var info = new CollisionInfo { Below = true };
                 var move = GetMoveVector(hit.normal, velocity);
 
-                if (ClampAngle(Vector3.Angle(down, move)) > maxClimbAngle) return info;
+                if (ClampAngle(Vector3.Angle(down, move)) > maxClimbAngle) return new CollisionInfo();
 
-                if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth) // we are moving directly downwards
+                if (ClampAngle(Vector3.Angle(down, move)) < ReflectAngle(maxClimbAngle))
+                {
+                    info.Below = false;
+                }
+                else if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth) // we are moving directly downwards
                 {
                     if (ClampAngle(Vector3.Angle(down, move)) >= ReflectAngle(maxClimbAngle)) // we aren't standing on a steep slope, slide down
                     {
-                        var travel = velocity.normalized * Mathf.Max(hit.distance - skinWidth, 0);
+                        var travel = down * Mathf.Max(hit.distance - skinWidth, 0);
                         position += travel;
                         bounds.center += travel;
                         return info;
-                    }
-                    else
-                    {
-                        info.Below = false;
                     }
                 }
                 return info.Or(Travel(move, down, original, ref position, ref bounds));
