@@ -85,6 +85,11 @@ namespace Assets.Code
                 bounds.center += travel;
                 rem -= travel;
                 var rot = GetMoveVector(oneWayHit.normal, rem.normalized);
+                if (Vector3.Dot(rem.normalized, rot.normalized) > 0.95)
+                {
+                    rot = hit.normal;
+                    rot.Normalize();
+                }
                 if (ClampAngle(Vector3.Angle(down, rot)) < maxClimbAngle && Vector3.Dot(down, oneWayHit.normal) < 0) // jump-through platform is standable
                 {
                     if (rem.magnitude < skinWidth) return new CollisionInfo();
@@ -107,6 +112,11 @@ namespace Assets.Code
                 bounds.center += travel;
                 rem -= travel;
                 var rot = GetMoveVector(hit.normal, rem.normalized);
+                if (Vector3.Dot(rem.normalized, rot.normalized) > 0.95)
+                {
+                    rot += (Vector3)hit.normal;
+                    rot.Normalize();
+                }
                 if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth) // moving directly downwards
                 {
                     if (ClampAngle(Vector3.Angle(down, rot)) >= ReflectAngle(maxClimbAngle)) // standing on slope steeper than max climb angle
