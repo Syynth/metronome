@@ -78,7 +78,7 @@ namespace Assets.Code
             var rem = velocity;
             var hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
 
-            if (oneWayHit && (!hit || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > skinWidth)
+            if (oneWayHit && (!hit || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > 0)
             {
                 var travel = rem.normalized * (Mathf.Max(oneWayHit.distance - skinWidth, 0));
                 position += travel;
@@ -96,6 +96,29 @@ namespace Assets.Code
             hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
             if (hit)
             {
+                if (hit.distance == 0)
+                {
+                    print("distance was zero");
+                    var minSeparation = hit.collider.Distance(boxCollider);
+                    if (minSeparation.distance <= 0)
+                    {
+                        var bnd = bounds;
+                        var move = (minSeparation.distance - skinWidth) * (Vector3)minSeparation.normal;
+                        bnd.center += move;
+                        if (!BoxCheck(bnd, solidLayer))
+                        {
+                            bounds.center += move;
+                            transform.position += move;
+                            hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
+                            if (!hit)
+                            {
+                                position += rem;
+                                bounds.center += rem;
+                                return new CollisionInfo();
+                            }
+                        }
+                    }
+                }
                 var travel = velocity.normalized * (Mathf.Max(hit.distance - skinWidth, 0));
                 position += travel;
                 bounds.center += travel;
@@ -140,10 +163,24 @@ namespace Assets.Code
         CollisionInfo Move_Impl(Vector3 velocity, Vector3 down, Vector3 original, ref Vector3 position, ref Bounds bounds)
         {
             RaycastHit2D hit;
-            var oneWayHit = BoxCast(bounds, down, skinWidth, oneWayLayer);
+            var bnd = bounds;
+            bnd.Expand(-skinWidth);
+            var oneWayHit = BoxCast(bnd, down, skinWidth, oneWayLayer);
             var layer = oneWayHit && oneWayHit.distance == 0 ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
             hit = BoxCast(bounds, down, skinWidth, layer);
 
+            if (hit && hit.distance == 0)
+            {
+                print("distance was zero 2");
+                var minSeparation = hit.collider.Distance(boxCollider);
+                if (minSeparation.distance <= 0)
+                {
+                    var move = (minSeparation.distance - skinWidth) * (Vector3)minSeparation.normal;
+                    bounds.center += move;
+                    transform.position += move;
+                    hit = BoxCast(bounds, velocity, velocity.magnitude, layer);
+                }
+            }
             if (hit && Vector3.Dot(velocity, down) > 0)
             {
                 var info = new CollisionInfo { Below = true };
@@ -165,9 +202,28 @@ namespace Assets.Code
                         return info;
                     }
                 }
-                return info.Or(Travel(move, down, original, ref position, ref bounds));
+                CollisionInfo returnValue = info;
+                try
+                {
+                    returnValue = info.Or(Travel(move, down, original, ref position, ref bounds));
+                }
+                catch (StackOverflowException ex)
+                {
+                    print(hit.distance);
+                }
+                return returnValue;
             }
-            return Travel(velocity, down, original, ref position, ref bounds);
+            CollisionInfo rv = new CollisionInfo();
+            try
+            {
+                rv = Travel(velocity, down, original, ref position, ref bounds);
+            }
+            catch (StackOverflowException ex)
+            {
+                print(string.Format("Velocity: {0}, hit: {1}, hit.distance: {2}", velocity, !!hit, hit.distance));
+                Debug.Break();
+            }
+            return rv;
         }
 
         public bool OnJumpThrough(Vector3 down)

@@ -50,6 +50,7 @@ namespace Assets.Code
                 DrawX(hit.centroid, .15f, Color.black);
             }
             return hit;
+
         }
 
         protected virtual Collider2D BoxCheck(Bounds bounds, LayerMask layer)
