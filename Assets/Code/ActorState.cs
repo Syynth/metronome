@@ -25,7 +25,7 @@ namespace Assets.Code
             {
                 throw new ArgumentException("Actor must contain a SpriteRenderer component");
             }
-            if (actor.GetComponent<MotionController>() == null)
+            if (actor.GetComponent<BoxcastMotionController>() == null)
             {
                 throw new ArgumentException("Actor must contain a MotionController component");
             }

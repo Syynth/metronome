@@ -9,7 +9,7 @@ namespace Assets.Code
 {
 
     [RequireComponent(typeof(BoxCollider2D))]
-    class MotionController : RaycastController
+    class BoxcastMotionController : RaycastController, IMotionController
     {
 
         public float maxClimbAngle = 140f;

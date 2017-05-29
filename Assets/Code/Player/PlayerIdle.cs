@@ -18,7 +18,7 @@ namespace Assets.Code.Player
             actor.states.Jump.wallGrab = false;
         }
 
-        bool CheckRun(MotionController controller)
+        bool CheckRun(BoxcastMotionController controller)
         {
             if (actor.input.x != 0)
             {
@@ -34,7 +34,7 @@ namespace Assets.Code.Player
         public override void Update()
         {
             base.Update();
-            var controller = actor.GetComponent<MotionController>();
+            var controller = actor.GetComponent<BoxcastMotionController>();
             actor.velocity = actor.gravity * Time.deltaTime;
             info = actor.Move();
             actor.InputX();

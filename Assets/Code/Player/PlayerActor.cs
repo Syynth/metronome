@@ -4,18 +4,16 @@ using UnityEngine;
 namespace Assets.Code.Player
 {
 
-    [RequireComponent(typeof(MotionController))]
+    [RequireComponent(typeof(IMotionController))]
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
     {
 
-        //public Vector2 moveSpeed = new Vector2(10f, 25f);
         public Vector3 velocity;
         public Vector3 gravity = Vector3.down * 10;
         public Vector2 input = Vector2.zero;
-        //public Vector2 maxSpeed = new Vector2(10f, 25f);
 
-        MotionController motionController;
+        IMotionController motionController;
 
         public PlayerStates states;
 
@@ -40,7 +38,7 @@ namespace Assets.Code.Player
 
         void Start()
         {
-            motionController = GetComponent<MotionController>();
+            motionController = GetComponent<IMotionController>();
             GetComponent<Rigidbody2D>().isKinematic = true;
             states.Duck.SetActor(this);
             states.Fall.SetActor(this);
@@ -51,18 +49,6 @@ namespace Assets.Code.Player
             PreviousState = states.Idle;
             CurrentState.OnEnter();
         }
-
-        //void UpdateVelocity()
-        //{
-        //    input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        //    velocity += gravity * Time.deltaTime;
-        //    velocity.x = Input.GetAxisRaw("Horizontal") * moveSpeed.x;
-        //    velocity.y = Mathf.Max(-100f, velocity.y);
-        //    if (Input.GetButtonDown("Jump"))
-        //    {
-        //        velocity.y = moveSpeed.y;
-        //    }
-        //}
 
         void Update()
         {
