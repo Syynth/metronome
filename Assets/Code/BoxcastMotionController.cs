@@ -78,7 +78,7 @@ namespace Assets.Code
             var rem = velocity;
             var hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
 
-            if (oneWayHit && (!hit || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > 0)
+            if (oneWayHit && (!hit || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > skinWidth)
             {
                 var travel = rem.normalized * (Mathf.Max(oneWayHit.distance - skinWidth, 0));
                 position += travel;
