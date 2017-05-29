@@ -98,27 +98,10 @@ namespace Assets.Code
             {
                 if (hit.distance == 0)
                 {
-                    print("distance was zero");
-                    var minSeparation = hit.collider.Distance(boxCollider);
-                    if (minSeparation.distance <= 0)
-                    {
-                        var bnd = bounds;
-                        var move = (minSeparation.distance - skinWidth) * (Vector3)minSeparation.normal;
-                        bnd.center += move;
-                        if (!BoxCheck(bnd, solidLayer))
-                        {
-                            bounds.center += move;
-                            transform.position += move;
-                            hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
-                            if (!hit)
-                            {
-                                position += rem;
-                                bounds.center += rem;
-                                return new CollisionInfo();
-                            }
-                        }
-                    }
+                    print("test");
+                    return new CollisionInfo();
                 }
+
                 var travel = velocity.normalized * (Mathf.Max(hit.distance - skinWidth, 0));
                 position += travel;
                 bounds.center += travel;
@@ -153,6 +136,10 @@ namespace Assets.Code
 
         public CollisionInfo Move(Vector3 velocity, Vector3 down)
         {
+            if (Input.GetButtonDown("Debug"))
+            {
+                Debug.Break();
+            }
             var position = transform.position;
             var bounds = boxCollider.bounds;
             var info = Move_Impl(velocity, down.normalized, velocity, ref position, ref bounds);
@@ -169,17 +156,16 @@ namespace Assets.Code
             var layer = oneWayHit && oneWayHit.distance == 0 ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
             hit = BoxCast(bounds, down, skinWidth, layer);
 
-            if (hit && hit.distance == 0)
+            int count = 0;
+            while (hit && hit.distance == 0 && count < 10)
             {
+                count++;
                 print("distance was zero 2");
                 var minSeparation = hit.collider.Distance(boxCollider);
-                if (minSeparation.distance <= 0)
-                {
-                    var move = (minSeparation.distance - skinWidth) * (Vector3)minSeparation.normal;
-                    bounds.center += move;
-                    transform.position += move;
-                    hit = BoxCast(bounds, velocity, velocity.magnitude, layer);
-                }
+                var move = 2 * skinWidth * (Vector3)minSeparation.normal;
+                bounds.center += move;
+                transform.position += move;
+                hit = BoxCast(bounds, down, velocity.magnitude, layer);
             }
             if (hit && Vector3.Dot(velocity, down) > 0)
             {
