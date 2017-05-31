@@ -49,19 +49,19 @@ namespace Assets.Code.Player
             actor.velocity.x = 0;
         }
 
-        public override void Render()
-        {
-            Sprite sprite;
-            if (Age == 0.1f)
-            {
-                sprite = animation.sprites[1];
-            }
-            else
-            {
-                sprite = animation.sprites[0];
-            }
-            actor.GetComponent<SpriteRenderer>().sprite = sprite;
-        }
+        //public override void Render()
+        //{
+        //    Sprite sprite;
+        //    if (Age == 0.1f)
+        //    {
+        //        sprite = animation.sprites[1];
+        //    }
+        //    else
+        //    {
+        //        sprite = animation.sprites[0];
+        //    }
+        //    actor.GetComponent<SpriteRenderer>().sprite = sprite;
+        //}
 
     }
 
