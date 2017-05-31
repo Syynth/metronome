@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "OicAVvaDIFcoZjgBKGQaiG8ugbM", "spine": "3.5.51", "width": 536.91, "height": 539.23, "images": "./faceforward/" },
+"skeleton": { "hash": "qGzyU9WXvopMLyO750Sgq/t6nHo", "spine": "3.5.51", "width": 196.39, "height": 536.23, "images": "./faceforward/" },
 "bones": [
 	{ "name": "Root", "color": "6c069cff" },
 	{ "name": "Hip", "parent": "Root", "y": 251, "color": "6c069cff" },
@@ -42,7 +42,7 @@
 	{ "name": "R Hand", "parent": "R Arm 2", "length": 43.65, "rotation": -1.39, "x": 80.96, "y": -1.06, "color": "e37220ff" }
 ],
 "slots": [
-	{ "name": "sam-jump-atlas", "bone": "Root", "attachment": "sam-jump-atlas" },
+	{ "name": "sam-jump-atlas", "bone": "Root" },
 	{ "name": "R Hand Closed", "bone": "R Hand", "attachment": "R Hand Closed" },
 	{ "name": "R Arm 2", "bone": "R Arm 2", "attachment": "R Arm 2" },
 	{ "name": "R Arm 1", "bone": "R Arm 1", "attachment": "R Arm 1" },
@@ -149,9 +149,6 @@
 		},
 		"Torso": {
 			"Torso": { "x": 69.31, "y": 1.86, "rotation": -89.55, "width": 71, "height": 166 }
-		},
-		"sam-jump-atlas": {
-			"sam-jump-atlas": { "x": -12.17, "y": 263.2, "scaleX": 8.389, "scaleY": 8.389, "width": 64, "height": 64 }
 		}
 	}
 },

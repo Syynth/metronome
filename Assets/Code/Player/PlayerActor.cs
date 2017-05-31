@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spine.Unity;
+using System;
 using UnityEngine;
 
 namespace Assets.Code.Player
@@ -54,15 +55,14 @@ namespace Assets.Code.Player
         {
             CurrentState.Update();
             CurrentState.Render();
-            var spriteRenderer = GetComponent<SpriteRenderer>();
-            if (spriteRenderer == null) return;
+            var skeleton = GetComponent<SkeletonAnimation>().skeleton;
             if (velocity.x < 0)
             {
-                spriteRenderer.flipX = true;
+                skeleton.flipX = true;
             }
             if (velocity.x > 0)
             {
-                spriteRenderer.flipX = false;
+                skeleton.flipX = false;
             }
         }
 

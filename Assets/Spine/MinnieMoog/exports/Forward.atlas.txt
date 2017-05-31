@@ -137,10 +137,3 @@ Torso
   orig: 71, 166
   offset: 0, 0
   index: -1
-sam-jump-atlas
-  rotate: false
-  xy: 740, 115
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
