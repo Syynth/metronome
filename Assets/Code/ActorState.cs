@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-
+using Spine.Unity;
 
 namespace Assets.Code
 {
@@ -13,17 +13,19 @@ namespace Assets.Code
         private bool Active;
 
         public float Age = 0;
-        public SpriteAnimation animation;
 
+        [SerializeField]
+        public string AnimationName;
+        
         protected T actor;
         protected CollisionInfo info;
         
         public virtual void SetActor(T actor)
         {
             this.actor = actor;
-            if (actor.GetComponent<SpriteRenderer>() == null)
+            if (actor.GetComponent<SkeletonAnimation>() == null)
             {
-                throw new ArgumentException("Actor must contain a SpriteRenderer component");
+                throw new ArgumentException("Actor must contain a SkeletonAnimation component");
             }
             if (actor.GetComponent<BoxcastMotionController>() == null)
             {
@@ -49,7 +51,7 @@ namespace Assets.Code
 
         public virtual void Render()
         {
-            actor.GetComponent<SpriteRenderer>().sprite = animation.getFrame(Age);
+            actor.GetComponent<SkeletonAnimation>().AnimationName = AnimationName;
         }
 
         

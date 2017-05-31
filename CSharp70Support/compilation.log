@@ -4,7 +4,7 @@
 CSharpCompilerWrapper.exe version: 2.0.3.30
 Platform: Windows
 Target assembly: Assembly-CSharp.dll
-Project directory: C:\Users\syynth\code\unity\platforming-test
+Project directory: C:\Users\benco\code\unity\unity-plat-test
 Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
 Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
 Compiler: Microsoft C# 7.0
@@ -19,8 +19,8 @@ Elapsed time: 1.84 sec
 - Compiler output (0 lines):
 
 - Compiler errors (11 lines):
-0: Assets\Code\SmoothCameraFollow.cs(33,24): warning CS0108: 'SmoothCameraFollow.camera' hides inherited member 'Component.camera'. Use the new keyword if hiding was intended.
-1: Assets\Code\Player\PlayerIdle.cs(12,23): warning CS0108: 'PlayerIdle.info' hides inherited member 'ActorState<PlayerActor>.info'. Use the new keyword if hiding was intended.
+0: Assets\Code\Player\PlayerIdle.cs(12,23): warning CS0108: 'PlayerIdle.info' hides inherited member 'ActorState<PlayerActor>.info'. Use the new keyword if hiding was intended.
+1: Assets\Code\SmoothCameraFollow.cs(33,24): warning CS0108: 'SmoothCameraFollow.camera' hides inherited member 'Component.camera'. Use the new keyword if hiding was intended.
 2: Assets\Code\BoxcastMotionController.cs(206,47): warning CS0168: The variable 'ex' is declared but never used
 3: Assets\Code\BoxcastMotionController.cs(217,43): warning CS0168: The variable 'ex' is declared but never used
 4: Assets\Ferr\2DTerrain\Scripts\Ferr2DT_PathTerrain.cs(263,26): warning CS0649: Field 'Ferr2DT_PathTerrain.terrainMaterial' is never assigned to, and will always have its default value null
@@ -33,7 +33,7 @@ Elapsed time: 1.84 sec
 
 - PDB to MDB conversion --------------------------------------
 
-Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
 Arguments: Temp\Assembly-CSharp.dll
 Exit code: 0
 Elapsed time: 2.92 sec
@@ -45,7 +45,7 @@ Elapsed time: 2.92 sec
 CSharpCompilerWrapper.exe version: 2.0.3.30
 Platform: Windows
 Target assembly: Assembly-CSharp-Editor.dll
-Project directory: C:\Users\syynth\code\unity\platforming-test
+Project directory: C:\Users\benco\code\unity\unity-plat-test
 Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api
 Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
 Compiler: Microsoft C# 7.0
@@ -85,7 +85,7 @@ Elapsed time: 0.72 sec
 
 - PDB to MDB conversion --------------------------------------
 
-Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
 Arguments: Temp\Assembly-CSharp-Editor.dll
 Exit code: 0
 Elapsed time: 0.08 sec
@@ -97,7 +97,7 @@ Elapsed time: 0.08 sec
 CSharpCompilerWrapper.exe version: 2.0.3.30
 Platform: Windows
 Target assembly: Assembly-CSharp.dll
-Project directory: C:\Users\syynth\code\unity\platforming-test
+Project directory: C:\Users\benco\code\unity\unity-plat-test
 Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
 Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
 ********************************************************************************
@@ -115,7 +115,7 @@ Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
 CSharpCompilerWrapper.exe version: 2.0.3.30
 Platform: Windows
 Target assembly: Assembly-CSharp.dll
-Project directory: C:\Users\syynth\code\unity\platforming-test
+Project directory: C:\Users\benco\code\unity\unity-plat-test
 Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
 Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
 Compiler: Microsoft C# 7.0
@@ -144,7 +144,7 @@ Elapsed time: 1.16 sec
 
 - PDB to MDB conversion --------------------------------------
 
-Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
 Arguments: Temp\Assembly-CSharp.dll
 Exit code: 0
 Elapsed time: 0.11 sec
@@ -156,7 +156,7 @@ Elapsed time: 0.11 sec
 CSharpCompilerWrapper.exe version: 2.0.3.30
 Platform: Windows
 Target assembly: Assembly-CSharp.dll
-Project directory: C:\Users\syynth\code\unity\platforming-test
+Project directory: C:\Users\benco\code\unity\unity-plat-test
 Target profile directory: C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity
 Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
 Compiler: Microsoft C# 7.0
@@ -185,7 +185,7 @@ Elapsed time: 0.86 sec
 
 - PDB to MDB conversion --------------------------------------
 
-Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
 Arguments: Temp\Assembly-CSharp.dll
 Exit code: 0
 Elapsed time: 0.10 sec
@@ -197,7 +197,7 @@ Elapsed time: 0.10 sec
 CSharpCompilerWrapper.exe version: 2.0.3.30
 Platform: Windows
 Target assembly: Assembly-CSharp-Editor.dll
-Project directory: C:\Users\syynth\code\unity\platforming-test
+Project directory: C:\Users\benco\code\unity\unity-plat-test
 Target profile directory: C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api
 Unity 'Data' or 'Frameworks' directory: C:/Program Files/Unity/Editor/Data
 Compiler: Microsoft C# 7.0
@@ -237,7 +237,7 @@ Elapsed time: 0.61 sec
 
 - PDB to MDB conversion --------------------------------------
 
-Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\pdb2mdb.exe
+Process: C:\Users\benco\code\unity\unity-plat-test\CSharp70Support\Roslyn\pdb2mdb.exe
 Arguments: Temp\Assembly-CSharp-Editor.dll
 Exit code: 0
 Elapsed time: 0.07 sec

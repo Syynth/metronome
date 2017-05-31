@@ -55,6 +55,7 @@ namespace Assets.Code.Player
             CurrentState.Update();
             CurrentState.Render();
             var spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer == null) return;
             if (velocity.x < 0)
             {
                 spriteRenderer.flipX = true;
