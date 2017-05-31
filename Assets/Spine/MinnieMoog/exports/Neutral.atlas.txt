@@ -1,0 +1,146 @@
+
+Neutral.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bangs
+  rotate: false
+  xy: 275, 14
+  size: 50, 81
+  orig: 50, 81
+  offset: 0, 0
+  index: -1
+Face
+  rotate: false
+  xy: 167, 16
+  size: 106, 79
+  orig: 106, 79
+  offset: 0, 0
+  index: -1
+Hair (Back)
+  rotate: false
+  xy: 2, 2
+  size: 163, 241
+  orig: 163, 241
+  offset: 0, 0
+  index: -1
+Head
+  rotate: false
+  xy: 167, 97
+  size: 155, 146
+  orig: 155, 146
+  offset: 0, 0
+  index: -1
+Hip
+  rotate: false
+  xy: 937, 181
+  size: 80, 62
+  orig: 80, 62
+  offset: 0, 0
+  index: -1
+L Arm Bottom
+  rotate: false
+  xy: 327, 48
+  size: 86, 49
+  orig: 86, 49
+  offset: 0, 0
+  index: -1
+L Arm Top
+  rotate: false
+  xy: 327, 5
+  size: 94, 41
+  orig: 94, 41
+  offset: 0, 0
+  index: -1
+L Boot
+  rotate: true
+  xy: 488, 126
+  size: 54, 98
+  orig: 54, 98
+  offset: 0, 0
+  index: -1
+L Boot Top
+  rotate: true
+  xy: 723, 84
+  size: 60, 63
+  orig: 60, 63
+  offset: 0, 0
+  index: -1
+L Hand
+  rotate: false
+  xy: 723, 26
+  size: 63, 56
+  orig: 63, 56
+  offset: 0, 0
+  index: -1
+Leg L Bottom
+  rotate: true
+  xy: 324, 99
+  size: 48, 116
+  orig: 48, 116
+  offset: 0, 0
+  index: -1
+Leg L Top
+  rotate: true
+  xy: 488, 182
+  size: 61, 116
+  orig: 61, 116
+  offset: 0, 0
+  index: -1
+Leg R Bottom
+  rotate: true
+  xy: 606, 198
+  size: 45, 115
+  orig: 45, 115
+  offset: 0, 0
+  index: -1
+Leg R Top
+  rotate: true
+  xy: 723, 197
+  size: 46, 111
+  orig: 46, 111
+  offset: 0, 0
+  index: -1
+R Arm Bottom
+  rotate: false
+  xy: 702, 146
+  size: 86, 49
+  orig: 86, 49
+  offset: 0, 0
+  index: -1
+R Arm Top
+  rotate: false
+  xy: 606, 155
+  size: 94, 41
+  orig: 94, 41
+  offset: 0, 0
+  index: -1
+R Boot Back
+  rotate: true
+  xy: 836, 189
+  size: 54, 99
+  orig: 54, 99
+  offset: 0, 0
+  index: -1
+R Boot Front
+  rotate: false
+  xy: 656, 82
+  size: 65, 62
+  orig: 65, 62
+  offset: 0, 0
+  index: -1
+R Hand
+  rotate: false
+  xy: 588, 100
+  size: 66, 53
+  orig: 66, 53
+  offset: 0, 0
+  index: -1
+Torso
+  rotate: true
+  xy: 324, 149
+  size: 94, 162
+  orig: 94, 162
+  offset: 0, 0
+  index: -1
