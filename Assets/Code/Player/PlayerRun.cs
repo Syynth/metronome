@@ -8,10 +8,6 @@ namespace Assets.Code.Player
     public class PlayerRun : ActorState<PlayerActor>
     {
 
-        public SpriteAnimation walkAnimation;
-        public SpriteAnimation jogAnimation;
-        public SpriteAnimation startUp;
-
         public float walkThreshold = 0.3f;
         public float jogThreshold = 0.8f;
 
@@ -66,19 +62,20 @@ namespace Assets.Code.Player
 
         }
 
-        public override void Render()
-        {
-            SpriteAnimation anim = animation;
-            if (Mathf.Abs(actor.velocity.x / maxSpeed) < jogThreshold)
-            {
-                anim = jogAnimation;
-            }
-            if (Mathf.Abs(actor.velocity.x / maxSpeed) < walkThreshold)
-            {
-                anim = walkAnimation;
-            }
-            actor.GetComponent<SpriteRenderer>().sprite = anim.getFrame(Age);
-        }
+        //public override void Render()
+        //{
+        //    return;
+        //    SpriteAnimation anim = animation;
+        //    if (Mathf.Abs(actor.velocity.x / maxSpeed) < jogThreshold)
+        //    {
+        //        anim = jogAnimation;
+        //    }
+        //    if (Mathf.Abs(actor.velocity.x / maxSpeed) < walkThreshold)
+        //    {
+        //        anim = walkAnimation;
+        //    }
+        //    actor.GetComponent<SpriteRenderer>().sprite = anim.getFrame(Age);
+        //}
 
     }
 
