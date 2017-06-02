@@ -27,7 +27,7 @@ namespace Assets.Code
             {
                 throw new ArgumentException("Actor must contain a SkeletonAnimation component");
             }
-            if (actor.GetComponent<BoxcastMotionController>() == null)
+            if (actor.GetComponent<MotionController>() == null)
             {
                 throw new ArgumentException("Actor must contain a MotionController component");
             }

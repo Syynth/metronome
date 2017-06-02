@@ -5,8 +5,8 @@ using UnityEngine;
 namespace Assets.Code.Player
 {
 
-    [RequireComponent(typeof(IMotionController))]
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(MotionController))]
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
     {
 
@@ -14,7 +14,7 @@ namespace Assets.Code.Player
         public Vector3 gravity = Vector3.down * 10;
         public Vector2 input = Vector2.zero;
 
-        IMotionController motionController;
+        MotionController motionController;
 
         public PlayerStates states;
 
@@ -39,8 +39,8 @@ namespace Assets.Code.Player
 
         void Start()
         {
-            motionController = GetComponent<IMotionController>();
-            GetComponent<Rigidbody2D>().isKinematic = true;
+            motionController = GetComponent<MotionController>();
+            //GetComponent<Rigidbody>().isKinematic = true;
             states.Duck.SetActor(this);
             states.Fall.SetActor(this);
             states.Idle.SetActor(this);
@@ -53,7 +53,6 @@ namespace Assets.Code.Player
 
         void Update()
         {
-            CurrentState.Update();
             CurrentState.Render();
             var skeleton = GetComponent<SkeletonAnimation>().skeleton;
             if (velocity.x < 0)
@@ -64,6 +63,11 @@ namespace Assets.Code.Player
             {
                 skeleton.flipX = false;
             }
+        }
+
+        private void FixedUpdate()
+        {
+            CurrentState.Update();
         }
 
         public void InputX()
