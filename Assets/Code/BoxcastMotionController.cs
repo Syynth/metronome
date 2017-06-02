@@ -57,7 +57,7 @@ namespace Assets.Code
             var newBounds = bounds;
             newBounds.center = position + dx + dy;
             var hit = BoxCast(newBounds, down, maxStepHeight * 2, solidLayer);
-            if (hit.isValid() && hit.distance > 0) // hit should never be false. hit.distance needs to be greater than skinWidth or else you're casting from inside an object
+            if (hit.IsValid() && hit.distance > 0) // hit should never be false. hit.distance needs to be greater than skinWidth or else you're casting from inside an object
             {
                 if (ClampAngle(Vector3.Angle(down, GetMoveVector(hit.normal, down))) < maxClimbAngle && Vector3.Dot(down, hit.normal) < 0) // jump-through platform is standable
                 {
@@ -78,7 +78,7 @@ namespace Assets.Code
             var rem = velocity;
             var hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
 
-            if (oneWayHit.isValid() && (!hit.isValid() || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > skinWidth)
+            if (oneWayHit.IsValid() && (!hit.IsValid() || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > skinWidth)
             {
                 var travel = rem.normalized * (Mathf.Max(oneWayHit.distance - skinWidth, 0));
                 position += travel;
@@ -99,10 +99,10 @@ namespace Assets.Code
             }
 
             hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
-            if (hit.isValid())
+            if (hit.IsValid())
             {
                 int count = 0;
-                while (hit.isValid() && hit.distance == 0 && count < 10)
+                while (hit.IsValid() && hit.distance == 0 && count < 10)
                 {
                     count++;
                     print("distance was zero");
@@ -169,11 +169,11 @@ namespace Assets.Code
             var bnd = bounds;
             bnd.Expand(-skinWidth);
             var oneWayHit = BoxCast(bnd, down, skinWidth, oneWayLayer);
-            var layer = oneWayHit.isValid() && oneWayHit.distance == 0 ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
+            var layer = oneWayHit.IsValid() && oneWayHit.distance == 0 ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
             hit = BoxCast(bounds, down, skinWidth, layer);
 
             int count = 0;
-            while (hit.isValid() && hit.distance == 0 && count < 10)
+            while (hit.IsValid() && hit.distance == 0 && count < 10)
             {
                 count++;
                 print("distance was zero 2");
@@ -183,7 +183,7 @@ namespace Assets.Code
                 transform.position += move;
                 hit = BoxCast(bounds, down, velocity.magnitude, layer);
             }
-            if (hit.isValid() && Vector3.Dot(velocity, down) > 0)
+            if (hit.IsValid() && Vector3.Dot(velocity, down) > 0)
             {
                 var info = new CollisionInfo { Below = true };
                 var move = GetMoveVector(hit.normal, velocity);
@@ -222,7 +222,7 @@ namespace Assets.Code
             }
             catch (StackOverflowException ex)
             {
-                print(string.Format("Velocity: {0}, hit: {1}, hit.distance: {2}", velocity, hit.isValid(), hit.distance));
+                print(string.Format("Velocity: {0}, hit: {1}, hit.distance: {2}", velocity, hit.IsValid(), hit.distance));
                 Debug.Break();
             }
             return rv;
@@ -232,7 +232,7 @@ namespace Assets.Code
         {
             var oneWayHit = BoxCast(boxCollider.bounds, down, skinWidth, oneWayLayer);
             var hit = BoxCast(boxCollider.bounds, down, skinWidth * 2, solidLayer);
-            return (!hit.isValid() && oneWayHit.isValid() && oneWayHit.distance > 0);
+            return (!hit.IsValid() && oneWayHit.IsValid() && oneWayHit.distance > 0);
         }
 
         public CollisionInfo CheckMove(Vector3 direction, Vector3 down, Vector3 position)

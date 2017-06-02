@@ -10,4 +10,14 @@ namespace Assets.Code
         public const int Right = 1;
     }
 
+    public static class Extensions
+    {
+
+        public static bool IsValid(this RaycastHit hit)
+        {
+            return hit.collider != null;
+        }
+
+    }
+
 }
