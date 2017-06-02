@@ -178,7 +178,8 @@ namespace Assets.Code
                 count++;
                 print("distance was zero 2");
 
-                var move = 2 * skinWidth * Vector3.up;
+                Physics.ComputePenetration(boxCollider, bounds.center, Quaternion.identity, hit.collider, hit.collider.transform.position, hit.collider.transform.rotation, out var direction, out var distance);
+                var move = direction * distance;
                 bounds.center += move;
                 transform.position += move;
                 hit = BoxCast(bounds, down, velocity.magnitude, layer);
