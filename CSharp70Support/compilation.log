@@ -1,5 +1,5 @@
 ********************************************************************************
-*                      Thursday, June 01, 2017 9:24:16 PM                      *
+*                      Thursday, June 01, 2017 9:36:16 PM                      *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.3.30
 Platform: Windows
@@ -12,24 +12,24 @@ Compiler: Microsoft C# 7.0
 - Compilation -----------------------------------------------
 
 Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\csc.exe
-Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-27f0ad336795a27468d3079d7bdcfe3f 
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\Mono\lib\mono\unity\System.Xml.dll" @Temp/UnityTempFile-92b30b257fbe16d4a9c02c236801e6e5 
 Exit code: 0
-Elapsed time: 0.86 sec
+Elapsed time: 0.87 sec
 
 - Compiler output (0 lines):
 
 - Compiler errors (11 lines):
 0: Assets\Code\SmoothCameraFollow.cs(33,24): warning CS0108: 'SmoothCameraFollow.camera' hides inherited member 'Component.camera'. Use the new keyword if hiding was intended.
 1: Assets\Code\Player\PlayerIdle.cs(12,23): warning CS0108: 'PlayerIdle.info' hides inherited member 'ActorState<PlayerActor>.info'. Use the new keyword if hiding was intended.
-2: Assets\Code\BoxcastMotionController.cs(213,47): warning CS0168: The variable 'ex' is declared but never used
-3: Assets\Code\BoxcastMotionController.cs(224,43): warning CS0168: The variable 'ex' is declared but never used
-4: Assets\Code\RaycastController.cs(17,26): warning CS0649: Field 'RaycastController.oneWayLayer' is never assigned to, and will always have its default value
-5: Assets\Ferr\Common\Scripts\LogoLock.cs(19,24): warning CS0649: Field 'LogoLock.mPadding' is never assigned to, and will always have its default value 0
-6: Assets\Ferr\2DTerrain\Scripts\Ferr2DT_PathTerrain.cs(263,26): warning CS0649: Field 'Ferr2DT_PathTerrain.terrainMaterial' is never assigned to, and will always have its default value null
-7: Assets\Code\SmoothCameraFollow.cs(12,28): warning CS0649: Field 'SmoothCameraFollow.target' is never assigned to, and will always have its default value null
-8: Assets\Ferr\Common\Scripts\LogoLock.cs(15,24): warning CS0649: Field 'LogoLock.mLockHorizontal' is never assigned to, and will always have its default value
-9: Assets\Code\RaycastController.cs(16,26): warning CS0649: Field 'RaycastController.solidLayer' is never assigned to, and will always have its default value
-10: Assets\Ferr\Common\Scripts\LogoLock.cs(17,24): warning CS0649: Field 'LogoLock.mLockVertical' is never assigned to, and will always have its default value
+2: Assets\Code\BoxcastMotionController.cs(223,47): warning CS0168: The variable 'ex' is declared but never used
+3: Assets\Code\BoxcastMotionController.cs(234,43): warning CS0168: The variable 'ex' is declared but never used
+4: Assets\Ferr\2DTerrain\Scripts\Ferr2DT_PathTerrain.cs(263,26): warning CS0649: Field 'Ferr2DT_PathTerrain.terrainMaterial' is never assigned to, and will always have its default value null
+5: Assets\Ferr\Common\Scripts\LogoLock.cs(17,24): warning CS0649: Field 'LogoLock.mLockVertical' is never assigned to, and will always have its default value
+6: Assets\Ferr\Common\Scripts\LogoLock.cs(15,24): warning CS0649: Field 'LogoLock.mLockHorizontal' is never assigned to, and will always have its default value
+7: Assets\Code\RaycastController.cs(17,26): warning CS0649: Field 'RaycastController.oneWayLayer' is never assigned to, and will always have its default value
+8: Assets\Code\RaycastController.cs(16,26): warning CS0649: Field 'RaycastController.solidLayer' is never assigned to, and will always have its default value
+9: Assets\Ferr\Common\Scripts\LogoLock.cs(19,24): warning CS0649: Field 'LogoLock.mPadding' is never assigned to, and will always have its default value 0
+10: Assets\Code\SmoothCameraFollow.cs(12,28): warning CS0649: Field 'SmoothCameraFollow.target' is never assigned to, and will always have its default value null
 
 - PDB to MDB conversion --------------------------------------
 
@@ -40,7 +40,7 @@ Elapsed time: 0.12 sec
 
 - pdb2mdb.exe output (0 lines):
 ********************************************************************************
-*                      Thursday, June 01, 2017 9:24:18 PM                      *
+*                      Thursday, June 01, 2017 9:36:18 PM                      *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.3.30
 Platform: Windows
@@ -53,7 +53,7 @@ Compiler: Microsoft C# 7.0
 - Compilation -----------------------------------------------
 
 Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\csc.exe
-Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Xml.dll" @Temp/UnityTempFile-44573ddb2c3a6224aaa8cddff645f64a 
+Arguments: -nostdlib+ -noconfig -nologo -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\mscorlib.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Core.dll" -r:"C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\2.0-api\System.Xml.dll" @Temp/UnityTempFile-6f4fcc92ec9858e4192faafca12cbd64 
 Exit code: 0
 Elapsed time: 0.67 sec
 
@@ -80,14 +80,14 @@ Elapsed time: 0.67 sec
 17: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(387,70): warning CS0618: 'Handles.DrawCapFunction' is obsolete: 'This delegate is obsolete. Use CapFunction instead.'
 18: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(389,24): warning CS0618: 'Handles.FreeMoveHandle(Vector3, Quaternion, float, Vector3, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
 19: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(411,8): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
-20: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(492,7): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
-21: Assets\Spine\spine-unity\Editor\SpineEditorUtilities.cs(1678,4): warning CS0618: 'Handles.DotCap(int, Vector3, Quaternion, float)' is obsolete: 'Use DotHandleCap instead'
+20: Assets\Spine\spine-unity\Editor\SpineEditorUtilities.cs(1678,4): warning CS0618: 'Handles.DotCap(int, Vector3, Quaternion, float)' is obsolete: 'Use DotHandleCap instead'
+21: Assets\Ferr\2D\Editor\Ferr2D_PathEditor.cs(492,7): warning CS0618: 'Handles.Button(Vector3, Quaternion, float, float, Handles.DrawCapFunction)' is obsolete: 'DrawCapFunction is obsolete. Use the version with CapFunction instead. Example: Change SphereCap to SphereHandleCap.'
 
 - PDB to MDB conversion --------------------------------------
 
 Process: C:\Users\syynth\code\unity\platforming-test\CSharp70Support\Roslyn\pdb2mdb.exe
 Arguments: Temp\Assembly-CSharp-Editor.dll
 Exit code: 0
-Elapsed time: 0.08 sec
+Elapsed time: 0.07 sec
 
 - pdb2mdb.exe output (0 lines):

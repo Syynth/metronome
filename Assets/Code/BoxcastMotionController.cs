@@ -49,6 +49,16 @@ namespace Assets.Code
             return Clockwise(input) * -1;
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            foreach (var contact in collision.contacts)
+            {
+                if (contact.separation >= 0) continue;
+                var move = contact.separation * contact.normal;
+                transform.position += move;
+            }
+        }
+
         bool StepUp(Vector3 velocity, Vector3 down, Vector3 original, out CollisionInfo info, ref Vector3 position, ref Bounds bounds)
         {
             info = new CollisionInfo();
