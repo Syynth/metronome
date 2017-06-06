@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Assets.Code
 {
 
-    [RequireComponent(typeof(BoxCollider))]
+    [RequireComponent(typeof(BoxCollider2D))]
     class RaycastController : MonoBehaviour
     {
 
@@ -16,11 +16,11 @@ namespace Assets.Code
         public LayerMask solidLayer;
         public LayerMask oneWayLayer;
 
-        protected BoxCollider boxCollider;
+        protected BoxCollider2D boxCollider;
 
         protected virtual void Start()
         {
-            boxCollider = GetComponent<BoxCollider>();
+            boxCollider = GetComponent<BoxCollider2D>();
         }
 
         void DrawX(Vector2 point, float xSize, Color color)
@@ -29,12 +29,12 @@ namespace Assets.Code
             Debug.DrawLine(new Vector2(point.x + xSize, point.y - xSize), new Vector2(point.x - xSize, point.y + xSize), color);
         }
 
-        protected virtual RaycastHit BoxCast(Bounds bounds, Vector3 direction, float distance, LayerMask layer)
+        protected virtual RaycastHit2D BoxCast(Bounds bounds, Vector3 direction, float distance, LayerMask layer)
         {
-            var hits = Physics.BoxCastAll(bounds.center, bounds.size / 2, direction, Quaternion.identity, distance, layer);
+            var hits = Physics2D.BoxCastAll(bounds.center, bounds.size, 0, direction, distance + skinWidth, layer);
             var hit = hits.OrderBy(h => h.distance).FirstOrDefault();
-            Color col = hit.IsValid() ? Color.red : Color.white;
-            Color col2 = hit.IsValid() ? Color.green : Color.blue;
+            Color col = hit ? Color.red : Color.white;
+            Color col2 = hit ? Color.green : Color.blue;
             var min = bounds.min + direction;
             var max = bounds.max + direction;
             Debug.DrawLine(bounds.min, new Vector2(bounds.min.x, bounds.max.y), col);
@@ -45,18 +45,19 @@ namespace Assets.Code
             Debug.DrawLine(min, new Vector2(max.x, min.y), col2);
             Debug.DrawLine(max, new Vector2(min.x, max.y), col2);
             Debug.DrawLine(max, new Vector2(max.x, min.y), col2);
-            if (hit.IsValid())
+            if (hit)
             {
                 DrawX(hit.point, .15f, Color.cyan);
+                DrawX(hit.centroid, .15f, Color.black);
             }
             return hit;
 
         }
 
-        protected virtual Collider BoxCheck(Bounds bounds, LayerMask layer)
+        protected virtual Collider2D BoxCheck(Bounds bounds, LayerMask layer)
         {
             bounds.Expand(-skinWidth * 2);
-            return Physics.OverlapBox(bounds.center, bounds.size / 2, Quaternion.identity, layer).FirstOrDefault();
+            return Physics2D.OverlapBox(bounds.center, bounds.size, 0, layer);
         }
 
     }

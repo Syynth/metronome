@@ -6,7 +6,7 @@ namespace Assets.Code.Player
 {
 
     [RequireComponent(typeof(IMotionController))]
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
     {
 
@@ -40,7 +40,7 @@ namespace Assets.Code.Player
         void Start()
         {
             motionController = GetComponent<IMotionController>();
-            GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<Rigidbody2D>().isKinematic = true;
             states.Duck.SetActor(this);
             states.Fall.SetActor(this);
             states.Idle.SetActor(this);

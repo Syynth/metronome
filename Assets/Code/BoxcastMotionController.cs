@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Assets.Code
 {
 
-    [RequireComponent(typeof(BoxCollider))]
+    [RequireComponent(typeof(BoxCollider2D))]
     class BoxcastMotionController : RaycastController, IMotionController
     {
 
@@ -49,16 +49,6 @@ namespace Assets.Code
             return Clockwise(input) * -1;
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            foreach (var contact in collision.contacts)
-            {
-                if (contact.separation >= 0) continue;
-                var move = contact.separation * contact.normal;
-                transform.position += move;
-            }
-        }
-
         bool StepUp(Vector3 velocity, Vector3 down, Vector3 original, out CollisionInfo info, ref Vector3 position, ref Bounds bounds)
         {
             info = new CollisionInfo();
@@ -67,7 +57,7 @@ namespace Assets.Code
             var newBounds = bounds;
             newBounds.center = position + dx + dy;
             var hit = BoxCast(newBounds, down, maxStepHeight * 2, solidLayer);
-            if (hit.IsValid() && hit.distance > 0) // hit should never be false. hit.distance needs to be greater than skinWidth or else you're casting from inside an object
+            if (hit && hit.distance > 0) // hit should never be false. hit.distance needs to be greater than skinWidth or else you're casting from inside an object
             {
                 if (ClampAngle(Vector3.Angle(down, GetMoveVector(hit.normal, down))) < maxClimbAngle && Vector3.Dot(down, hit.normal) < 0) // jump-through platform is standable
                 {
@@ -88,7 +78,7 @@ namespace Assets.Code
             var rem = velocity;
             var hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
 
-            if (oneWayHit.IsValid() && (!hit.IsValid() || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > skinWidth)
+            if (oneWayHit && (!hit || hit.distance > oneWayHit.distance) && Vector3.Dot(down, original) >= 0 && oneWayHit.distance > skinWidth)
             {
                 var travel = rem.normalized * (Mathf.Max(oneWayHit.distance - skinWidth, 0));
                 position += travel;
@@ -109,18 +99,12 @@ namespace Assets.Code
             }
 
             hit = BoxCast(bounds, rem, rem.magnitude, solidLayer);
-            if (hit.IsValid())
+            if (hit)
             {
-                int count = 0;
-                while (hit.IsValid() && hit.distance == 0 && count < 10)
+                if (hit.distance == 0)
                 {
-                    count++;
-                    print("distance was zero");
-
-                    var move = 2 * skinWidth * Vector3.up;
-                    bounds.center += move;
-                    transform.position += move;
-                    hit = BoxCast(bounds, down, velocity.magnitude, solidLayer);
+                    print("test");
+                    return new CollisionInfo();
                 }
 
                 var travel = velocity.normalized * (Mathf.Max(hit.distance - skinWidth, 0));
@@ -130,7 +114,7 @@ namespace Assets.Code
                 var rot = GetMoveVector(hit.normal, rem.normalized);
                 if (Vector3.Dot(rem.normalized, rot.normalized) > 0.95)
                 {
-                    rot += hit.normal;
+                    rot += (Vector3)hit.normal;
                     rot.Normalize();
                 }
                 if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth) // moving directly downwards
@@ -175,26 +159,25 @@ namespace Assets.Code
 
         CollisionInfo Move_Impl(Vector3 velocity, Vector3 down, Vector3 original, ref Vector3 position, ref Bounds bounds)
         {
-            RaycastHit hit;
+            RaycastHit2D hit;
             var bnd = bounds;
             bnd.Expand(-skinWidth);
             var oneWayHit = BoxCast(bnd, down, skinWidth, oneWayLayer);
-            var layer = oneWayHit.IsValid() && oneWayHit.distance == 0 ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
+            var layer = oneWayHit && oneWayHit.distance == 0 ? solidLayer : (LayerMask) (oneWayLayer | solidLayer);
             hit = BoxCast(bounds, down, skinWidth, layer);
 
             int count = 0;
-            while (hit.IsValid() && hit.distance == 0 && count < 10)
+            while (hit && hit.distance == 0 && count < 10)
             {
                 count++;
                 print("distance was zero 2");
-
-                Physics.ComputePenetration(boxCollider, bounds.center, Quaternion.identity, hit.collider, hit.collider.transform.position, hit.collider.transform.rotation, out var direction, out var distance);
-                var move = direction * distance;
+                var minSeparation = hit.collider.Distance(boxCollider);
+                var move = 2 * skinWidth * (Vector3)minSeparation.normal;
                 bounds.center += move;
                 transform.position += move;
                 hit = BoxCast(bounds, down, velocity.magnitude, layer);
             }
-            if (hit.IsValid() && Vector3.Dot(velocity, down) > 0)
+            if (hit && Vector3.Dot(velocity, down) > 0)
             {
                 var info = new CollisionInfo { Below = true };
                 var move = GetMoveVector(hit.normal, velocity);
@@ -233,7 +216,7 @@ namespace Assets.Code
             }
             catch (StackOverflowException ex)
             {
-                print(string.Format("Velocity: {0}, hit: {1}, hit.distance: {2}", velocity, hit.IsValid(), hit.distance));
+                print(string.Format("Velocity: {0}, hit: {1}, hit.distance: {2}", velocity, !!hit, hit.distance));
                 Debug.Break();
             }
             return rv;
@@ -243,7 +226,7 @@ namespace Assets.Code
         {
             var oneWayHit = BoxCast(boxCollider.bounds, down, skinWidth, oneWayLayer);
             var hit = BoxCast(boxCollider.bounds, down, skinWidth * 2, solidLayer);
-            return (!hit.IsValid() && oneWayHit.IsValid() && oneWayHit.distance > 0);
+            return (!hit && oneWayHit && oneWayHit.distance > 0);
         }
 
         public CollisionInfo CheckMove(Vector3 direction, Vector3 down, Vector3 position)
