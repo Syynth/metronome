@@ -16,6 +16,12 @@ namespace Assets.Code
         public float maxStepHeight = 0.15f;
         public float stepDistance = 0.15f;
 
+        public LayerMask SolidLayer => solidLayer;
+
+        public LayerMask JumpThroughLayer => oneWayLayer;
+
+        public LayerMask AllLayer => solidLayer | oneWayLayer;
+
         Vector3 GetMoveVector(Vector3 normal, Vector3 velocity)
         {
             var g1 = new Vector3(-normal.y, normal.x);

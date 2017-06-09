@@ -33,6 +33,11 @@ namespace Assets.Code
             }
         }
 
+        public virtual void OnStart()
+        {
+
+        }
+
         public virtual void OnEnter()
         {
             Age = 0;

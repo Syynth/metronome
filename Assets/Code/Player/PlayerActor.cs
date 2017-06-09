@@ -14,7 +14,7 @@ namespace Assets.Code.Player
         public Vector3 gravity = Vector3.down * 10;
         public Vector2 input = Vector2.zero;
 
-        IMotionController motionController;
+        public IMotionController motionController;
 
         public PlayerStates states;
 
@@ -46,6 +46,13 @@ namespace Assets.Code.Player
             states.Idle.SetActor(this);
             states.Jump.SetActor(this);
             states.Run.SetActor(this);
+            states.LedgeHang.SetActor(this);
+            states.Duck.OnStart();
+            states.Fall.OnStart();
+            states.Idle.OnStart();
+            states.Jump.OnStart();
+            states.Run.OnStart();
+            states.LedgeHang.OnStart();
             CurrentState = states.Idle;
             PreviousState = states.Idle;
             CurrentState.OnEnter();
@@ -56,14 +63,18 @@ namespace Assets.Code.Player
             CurrentState.Update();
             CurrentState.Render();
             var skeleton = GetComponent<SkeletonAnimation>().skeleton;
+            var pos = states.Fall.LedgeDetect.transform.localPosition;
             if (velocity.x < 0)
             {
                 skeleton.flipX = true;
+                pos.x = -0.75f;
             }
             if (velocity.x > 0)
             {
                 skeleton.flipX = false;
+                pos.x = 0.75f;
             }
+            states.Fall.LedgeDetect.transform.localPosition = pos;
         }
 
         public void InputX()
@@ -146,6 +157,7 @@ namespace Assets.Code.Player
         public PlayerFall Fall;
         public PlayerDuck Duck;
         public PlayerRun Run;
+        public PlayerLedgeHang LedgeHang;
     }
 
 }

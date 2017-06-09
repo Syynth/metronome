@@ -11,10 +11,35 @@ namespace Assets.Code.Player
 
         public float maxSpeed = 16f;
         public bool skipLedge = true;
+        public bool touchingLedge = false;
 
-        public override void OnEnter()
+        public CollisionEvents LedgeDetect;
+
+        public override void OnStart()
         {
-            base.OnEnter();
+            LedgeDetect.OnCollisionEnter += TouchLedge;
+            LedgeDetect.OnCollisionExit += StopTouchLedge;
+        }
+
+        private void TouchLedge(Collision2D collision)
+        {
+            if (Utils.IsInLayerMask(collision.gameObject.layer, actor.motionController.SolidLayer))
+            {
+                touchingLedge = true;
+            }
+        }
+
+        private void StopTouchLedge(Collision2D collision)
+        {
+            if (Utils.IsInLayerMask(collision.gameObject.layer, actor.motionController.SolidLayer))
+            {
+                touchingLedge = false;
+            }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
         }
 
         public override void Update()
@@ -29,7 +54,13 @@ namespace Assets.Code.Player
             actor.InputX();
             actor.AccelerateX();
             actor.AccelerateY();
-            
+
+            if (touchingLedge && actor.input.y > 0)
+            {
+                actor.ChangeState(actor.states.LedgeHang);
+                return;
+            }
+
             if (actor.velocity.y > maxSpeed)
             {
                 actor.UpdateVelocity(actor.velocity.x, maxSpeed);

@@ -10,4 +10,14 @@ namespace Assets.Code
         public const int Right = 1;
     }
 
+    public static class Utils
+    {
+
+        public static bool IsInLayerMask(int layer, LayerMask layermask)
+        {
+            return layermask == (layermask | (1 << layer));
+        }
+
+    }
+
 }
