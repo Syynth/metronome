@@ -38,7 +38,6 @@ namespace Assets.Code
             var segment = pointB - pointA;
             for (float i = 0; i <= rayCount; ++i)
             {
-                print("testing ray");
                 hits.Add(Physics2D.RaycastAll(pointA + segment * (i / rayCount), direction, distance, solidLayer));
                 Debug.DrawRay(pointA + segment * (i / rayCount), direction.normalized * distance);
             }

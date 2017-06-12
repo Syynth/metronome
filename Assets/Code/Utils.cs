@@ -18,6 +18,16 @@ namespace Assets.Code
             return layermask == (layermask | (1 << layer));
         }
 
+        public static Vector3 Clockwise(Vector3 input)
+        {
+            return new Vector3(-input.y, input.x);
+        }
+
+        public static Vector3 CounterClockwise(Vector3 input)
+        {
+            return Clockwise(input) * -1;
+        }
+
     }
 
 }

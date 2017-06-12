@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Linq;
 
 namespace Assets.Code
 {
@@ -11,6 +12,10 @@ namespace Assets.Code
         public LayerMask SolidLayer => solidLayer;
         public LayerMask JumpThroughLayer => oneWayLayer;
         public LayerMask AllLayer => solidLayer | oneWayLayer;
+
+        public float maxClimbAngle = 140f;
+        public float maxStepHeight = 0.2f;
+        public float stepDistance = 0.2f;
 
         RaycastInfo info;
 
@@ -30,11 +35,20 @@ namespace Assets.Code
             return Vector2.zero;
         }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.contacts.Count() >= 1)
+            {
+                var point = collision.contacts.FirstOrDefault();
+                transform.position += (Vector3)point.normal * point.separation;
+            }
+        }
+
         void MoveX(float x)
         {
             if (x == 0) return;
             var pos = transform.position;
-            var hit = RaycastLine(x > 0 ? info.topLeft : info.topRight, x > 0 ? info.bottomLeft : info.bottomRight, Vector2.right * (x > 0 ? 1 : -1), x, null);
+            var hit = RaycastLine(x < 0 ? info.topLeft : info.topRight, x < 0 ? info.bottomLeft : info.bottomRight, Vector2.right * (x > 0 ? 1 : -1), x, null);
             if (hit)
             {
                 pos.x += hit.distance;
@@ -50,10 +64,18 @@ namespace Assets.Code
         {
             if (y == 0) return;
             var pos = transform.position;
-            var hit = RaycastLine(y > 0 ? info.topLeft : info.bottomLeft, y > 0 ? info.topRight : info.bottomRight, Vector2.right * (y > 0 ? 1 : -1), y, null);
+            var hit = RaycastLine(y > 0 ? info.topLeft : info.bottomLeft, y > 0 ? info.topRight : info.bottomRight, Vector2.down * (y > 0 ? 1 : -1), y, null);
             if (hit)
             {
                 pos.y += hit.distance;
+                if (y < 0)
+                {
+                    info.collision.Below = true;
+                }
+                else
+                {
+                    info.collision.Above = true;
+                }
             }
             else
             {
@@ -64,6 +86,7 @@ namespace Assets.Code
 
         void Recalculate()
         {
+            info.collision = new CollisionInfo();
             info.topLeft = new Vector2(boxCollider.bounds.min.x + skinWidth, boxCollider.bounds.max.y - skinWidth);
             info.topRight = new Vector2(boxCollider.bounds.max.x - skinWidth, boxCollider.bounds.max.y - skinWidth);
             info.bottomLeft = new Vector2(boxCollider.bounds.min.x + skinWidth, boxCollider.bounds.min.y + skinWidth);
@@ -73,6 +96,7 @@ namespace Assets.Code
         public CollisionInfo Move(Vector3 velocity, Vector3 down)
         {
             info = new RaycastInfo();
+            Recalculate();
             if (OnGround(out var hit))
             {
                 var move = GetMoveVector(hit.normal);
@@ -92,7 +116,7 @@ namespace Assets.Code
                 MoveX(velocity.x);
                 MoveY(velocity.y);
             }
-            return new CollisionInfo();
+            return info.collision;
         }
 
         public bool OnJumpThrough(Vector3 down)
@@ -104,6 +128,7 @@ namespace Assets.Code
     struct RaycastInfo
     {
         public Vector2 topLeft, topRight, bottomLeft, bottomRight;
+        public CollisionInfo collision;
     }
 
 

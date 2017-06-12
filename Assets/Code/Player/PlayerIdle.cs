@@ -18,14 +18,14 @@ namespace Assets.Code.Player
             actor.states.Jump.wallGrab = false;
         }
 
-        bool CheckRun(BoxcastMotionController controller)
+        bool CheckRun(IMotionController controller)
         {
             if (actor.input.x != 0)
             {
                 var dx = Mathf.Sign(actor.input.x);
-                var rightInfo = controller.CheckMove(controller.Clockwise(actor.gravity.normalized), actor.gravity, actor.transform.position);
+                var rightInfo = controller.CheckMove(Utils.Clockwise(actor.gravity.normalized), actor.gravity, actor.transform.position);
                 if (dx > 0 && !rightInfo.Right) return true;
-                var leftInfo = controller.CheckMove(controller.CounterClockwise(actor.gravity.normalized), actor.gravity, actor.transform.position);
+                var leftInfo = controller.CheckMove(Utils.CounterClockwise(actor.gravity.normalized), actor.gravity, actor.transform.position);
                 if (dx < 0 && !leftInfo.Left) return true;
             }
             return false;
@@ -34,7 +34,7 @@ namespace Assets.Code.Player
         public override void Update()
         {
             base.Update();
-            var controller = actor.GetComponent<BoxcastMotionController>();
+            var controller = actor.GetComponent<IMotionController>();
             actor.velocity = actor.gravity * Time.deltaTime;
             info = actor.Move();
             actor.InputX();
