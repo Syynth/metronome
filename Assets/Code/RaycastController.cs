@@ -38,8 +38,9 @@ namespace Assets.Code
             var segment = pointB - pointA;
             for (float i = 0; i <= rayCount; ++i)
             {
-                hits.Add(Physics2D.RaycastAll(pointA + segment * (i / rayCount), direction, distance, solidLayer));
+                hits.Add(Physics2D.RaycastAll(pointA + segment * (i / rayCount), direction, distance + skinWidth * 2, solidLayer));
                 Debug.DrawRay(pointA + segment * (i / rayCount), direction.normalized * distance);
+                DrawX(pointA + segment * (i / rayCount) + direction.normalized * (distance + skinWidth * 2), .1f, Color.grey);
             }
             return hits.SelectMany(l => l).Where(hit => hit.collider != null && !(ignore ?? empty).Contains(hit.collider)).OrderBy(hit => hit.distance).FirstOrDefault();
         }

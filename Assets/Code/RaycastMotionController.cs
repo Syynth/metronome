@@ -37,21 +37,29 @@ namespace Assets.Code
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.contacts.Count() >= 1)
-            {
-                var point = collision.contacts.FirstOrDefault();
-                transform.position += (Vector3)point.normal * point.separation;
-            }
+            //if (collision.contacts.Count() >= 1)
+            //{
+            //    var point = collision.contacts.FirstOrDefault();
+            //    transform.position += (Vector3)point.normal * point.separation;
+            //}
         }
 
         void MoveX(float x)
         {
             if (x == 0) return;
             var pos = transform.position;
-            var hit = RaycastLine(x < 0 ? info.topLeft : info.topRight, x < 0 ? info.bottomLeft : info.bottomRight, Vector2.right * (x > 0 ? 1 : -1), x, null);
+            var hit = RaycastLine(x < 0 ? info.topLeft : info.topRight, x < 0 ? info.bottomLeft : info.bottomRight, Vector2.right * (x > 0 ? 1 : -1), Mathf.Abs(x), null);
             if (hit)
             {
-                pos.x += hit.distance;
+                pos.x += Mathf.Sign(x) * Mathf.Max(hit.distance - skinWidth * 2, 0);
+                if (x < 0)
+                {
+                    info.collision.Left = true;
+                }
+                else
+                {
+                    info.collision.Right = true;
+                }
             }
             else
             {
@@ -64,10 +72,10 @@ namespace Assets.Code
         {
             if (y == 0) return;
             var pos = transform.position;
-            var hit = RaycastLine(y > 0 ? info.topLeft : info.bottomLeft, y > 0 ? info.topRight : info.bottomRight, Vector2.down * (y > 0 ? 1 : -1), y, null);
+            var hit = RaycastLine(y > 0 ? info.topLeft : info.bottomLeft, y > 0 ? info.topRight : info.bottomRight, Mathf.Sign(y) * Vector2.up, Mathf.Abs(y), null);
             if (hit)
             {
-                pos.y += hit.distance;
+                pos.y += Mathf.Sign(y) * Mathf.Max(hit.distance - skinWidth * 2, 0);
                 if (y < 0)
                 {
                     info.collision.Below = true;
@@ -90,7 +98,7 @@ namespace Assets.Code
             info.topLeft = new Vector2(boxCollider.bounds.min.x + skinWidth, boxCollider.bounds.max.y - skinWidth);
             info.topRight = new Vector2(boxCollider.bounds.max.x - skinWidth, boxCollider.bounds.max.y - skinWidth);
             info.bottomLeft = new Vector2(boxCollider.bounds.min.x + skinWidth, boxCollider.bounds.min.y + skinWidth);
-            info.bottomRight = new Vector2(boxCollider.bounds.max.x, boxCollider.bounds.min.y);
+            info.bottomRight = new Vector2(boxCollider.bounds.max.x - skinWidth, boxCollider.bounds.min.y + skinWidth);
         }
 
         public CollisionInfo Move(Vector3 velocity, Vector3 down)
