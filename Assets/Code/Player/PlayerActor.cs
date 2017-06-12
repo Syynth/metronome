@@ -1,6 +1,7 @@
 ﻿using Spine.Unity;
 using System;
 using UnityEngine;
+using System.Linq;
 
 namespace Assets.Code.Player
 {
@@ -39,7 +40,10 @@ namespace Assets.Code.Player
 
         void Start()
         {
-            motionController = GetComponent<IMotionController>();
+            motionController = GetComponents<IMotionController>()
+                .Select(mc => mc as MonoBehaviour)
+                .Where(c => c.enabled)
+                .Select(c => c as IMotionController).First();
             GetComponent<Rigidbody2D>().isKinematic = true;
             states.Duck.SetActor(this);
             states.Fall.SetActor(this);

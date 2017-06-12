@@ -12,7 +12,8 @@ namespace Assets.Code
     class RaycastController : MonoBehaviour
     {
 
-        public const float skinWidth = 0.05f;
+        public const float skinWidth = 0.1f;
+        public float maxRaySeparation = 0.2f;
         public LayerMask solidLayer;
         public LayerMask oneWayLayer;
 
@@ -27,6 +28,39 @@ namespace Assets.Code
         {
             Debug.DrawLine(new Vector2(point.x - xSize, point.y - xSize), new Vector2(point.x + xSize, point.y + xSize), color);
             Debug.DrawLine(new Vector2(point.x + xSize, point.y - xSize), new Vector2(point.x - xSize, point.y + xSize), color);
+        }
+
+        protected virtual RaycastHit2D RaycastLine(Vector2 pointA, Vector2 pointB, Vector2 direction, float distance, IEnumerable<Collider2D> ignore)
+        {
+            var empty = new Collider2D[0];
+            List<RaycastHit2D[]> hits = new List<RaycastHit2D[]>();
+            float rayCount = Mathf.Ceil(Vector2.Distance(pointA, pointB) / maxRaySeparation);
+            var segment = pointB - pointA;
+            for (float i = 0; i <= rayCount; ++i)
+            {
+                print("testing ray");
+                hits.Add(Physics2D.RaycastAll(pointA + segment * (i / rayCount), direction, distance, solidLayer));
+                Debug.DrawRay(pointA + segment * (i / rayCount), direction.normalized * distance);
+            }
+            return hits.SelectMany(l => l).Where(hit => hit.collider != null && !(ignore ?? empty).Contains(hit.collider)).OrderBy(hit => hit.distance).FirstOrDefault();
+        }
+
+        protected virtual RaycastHit2D BoxCastUnstable(Bounds bounds, Vector3 direction, float distance, LayerMask layer, IEnumerable<Collider2D> ignore = null)
+        {
+            float vd = direction.y >= 0 ? 1 : -1;
+            float hd = direction.x >= 0 ? 1 : -1;
+            float hy = vd >= 0 ? bounds.min.y + skinWidth : bounds.max.y - skinWidth;
+            float vx = bounds.center.x + (hd * bounds.size.x / 2) - (hd * skinWidth);
+            var hPoint1 = new Vector2(bounds.min.x + skinWidth, hy);
+            var hPoint2 = new Vector2(bounds.max.x - skinWidth, hy);
+            var vPoint1 = new Vector2(vx, hy + bounds.size.y * -vd - skinWidth);
+            var sideHit = direction.x != 0 ? RaycastLine(hd < 0 ? hPoint1 : hPoint2, vPoint1, direction, distance, ignore ?? new Collider2D[0]) : new RaycastHit2D();
+            var vertHit = direction.y != 0 ? RaycastLine(hPoint1, hPoint2, direction, distance, ignore ?? new Collider2D[0]) : new RaycastHit2D();
+            if (sideHit && vertHit)
+            {
+                return sideHit.distance < vertHit.distance ? sideHit : vertHit;
+            }
+            return sideHit ? sideHit : vertHit;
         }
 
         protected virtual RaycastHit2D BoxCast(Bounds bounds, Vector3 direction, float distance, LayerMask layer)
