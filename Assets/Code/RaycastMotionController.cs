@@ -26,29 +26,26 @@ namespace Assets.Code
 
         bool OnGround(out RaycastHit2D hit)
         {
-            hit = new RaycastHit2D();
-            return false;
+            var bounds = boxCollider.bounds;
+            bounds.Expand(-skinWidth);
+            var ignore = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0, solidLayer);
+            hit = RaycastLine(info.bottomLeft, info.bottomRight, Vector2.down, skinWidth * 2, ignore);
+            return hit;
         }
 
-        Vector2 GetMoveVector(Vector2 normal)
+        Vector2 GetMoveVector(Vector2 velocity, Vector2 normal)
         {
-            return Vector2.zero;
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            //if (collision.contacts.Count() >= 1)
-            //{
-            //    var point = collision.contacts.FirstOrDefault();
-            //    transform.position += (Vector3)point.normal * point.separation;
-            //}
+            var cw = Utils.Clockwise(normal);
+            var ccw = Utils.CounterClockwise(normal);
+            if (Vector3.Dot(velocity, cw) == 0) return Vector3.zero;
+            return (Vector3.Dot(velocity, cw) >= 0 ? cw : ccw).normalized * velocity.magnitude;
         }
 
         void MoveX(float x)
         {
             if (x == 0) return;
             var pos = transform.position;
-            var hit = RaycastLine(x < 0 ? info.topLeft : info.topRight, x < 0 ? info.bottomLeft : info.bottomRight, Vector2.right * (x > 0 ? 1 : -1), Mathf.Abs(x), null);
+            var hit = RaycastLine(x < 0 ? info.topLeft : info.topRight, x < 0 ? info.bottomLeft : info.bottomRight, Vector2.right * (x > 0 ? 1 : -1), Mathf.Abs(x) + skinWidth, null);
             if (hit)
             {
                 pos.x += Mathf.Sign(x) * Mathf.Max(hit.distance - skinWidth * 2, 0);
@@ -72,7 +69,7 @@ namespace Assets.Code
         {
             if (y == 0) return;
             var pos = transform.position;
-            var hit = RaycastLine(y > 0 ? info.topLeft : info.bottomLeft, y > 0 ? info.topRight : info.bottomRight, Mathf.Sign(y) * Vector2.up, Mathf.Abs(y), null);
+            var hit = RaycastLine(y > 0 ? info.topLeft : info.bottomLeft, y > 0 ? info.topRight : info.bottomRight, Mathf.Sign(y) * Vector2.up, Mathf.Abs(y) + skinWidth, null);
             if (hit)
             {
                 pos.y += Mathf.Sign(y) * Mathf.Max(hit.distance - skinWidth * 2, 0);
@@ -105,18 +102,19 @@ namespace Assets.Code
         {
             info = new RaycastInfo();
             Recalculate();
-            if (OnGround(out var hit))
+            if (Vector2.Dot(velocity, Vector2.down) > 0 && OnGround(out var hit))
             {
-                var move = GetMoveVector(hit.normal);
+                info.collision.Below = true;
+                var move = GetMoveVector(velocity, hit.normal);
                 if (move.y > 0)
                 {
-                    MoveY(velocity.y);
-                    MoveX(velocity.x);
+                    MoveY(move.y);
+                    MoveX(move.x);
                 }
                 else
                 {
-                    MoveX(velocity.x);
-                    MoveY(velocity.y);
+                    MoveX(move.x);
+                    MoveY(move.y);
                 }
             }
             else

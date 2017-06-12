@@ -40,9 +40,11 @@ namespace Assets.Code
             {
                 hits.Add(Physics2D.RaycastAll(pointA + segment * (i / rayCount), direction, distance + skinWidth * 2, solidLayer));
                 Debug.DrawRay(pointA + segment * (i / rayCount), direction.normalized * distance);
-                DrawX(pointA + segment * (i / rayCount) + direction.normalized * (distance + skinWidth * 2), .1f, Color.grey);
             }
-            return hits.SelectMany(l => l).Where(hit => hit.collider != null && !(ignore ?? empty).Contains(hit.collider)).OrderBy(hit => hit.distance).FirstOrDefault();
+            var ret = hits.SelectMany(l => l).Where(hit => hit.collider != null && !(ignore ?? empty).Contains(hit.collider)).OrderBy(hit => hit.distance).FirstOrDefault();
+            DrawX(ret.point, .1f, Color.grey);
+            Debug.DrawLine(ret.point, ret.point + ret.normal * .2f, Color.red);
+            return ret;
         }
 
         protected virtual RaycastHit2D BoxCastUnstable(Bounds bounds, Vector3 direction, float distance, LayerMask layer, IEnumerable<Collider2D> ignore = null)
