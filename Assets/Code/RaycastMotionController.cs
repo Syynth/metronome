@@ -45,10 +45,57 @@ namespace Assets.Code
         {
             if (x == 0) return;
             var pos = transform.position;
+            var downHit = RaycastLine(info.bottomLeft, info.bottomRight, Vector2.down, skinWidth * 2, null);
             var hit = RaycastLine(x < 0 ? info.topLeft : info.topRight, x < 0 ? info.bottomLeft : info.bottomRight, Vector2.right * (x > 0 ? 1 : -1), Mathf.Abs(x) + skinWidth, null);
-            if (hit)
+            if (hit && !downHit)
             {
-                pos.x += Mathf.Sign(x) * Mathf.Max(hit.distance - skinWidth * 2, 0);
+                var distance = Mathf.Max(hit.distance - skinWidth);
+                pos.x += Mathf.Sign(x) * distance;
+                if (CanStand(hit.normal))
+                {
+                    var move = GetMoveVector(new Vector2(x, 0), hit.normal);
+                    Debug.DrawRay(hit.point, move.normalized * .3f, Color.blue);
+                    var topHit = RaycastLine(info.topLeft, info.topRight, move, Mathf.Max(0, Mathf.Abs(x) - distance), null);
+                    var sideHit = RaycastLine(x > 0 ? info.topRight : info.topLeft, x > 0 ? info.bottomRight : info.bottomLeft, move, Mathf.Max(0, Mathf.Abs(x) - distance), null);
+                    if (!topHit && !sideHit)
+                    {
+                        pos += (Vector3)move.normalized * Mathf.Max(0, move.magnitude - skinWidth);
+                    }
+                    else
+                    {
+                        var shortestHit = !sideHit ? topHit : (!topHit ? sideHit : (topHit.distance < sideHit.distance ? topHit : sideHit));
+                        pos += (Vector3)move.normalized * (Mathf.Max(0, Mathf.Min(Mathf.Abs(x) - distance - skinWidth), shortestHit.distance - skinWidth));
+                    }
+                }
+                if (x < 0)
+                {
+                    info.collision.Left = true;
+                }
+                else
+                {
+                    info.collision.Right = true;
+                }
+            }
+            else if (hit)
+            {
+                var distance = Mathf.Max(hit.distance - skinWidth);
+                pos.x += Mathf.Sign(x) * distance;
+                if (CanStand(hit.normal))
+                {
+                    var move = GetMoveVector(new Vector2(x, 0), hit.normal);
+                    Debug.DrawRay(hit.point, move.normalized * .3f, Color.blue);
+                    var topHit = RaycastLine(move.y > 0 ? info.topLeft : info.bottomLeft, move.y > 0 ? info.topRight : info.bottomRight, move, Mathf.Max(0, Mathf.Abs(x) - distance), null);
+                    var sideHit = RaycastLine(x > 0 ? info.topRight : info.topLeft, x > 0 ? info.bottomRight : info.bottomLeft, move, Mathf.Max(0, Mathf.Abs(x) - distance), null);
+                    if (!topHit && !sideHit)
+                    {
+                        pos += (Vector3)move.normalized * Mathf.Max(0, move.magnitude - skinWidth);
+                    }
+                    else
+                    {
+                        var shortestHit = !sideHit ? topHit : (!topHit ? sideHit : (topHit.distance < sideHit.distance ? topHit : sideHit));
+                        pos += (Vector3)move.normalized * (Mathf.Max(0, Mathf.Min(Mathf.Abs(x) - distance - skinWidth), shortestHit.distance - skinWidth));
+                    }
+                }
                 if (x < 0)
                 {
                     info.collision.Left = true;
@@ -63,6 +110,7 @@ namespace Assets.Code
                 pos.x += x;
             }
             transform.position = pos;
+            Recalculate();
         }
 
         void MoveY(float y)
@@ -72,10 +120,31 @@ namespace Assets.Code
             var hit = RaycastLine(y > 0 ? info.topLeft : info.bottomLeft, y > 0 ? info.topRight : info.bottomRight, Mathf.Sign(y) * Vector2.up, Mathf.Abs(y) + skinWidth, null);
             if (hit)
             {
-                pos.y += Mathf.Sign(y) * Mathf.Max(hit.distance - skinWidth * 2, 0);
-                if (y < 0)
+                var distance = Mathf.Max(hit.distance - skinWidth);
+                pos.y += Mathf.Sign(y) * distance;
+                if (y < 0 && CanStand(hit.normal))
                 {
                     info.collision.Below = true;
+                }
+                else if (y < 0)
+                {
+                    info.collision.Below = false;
+                    var move = GetMoveVector(new Vector2(0, -(Mathf.Abs(y) - distance)), hit.normal);
+                    hit = RaycastLine(info.bottomLeft, info.bottomRight, move, Mathf.Abs(y) - distance, null);
+                    if (!hit)
+                    {
+                        pos += (Vector3)move.normalized * Mathf.Max(0, move.magnitude - skinWidth);
+                        transform.position = pos;
+                        Recalculate();
+                        return;
+                    }
+                    else
+                    {
+                        pos += (Vector3)move.normalized * (Mathf.Max(0, Mathf.Abs(y) - distance - skinWidth));
+                        transform.position = pos;
+                        Recalculate();
+                        return;
+                    }
                 }
                 else
                 {
@@ -87,41 +156,34 @@ namespace Assets.Code
                 pos.y += y;
             }
             transform.position = pos;
+            Recalculate();
+        }
+
+        bool CanStand(Vector2 normal)
+        {
+            var a = Vector2.Angle(Vector2.up, normal);
+            if (a < 180)
+            {
+                return a < 65;
+            }
+            return 360 - a < 65;
         }
 
         void Recalculate()
         {
-            info.collision = new CollisionInfo();
-            info.topLeft = new Vector2(boxCollider.bounds.min.x + skinWidth, boxCollider.bounds.max.y - skinWidth);
-            info.topRight = new Vector2(boxCollider.bounds.max.x - skinWidth, boxCollider.bounds.max.y - skinWidth);
-            info.bottomLeft = new Vector2(boxCollider.bounds.min.x + skinWidth, boxCollider.bounds.min.y + skinWidth);
-            info.bottomRight = new Vector2(boxCollider.bounds.max.x - skinWidth, boxCollider.bounds.min.y + skinWidth);
+            info.topLeft = new Vector2(boxCollider.bounds.min.x, boxCollider.bounds.max.y);
+            info.topRight = new Vector2(boxCollider.bounds.max.x, boxCollider.bounds.max.y);
+            info.bottomLeft = new Vector2(boxCollider.bounds.min.x, boxCollider.bounds.min.y);
+            info.bottomRight = new Vector2(boxCollider.bounds.max.x, boxCollider.bounds.min.y);
         }
 
         public CollisionInfo Move(Vector3 velocity, Vector3 down)
         {
             info = new RaycastInfo();
+            info.collision = new CollisionInfo();
             Recalculate();
-            if (Vector2.Dot(velocity, Vector2.down) > 0 && OnGround(out var hit))
-            {
-                info.collision.Below = true;
-                var move = GetMoveVector(velocity, hit.normal);
-                if (move.y > 0)
-                {
-                    MoveY(move.y);
-                    MoveX(move.x);
-                }
-                else
-                {
-                    MoveX(move.x);
-                    MoveY(move.y);
-                }
-            }
-            else
-            {
-                MoveX(velocity.x);
-                MoveY(velocity.y);
-            }
+            MoveX(velocity.x);
+            MoveY(velocity.y);
             return info.collision;
         }
 
@@ -131,10 +193,10 @@ namespace Assets.Code
         }
     }
 
-    struct RaycastInfo
+    class RaycastInfo
     {
         public Vector2 topLeft, topRight, bottomLeft, bottomRight;
-        public CollisionInfo collision;
+        public CollisionInfo collision = new CollisionInfo();
     }
 
 
