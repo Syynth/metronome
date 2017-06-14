@@ -51,9 +51,12 @@ namespace Assets.Code
             {
                 var distance = Mathf.Max(hit.distance - skinWidth);
                 pos.x += Mathf.Sign(x) * distance;
+                transform.position = pos;
+                Recalculate();
+                var rem = Mathf.Sign(x) * (Mathf.Abs(x) - distance);
                 if (CanStand(hit.normal))
                 {
-                    var move = GetMoveVector(new Vector2(x, 0), hit.normal);
+                    var move = GetMoveVector(new Vector2(rem, 0), hit.normal);
                     Debug.DrawRay(hit.point, move.normalized * .3f, Color.blue);
                     var topHit = RaycastLine(info.topLeft, info.topRight, move, Mathf.Max(0, Mathf.Abs(x) - distance), null);
                     var sideHit = RaycastLine(x > 0 ? info.topRight : info.topLeft, x > 0 ? info.bottomRight : info.bottomLeft, move, Mathf.Max(0, Mathf.Abs(x) - distance), null);
@@ -64,7 +67,7 @@ namespace Assets.Code
                     else
                     {
                         var shortestHit = !sideHit ? topHit : (!topHit ? sideHit : (topHit.distance < sideHit.distance ? topHit : sideHit));
-                        pos += (Vector3)move.normalized * (Mathf.Max(0, Mathf.Min(Mathf.Abs(x) - distance - skinWidth), shortestHit.distance - skinWidth));
+                        pos += (Vector3)move.normalized * (Mathf.Max(0, Mathf.Min(Mathf.Abs(x) - distance - skinWidth, shortestHit.distance - skinWidth)));
                     }
                 }
                 if (x < 0)
@@ -80,9 +83,12 @@ namespace Assets.Code
             {
                 var distance = Mathf.Max(hit.distance - skinWidth);
                 pos.x += Mathf.Sign(x) * distance;
+                transform.position = pos;
+                Recalculate();
+                var rem = Mathf.Sign(x) * (Mathf.Abs(x) - distance);
                 if (CanStand(hit.normal))
                 {
-                    var move = GetMoveVector(new Vector2(x, 0), hit.normal);
+                    var move = GetMoveVector(new Vector2(rem, 0), hit.normal);
                     Debug.DrawRay(hit.point, move.normalized * .3f, Color.blue);
                     var topHit = RaycastLine(move.y > 0 ? info.topLeft : info.bottomLeft, move.y > 0 ? info.topRight : info.bottomRight, move, Mathf.Max(0, Mathf.Abs(x) - distance), null);
                     var sideHit = RaycastLine(x > 0 ? info.topRight : info.topLeft, x > 0 ? info.bottomRight : info.bottomLeft, move, Mathf.Max(0, Mathf.Abs(x) - distance), null);
@@ -93,7 +99,7 @@ namespace Assets.Code
                     else
                     {
                         var shortestHit = !sideHit ? topHit : (!topHit ? sideHit : (topHit.distance < sideHit.distance ? topHit : sideHit));
-                        pos += (Vector3)move.normalized * (Mathf.Max(0, Mathf.Min(Mathf.Abs(x) - distance - skinWidth), shortestHit.distance - skinWidth));
+                        pos += (Vector3)move.normalized * (Mathf.Max(0, Mathf.Min(Mathf.Abs(x) - distance - skinWidth, shortestHit.distance - skinWidth)));
                     }
                 }
                 if (x < 0)

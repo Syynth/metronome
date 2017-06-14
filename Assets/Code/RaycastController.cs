@@ -17,11 +17,37 @@ namespace Assets.Code
         public LayerMask solidLayer;
         public LayerMask oneWayLayer;
 
+        [HideInInspector]
+        public int horizontalRayCount;
+        [HideInInspector]
+        public int verticalRayCount;
+
+        [HideInInspector]
+        public float horizontalRaySpacing;
+        [HideInInspector]
+        public float verticalRaySpacing;
+
         protected BoxCollider2D boxCollider;
 
         protected virtual void Start()
         {
             boxCollider = GetComponent<BoxCollider2D>();
+            CalculateRaySpacing();
+        }
+
+        protected virtual void CalculateRaySpacing()
+        {
+            Bounds bounds = boxCollider.bounds;
+            bounds.Expand(skinWidth * -2);
+
+            float boundsWidth = bounds.size.x;
+            float boundsHeight = bounds.size.y;
+
+            horizontalRayCount = Mathf.RoundToInt(boundsHeight / maxRaySeparation);
+            verticalRayCount = Mathf.RoundToInt(boundsWidth / maxRaySeparation);
+
+            horizontalRaySpacing = bounds.size.y / (horizontalRayCount - 1);
+            verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
         }
 
         void DrawX(Vector2 point, float xSize, Color color)
