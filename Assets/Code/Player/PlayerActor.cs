@@ -74,12 +74,12 @@ namespace Assets.Code.Player
             if (velocity.x < 0)
             {
                 skeleton.flipX = true;
-                pos.x = -0.75f;
+                pos.x = -1.7f / 2;
             }
             if (velocity.x > 0)
             {
                 skeleton.flipX = false;
-                pos.x = 0.75f;
+                pos.x = 1.7f / 2;
             }
             states.Fall.LedgeDetect.transform.localPosition = pos;
         }
