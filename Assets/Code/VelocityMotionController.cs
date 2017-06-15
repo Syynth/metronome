@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 
@@ -38,9 +38,9 @@ namespace Assets.Code
             raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
         }
 
-        public CollisionInfo Move(Vector3 velocity, Vector3 down)
+        public CollisionInfo Move(Vector3 velocity, Vector3 down, List<Collider2D> ignore = null)
         {
-            Move(velocity, false);
+            Move(velocity, false, ignore);
             return new CollisionInfo()
             {
                 Below = collisions.below && !collisions.slidingDownMaxSlope,
@@ -55,18 +55,30 @@ namespace Assets.Code
             return new CollisionInfo();
         }
 
-        public bool OnJumpThrough(Vector3 down)
+        public bool OnJumpThrough(Vector3 down, out Collider2D collider)
         {
+            var hit = RaycastLine(raycastOrigins.bottomLeft, raycastOrigins.bottomRight, Vector2.down, skinWidth, null);
+            collider = null;
+            if (hit)
+            {
+                collider = hit.collider;
+                var effector = hit.collider.GetComponent<PlatformEffector2D>();
+                if (effector != null && effector.useOneWay)
+                {
+                    return true;
+                }
+            }
             return false;
         }
 
-        public void Move(Vector2 moveAmount, bool standingOnPlatform)
+        public void Move(Vector2 moveAmount, bool standingOnPlatform, List<Collider2D> ignore = null)
         {
-            Move(moveAmount, Vector2.zero, standingOnPlatform);
+            Move(moveAmount, Vector2.zero, standingOnPlatform, ignore);
         }
 
-        public void Move(Vector2 moveAmount, Vector2 input, bool standingOnPlatform = false)
+        public void Move(Vector2 moveAmount, Vector2 input, bool standingOnPlatform = false, List<Collider2D> ignore = null)
         {
+            var exclude = ignore ?? new List<Collider2D>();
             UpdateRaycastOrigins();
 
             collisions.Reset();
@@ -77,11 +89,12 @@ namespace Assets.Code
             bounds.Expand(-skinWidth * 2);
             collisions.overlapping = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0, solidLayer)
                 .Where(c => c.gameObject.GetComponent<PlatformEffector2D>() != null && c.gameObject.GetComponent<PlatformEffector2D>().useOneWay)
+                .Where(c => !exclude.Contains(c))
                 .ToArray();
 
             if (moveAmount.y < 0)
             {
-                DescendSlope(ref moveAmount);
+                DescendSlope(ref moveAmount, exclude);
             }
 
             if (moveAmount.x != 0)
@@ -89,10 +102,10 @@ namespace Assets.Code
                 collisions.faceDir = (int)Mathf.Sign(moveAmount.x);
             }
 
-            HorizontalCollisions(ref moveAmount);
+            HorizontalCollisions(ref moveAmount, exclude);
             if (moveAmount.y != 0)
             {
-                VerticalCollisions(ref moveAmount);
+                VerticalCollisions(ref moveAmount, exclude);
             }
 
             transform.Translate(moveAmount);
@@ -103,7 +116,7 @@ namespace Assets.Code
             }
         }
 
-        void HorizontalCollisions(ref Vector2 moveAmount)
+        void HorizontalCollisions(ref Vector2 moveAmount, List<Collider2D> ignore)
         {
             float directionX = collisions.faceDir;
             float rayLength = Mathf.Abs(moveAmount.x) + skinWidth;
@@ -124,7 +137,7 @@ namespace Assets.Code
                 if (hit)
                 {
                     Debug.DrawRay(hit.point, hit.normal, Color.blue);
-                    if (collisions.overlapping.Contains(hit.collider))
+                    if (collisions.overlapping.Contains(hit.collider) || ignore.Contains(hit.collider))
                     {
                         continue;
                     }
@@ -153,7 +166,7 @@ namespace Assets.Code
                             distanceToSlopeStart = hit.distance - skinWidth;
                             moveAmount.x -= distanceToSlopeStart * directionX;
                         }
-                        ClimbSlope(ref moveAmount, slopeAngle, hit.normal);
+                        ClimbSlope(ref moveAmount, slopeAngle, hit.normal, ignore);
                         moveAmount.x += distanceToSlopeStart * directionX;
                     }
 
@@ -174,7 +187,7 @@ namespace Assets.Code
             }
         }
 
-        void VerticalCollisions(ref Vector2 moveAmount)
+        void VerticalCollisions(ref Vector2 moveAmount, List<Collider2D> ignore)
         {
             float directionY = Mathf.Sign(moveAmount.y);
             float rayLength = Mathf.Abs(moveAmount.y) + skinWidth;
@@ -190,6 +203,10 @@ namespace Assets.Code
 
                 if (hit)
                 {
+                    if (ignore.Contains(hit.collider))
+                    {
+                        continue;
+                    }
                     if (hit.collider.tag == "Through")
                     {
                         if (directionY == 1 || hit.distance == 0)
@@ -228,7 +245,7 @@ namespace Assets.Code
                 Vector2 rayOrigin = ((directionX == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight) + Vector2.up * moveAmount.y;
                 RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, solidLayer);
 
-                if (hit)
+                if (hit && !ignore.Contains(hit.collider))
                 {
                     float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
                     if (slopeAngle != collisions.slopeAngle)
@@ -241,7 +258,7 @@ namespace Assets.Code
             }
         }
 
-        void ClimbSlope(ref Vector2 moveAmount, float slopeAngle, Vector2 slopeNormal)
+        void ClimbSlope(ref Vector2 moveAmount, float slopeAngle, Vector2 slopeNormal, List<Collider2D> ignore)
         {
             float moveDistance = Mathf.Abs(moveAmount.x);
             float climbmoveAmountY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
@@ -257,15 +274,15 @@ namespace Assets.Code
             }
         }
 
-        void DescendSlope(ref Vector2 moveAmount)
+        void DescendSlope(ref Vector2 moveAmount, List<Collider2D> ignore)
         {
 
             RaycastHit2D maxSlopeHitLeft = Physics2D.Raycast(raycastOrigins.bottomLeft, Vector2.down, Mathf.Abs(moveAmount.y) + skinWidth, solidLayer);
             RaycastHit2D maxSlopeHitRight = Physics2D.Raycast(raycastOrigins.bottomRight, Vector2.down, Mathf.Abs(moveAmount.y) + skinWidth, solidLayer);
             if (maxSlopeHitLeft ^ maxSlopeHitRight)
             {
-                SlideDownMaxSlope(maxSlopeHitLeft, ref moveAmount);
-                SlideDownMaxSlope(maxSlopeHitRight, ref moveAmount);
+                SlideDownMaxSlope(maxSlopeHitLeft, ref moveAmount, ignore);
+                SlideDownMaxSlope(maxSlopeHitRight, ref moveAmount, ignore);
             }
 
             if (!collisions.slidingDownMaxSlope)
@@ -299,7 +316,7 @@ namespace Assets.Code
             }
         }
 
-        void SlideDownMaxSlope(RaycastHit2D hit, ref Vector2 moveAmount)
+        void SlideDownMaxSlope(RaycastHit2D hit, ref Vector2 moveAmount, List<Collider2D> ignore)
         {
 
             if (hit)

@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Assets.Code.Player
 {
@@ -18,6 +19,7 @@ namespace Assets.Code.Player
         public IMotionController motionController;
 
         public PlayerStates states;
+        public List<(Collider2D, float)> ignoreColliders;
 
         #region IStateMachine Implementation
 
@@ -40,6 +42,7 @@ namespace Assets.Code.Player
 
         void Start()
         {
+            ignoreColliders = new List<(Collider2D, float)>();
             motionController = GetComponents<IMotionController>()
                 .Select(mc => mc as MonoBehaviour)
                 .Where(c => c.enabled)
@@ -70,6 +73,7 @@ namespace Assets.Code.Player
             CurrentState.Update();
             CurrentState.Render();
             var skeleton = GetComponent<SkeletonAnimation>().skeleton;
+            ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
             var pos = states.Fall.LedgeDetect.transform.localPosition;
             if (velocity.x < 0)
             {
@@ -151,7 +155,7 @@ namespace Assets.Code.Player
 
         public CollisionInfo Move(Vector3 velocity)
         {
-            return motionController.Move(velocity, gravity);
+            return motionController.Move(velocity, gravity, ignoreColliders.Select(p => p.Item1).ToList());
         }
 
     }

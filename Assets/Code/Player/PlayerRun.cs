@@ -52,6 +52,13 @@ namespace Assets.Code.Player
                 return;
             }
 
+            if (actor.states.Duck.held && actor.motionController.OnJumpThrough(actor.gravity, out var collider))
+            {
+                actor.ignoreColliders.Add((collider, Time.time + 0.5f));
+                actor.ChangeState(actor.states.Fall);
+                return;
+            }
+
             if (!CheckIdle()) return;
 
             if (!info.Below)
@@ -61,21 +68,6 @@ namespace Assets.Code.Player
             }
 
         }
-
-        //public override void Render()
-        //{
-        //    return;
-        //    SpriteAnimation anim = animation;
-        //    if (Mathf.Abs(actor.velocity.x / maxSpeed) < jogThreshold)
-        //    {
-        //        anim = jogAnimation;
-        //    }
-        //    if (Mathf.Abs(actor.velocity.x / maxSpeed) < walkThreshold)
-        //    {
-        //        anim = walkAnimation;
-        //    }
-        //    actor.GetComponent<SpriteRenderer>().sprite = anim.getFrame(Age);
-        //}
 
     }
 

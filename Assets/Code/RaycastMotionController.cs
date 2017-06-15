@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 
@@ -183,7 +183,7 @@ namespace Assets.Code
             info.bottomRight = new Vector2(boxCollider.bounds.max.x, boxCollider.bounds.min.y);
         }
 
-        public CollisionInfo Move(Vector3 velocity, Vector3 down)
+        public CollisionInfo Move(Vector3 velocity, Vector3 down, List<Collider2D> ignore = null)
         {
             info = new RaycastInfo();
             info.collision = new CollisionInfo();
@@ -193,8 +193,9 @@ namespace Assets.Code
             return info.collision;
         }
 
-        public bool OnJumpThrough(Vector3 down)
+        public bool OnJumpThrough(Vector3 down, out Collider2D collider)
         {
+            collider = null;
             return false;
         }
     }

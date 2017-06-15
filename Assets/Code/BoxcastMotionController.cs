@@ -160,7 +160,7 @@ namespace Assets.Code
             return new CollisionInfo();
         }
 
-        public CollisionInfo Move(Vector3 velocity, Vector3 down)
+        public CollisionInfo Move(Vector3 velocity, Vector3 down, List<Collider2D> ignore = null)
         {
             if (Input.GetButtonDown("Debug"))
             {
@@ -238,10 +238,11 @@ namespace Assets.Code
             return rv;
         }
 
-        public bool OnJumpThrough(Vector3 down)
+        public bool OnJumpThrough(Vector3 down, out Collider2D collider)
         {
             var oneWayHit = BoxCast(boxCollider.bounds, down, skinWidth, oneWayLayer);
             var hit = BoxCast(boxCollider.bounds, down, skinWidth * 2, solidLayer);
+            collider = oneWayHit.collider;
             return (!hit && oneWayHit && oneWayHit.distance > 0);
         }
 

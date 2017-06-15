@@ -47,9 +47,9 @@ namespace Assets.Code.Player
                 actor.ChangeState(actor.states.Run);
                 return;
             }
-            if (actor.states.Duck.pressed && controller.OnJumpThrough(actor.gravity))
+            if (actor.states.Duck.held && controller.OnJumpThrough(actor.gravity, out var collider))
             {
-                actor.transform.position += actor.gravity.normalized * RaycastController.skinWidth * 2;
+                actor.ignoreColliders.Add((collider, Time.time + 0.5f));
                 actor.ChangeState(actor.states.Fall);
                 return;
             }
