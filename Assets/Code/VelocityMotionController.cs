@@ -293,6 +293,10 @@ namespace Assets.Code
 
                 if (hit)
                 {
+                    if (ignore.Contains(hit.collider))
+                    {
+                        return;
+                    }
                     float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
                     if (slopeAngle != 0 && slopeAngle <= maxSlopeAngle)
                     {
