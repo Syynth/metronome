@@ -45,18 +45,21 @@ namespace Assets.Code.Player
                 .Where(c => c.enabled)
                 .Select(c => c as IMotionController).First();
             GetComponent<Rigidbody2D>().isKinematic = true;
+
             states.Duck.SetActor(this);
             states.Fall.SetActor(this);
             states.Idle.SetActor(this);
             states.Jump.SetActor(this);
             states.Run.SetActor(this);
             states.LedgeHang.SetActor(this);
+
             states.Duck.OnStart();
             states.Fall.OnStart();
             states.Idle.OnStart();
             states.Jump.OnStart();
             states.Run.OnStart();
             states.LedgeHang.OnStart();
+
             CurrentState = states.Idle;
             PreviousState = states.Idle;
             CurrentState.OnEnter();

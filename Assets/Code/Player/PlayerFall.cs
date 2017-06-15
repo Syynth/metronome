@@ -17,8 +17,11 @@ namespace Assets.Code.Player
 
         public override void OnStart()
         {
+            var pos = LedgeDetect.transform.localPosition;
             LedgeDetect.OnCollisionEnter += TouchLedge;
             LedgeDetect.OnCollisionExit += StopTouchLedge;
+            pos.y = 5f;
+            LedgeDetect.transform.localPosition = pos;
         }
 
         private void TouchLedge(Collision2D collision)
