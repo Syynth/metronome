@@ -123,8 +123,13 @@ namespace Assets.Code
 
                 if (hit)
                 {
-
+                    Debug.DrawRay(hit.point, hit.normal, Color.blue);
                     if (collisions.overlapping.Contains(hit.collider))
+                    {
+                        continue;
+                    }
+                    var effector = hit.collider.GetComponent<PlatformEffector2D>();
+                    if (effector != null && effector.useOneWay && i != 0)
                     {
                         continue;
                     }
