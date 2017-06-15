@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Linq;
 
 namespace Assets.Code
 {
@@ -72,6 +73,12 @@ namespace Assets.Code
             collisions.moveAmountOld = moveAmount;
             playerInput = input;
 
+            var bounds = boxCollider.bounds;
+            bounds.Expand(-skinWidth * 2);
+            collisions.overlapping = Physics2D.OverlapBoxAll(bounds.center, bounds.size, 0, solidLayer)
+                .Where(c => c.gameObject.GetComponent<PlatformEffector2D>() != null && c.gameObject.GetComponent<PlatformEffector2D>().useOneWay)
+                .ToArray();
+
             if (moveAmount.y < 0)
             {
                 DescendSlope(ref moveAmount);
@@ -117,6 +124,10 @@ namespace Assets.Code
                 if (hit)
                 {
 
+                    if (collisions.overlapping.Contains(hit.collider))
+                    {
+                        continue;
+                    }
                     if (hit.distance == 0)
                     {
                         continue;
@@ -320,9 +331,11 @@ namespace Assets.Code
             public Vector2 moveAmountOld;
             public int faceDir;
             public bool fallingThroughPlatform;
+            public Collider2D[] overlapping;
 
             public void Reset()
             {
+                overlapping = new Collider2D[0];
                 above = below = false;
                 left = right = false;
                 climbingSlope = false;
