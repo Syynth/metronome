@@ -317,6 +317,16 @@ namespace Assets.Code
 
         }
 
+        public bool CanStand(Vector2 normal)
+        {
+            var a = Vector2.Angle(Vector2.up, normal);
+            if (a < 180)
+            {
+                return a < 65;
+            }
+            return 360 - a < 65;
+        }
+
         void ResetFallingThroughPlatform()
         {
             collisions.fallingThroughPlatform = false;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Linq;
 
 namespace Assets.Code.Player
 {
@@ -24,9 +25,55 @@ namespace Assets.Code.Player
             LedgeDetect.transform.localPosition = pos;
         }
 
+        private bool ValidLedgeContact(Collider2D collider)
+        {
+            if (collider is EdgeCollider2D)
+            {
+                var effector = collider.gameObject.GetComponent<PlatformEffector2D>();
+                if (effector != null && effector.useOneWay)
+                {
+                    return actor.states.LedgeHang.grabOneWayPlatforms;
+                }
+                var c = collider as EdgeCollider2D;
+                bool CloseEnough(Vector2 p)
+                {
+                    return Vector2.Distance(LedgeDetect.transform.position, p) < LedgeDetect.GetComponent<CircleCollider2D>().radius;
+                }
+                Vector2 GetUpVector(Vector2 a, Vector2 b)
+                {
+                    var dist = b - a;
+                    var normal = Utils.Clockwise(dist);
+                    return (Vector2.Dot(normal, Vector2.up) > 0) ? normal : -normal;
+                }
+                bool WithinAngle(int index)
+                {
+                    if ((index == 0 || index == c.points.Length - 1) && c.points[0] != c.points[c.points.Length - 1])
+                    {
+                        if (actor.motionController.CanStand(GetUpVector(c.points[0], c.points[1])))
+                        {
+                            return true;
+                        }
+                    }
+                    var point = c.points[index];
+                    var left = c.points[Utils.Mod(index - ((index - 1 < 0) ? 2 : 1), c.points.Length)];
+                    var right = c.points[Utils.Mod(index + ((index + 1 == c.points.Length) ? 2 : 1), c.points.Length)];
+                    if (Vector2.Angle(left - point, right - point) < 120)
+                    {
+                        return actor.motionController.CanStand(GetUpVector(point, left)) || actor.motionController.CanStand(GetUpVector(point, right));
+                    }
+                    return false;
+                }
+                
+                return c.points
+                    .Select(p => collider.transform.TransformPoint(p))
+                    .Where((p, i) => CloseEnough(p) && WithinAngle(i)).Count() > 0;
+            }
+            return false;
+        }
+
         private void TouchLedge(Collision2D collision)
         {
-            if (Utils.IsInLayerMask(collision.gameObject.layer, actor.motionController.SolidLayer))
+            if (Utils.IsInLayerMask(collision.gameObject.layer, actor.motionController.SolidLayer) && ValidLedgeContact(collision.collider))
             {
                 touchingLedge = true;
             }

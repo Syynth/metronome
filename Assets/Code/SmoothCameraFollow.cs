@@ -30,7 +30,7 @@ namespace Assets.Code
 
         private float dx, dy;
 
-        private Camera camera;
+        private new Camera camera;
 
         void Start()
         {

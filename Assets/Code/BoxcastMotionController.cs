@@ -30,6 +30,16 @@ namespace Assets.Code
             return (Vector3.Dot(velocity, g1) >= 0 ? g1 : g2).normalized * velocity.magnitude;
         }
 
+        public bool CanStand(Vector2 normal)
+        {
+            var a = Vector2.Angle(Vector2.up, normal);
+            if (a < 180)
+            {
+                return a < 65;
+            }
+            return 360 - a < 65;
+        }
+
         float ClampAngle(float angle)
         {
             if (angle <= 180) return angle;

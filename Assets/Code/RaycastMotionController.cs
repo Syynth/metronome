@@ -165,7 +165,7 @@ namespace Assets.Code
             Recalculate();
         }
 
-        bool CanStand(Vector2 normal)
+        public bool CanStand(Vector2 normal)
         {
             var a = Vector2.Angle(Vector2.up, normal);
             if (a < 180)

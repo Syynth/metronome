@@ -13,5 +13,6 @@ namespace Assets.Code
         CollisionInfo CheckMove(Vector3 velocity, Vector3 down, Vector3 position);
 
         bool OnJumpThrough(Vector3 down);
+        bool CanStand(Vector2 normal);
     }
 }

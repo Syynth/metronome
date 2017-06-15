@@ -28,6 +28,11 @@ namespace Assets.Code
             return Clockwise(input) * -1;
         }
 
+        public static int Mod(int x, int m)
+        {
+            return (x % m + m) % m;
+        }
+
     }
 
 }

@@ -9,8 +9,6 @@ namespace Assets.Code.Player
     public class PlayerIdle : ActorState<PlayerActor>
     {
 
-        CollisionInfo info;
-
         public override void OnEnter()
         {
             base.OnEnter();
@@ -36,7 +34,7 @@ namespace Assets.Code.Player
             base.Update();
             var controller = actor.GetComponent<IMotionController>();
             actor.velocity = actor.gravity * Time.deltaTime;
-            info = actor.Move();
+            var info = actor.Move();
             actor.InputX();
 
             if (actor.states.Jump.pressed)

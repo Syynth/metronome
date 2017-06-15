@@ -12,6 +12,8 @@ namespace Assets.Code.Player
         public bool pressed = false;
         public bool held = false;
 
+        public bool grabOneWayPlatforms = true;
+
         public override void OnEnter()
         {
             base.OnEnter();
