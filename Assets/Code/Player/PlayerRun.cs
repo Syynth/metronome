@@ -66,6 +66,7 @@ namespace Assets.Code.Player
                 actor.ChangeState(actor.states.Fall);
                 return;
             }
+            actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, info.GroundNormal, 0.2f);
 
         }
 

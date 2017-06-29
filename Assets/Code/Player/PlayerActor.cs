@@ -17,6 +17,7 @@ namespace Assets.Code.Player
         public Vector2 input = Vector2.zero;
 
         public IMotionController motionController;
+        public Transform rootBone;
 
         public PlayerStates states;
         public List<(Collider2D, float)> ignoreColliders;

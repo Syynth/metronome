@@ -1,0 +1,174 @@
+
+neighborSadie.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ForeArm
+  rotate: false
+  xy: 486, 249
+  size: 57, 117
+  orig: 57, 117
+  offset: 0, 0
+  index: -1
+Hand
+  rotate: false
+  xy: 810, 342
+  size: 44, 59
+  orig: 44, 59
+  offset: 0, 0
+  index: -1
+LowerArm
+  rotate: false
+  xy: 274, 10
+  size: 54, 122
+  orig: 54, 122
+  offset: 0, 0
+  index: -1
+body_Base
+  rotate: true
+  xy: 2, 2
+  size: 130, 270
+  orig: 130, 270
+  offset: 0, 0
+  index: -1
+bottom_Foot
+  rotate: false
+  xy: 583, 387
+  size: 110, 120
+  orig: 110, 120
+  offset: 0, 0
+  index: -1
+bottom_ForeArm
+  rotate: true
+  xy: 848, 414
+  size: 59, 107
+  orig: 59, 107
+  offset: 0, 0
+  index: -1
+bottom_Hand
+  rotate: false
+  xy: 957, 407
+  size: 51, 66
+  orig: 51, 66
+  offset: 0, 0
+  index: -1
+bottom_LowerArm
+  rotate: false
+  xy: 545, 258
+  size: 58, 108
+  orig: 58, 108
+  offset: 0, 0
+  index: -1
+bottom_LowerLeg
+  rotate: true
+  xy: 695, 403
+  size: 30, 147
+  orig: 30, 147
+  offset: 0, 0
+  index: -1
+bottom_UpperLeg
+  rotate: true
+  xy: 695, 469
+  size: 38, 146
+  orig: 38, 146
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 2, 134
+  size: 330, 373
+  orig: 330, 373
+  offset: 0, 0
+  index: -1
+head_Bangs
+  rotate: false
+  xy: 334, 368
+  size: 247, 139
+  orig: 247, 139
+  offset: 0, 0
+  index: -1
+head_Base
+  rotate: false
+  xy: 334, 221
+  size: 150, 145
+  orig: 150, 145
+  offset: 0, 0
+  index: -1
+head_BottomBraid
+  rotate: false
+  xy: 676, 289
+  size: 38, 96
+  orig: 38, 96
+  offset: 0, 0
+  index: -1
+head_BottomEar
+  rotate: false
+  xy: 716, 337
+  size: 92, 64
+  orig: 92, 64
+  offset: 0, 0
+  index: -1
+head_BottomEarAcxA
+  rotate: false
+  xy: 814, 303
+  size: 27, 37
+  orig: 27, 37
+  offset: 0, 0
+  index: -1
+head_BottomEarAcxB
+  rotate: false
+  xy: 647, 249
+  size: 26, 36
+  orig: 26, 36
+  offset: 0, 0
+  index: -1
+head_TopBraid
+  rotate: true
+  xy: 716, 299
+  size: 36, 96
+  orig: 36, 96
+  offset: 0, 0
+  index: -1
+head_TopEar
+  rotate: true
+  xy: 605, 287
+  size: 98, 69
+  orig: 98, 69
+  offset: 0, 0
+  index: -1
+head_TopEarAcxA
+  rotate: true
+  xy: 605, 255
+  size: 30, 40
+  orig: 30, 40
+  offset: 0, 0
+  index: -1
+head_TopEarAcxB
+  rotate: true
+  xy: 486, 219
+  size: 28, 38
+  orig: 28, 38
+  offset: 0, 0
+  index: -1
+top_Foot
+  rotate: true
+  xy: 334, 139
+  size: 80, 123
+  orig: 80, 123
+  offset: 0, 0
+  index: -1
+top_LowerLeg
+  rotate: true
+  xy: 695, 435
+  size: 32, 151
+  orig: 32, 151
+  offset: 0, 0
+  index: -1
+top_UpperLeg
+  rotate: true
+  xy: 843, 475
+  size: 32, 152
+  orig: 32, 152
+  offset: 0, 0
+  index: -1

@@ -47,6 +47,7 @@ namespace Assets.Code
                 Above = collisions.above,
                 Left = collisions.left,
                 Right = collisions.right,
+                GroundNormal = collisions.slopeNormal,
             };
         }
 
@@ -235,6 +236,10 @@ namespace Assets.Code
 
                     collisions.below = directionY == -1;
                     collisions.above = directionY == 1;
+                    if (collisions.below)
+                    {
+                        collisions.slopeNormal = hit.normal;
+                    }
                 }
             }
 

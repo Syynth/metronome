@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Spine;
+using Spine.Unity;
+using Spine.Unity.Modules;
+using System.Linq;
 
 namespace Assets.Code.Player
 {
@@ -14,6 +18,14 @@ namespace Assets.Code.Player
             base.OnEnter();
             actor.velocity.y = 0;
             actor.states.Jump.wallGrab = false;
+            actor.GetComponentsInChildren<SkeletonUtilityGroundConstraint>().Select(c => c.enabled = true).ToArray();
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            
+            actor.GetComponentsInChildren<SkeletonUtilityGroundConstraint>().Select(c => c.enabled = false).ToArray();
         }
 
         bool CheckRun(IMotionController controller)
@@ -63,7 +75,7 @@ namespace Assets.Code.Player
                 actor.ChangeState(actor.states.Duck);
                 return;
             }
-
+            actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.3f);
         }
 
     }

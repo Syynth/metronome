@@ -260,6 +260,7 @@ namespace Assets.Code
         public bool Above { get; set; }
         public bool Left { get; set; }
         public bool Right { get; set; }
+        public Vector2 GroundNormal { get; set; }
 
         public CollisionInfo Or(CollisionInfo info)
         {
@@ -269,6 +270,7 @@ namespace Assets.Code
                 Above = info.Above || Above,
                 Left = info.Left || Left,
                 Right = info.Right || Right,
+                GroundNormal = Vector2.zero,
             };
         }
     }
