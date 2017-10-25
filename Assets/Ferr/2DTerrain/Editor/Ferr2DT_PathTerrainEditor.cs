@@ -11,13 +11,13 @@ public class Ferr2DT_PathTerrainEditor : Editor {
     bool showVisuals     = true;
     bool showTerrainType = true;
 	bool showCollider    = true;
-	bool multiSelect     = false;
 
-    List<List<Vector2>> cachedColliders = null;
+    static List<List<Vector2>> cachedColliders = null;
 	
 	SerializedProperty fill;
 	SerializedProperty fillY;
 	SerializedProperty fillZ;
+	SerializedProperty invertFillBorder;
 	
 	SerializedProperty splitCorners;
 	SerializedProperty perfectCorners;
@@ -60,6 +60,7 @@ public class Ferr2DT_PathTerrainEditor : Editor {
 		fill                     = serializedObject.FindProperty("fill");
 		fillY                    = serializedObject.FindProperty("fillY");
 		fillZ                    = serializedObject.FindProperty("fillZ");
+		invertFillBorder         = serializedObject.FindProperty("invertFillBorder");
 		
 		splitCorners             = serializedObject.FindProperty("splitCorners");
 		smoothPath               = serializedObject.FindProperty("smoothPath");
@@ -109,53 +110,46 @@ public class Ferr2DT_PathTerrainEditor : Editor {
     void OnDisable () {
         Ferr2D_PathEditor.OnChanged = null;
     }
-    void OnSceneGUI()
-    {
+    void OnSceneGUI() {
+		if (!Ferr2DT_PathTerrain.showGUI)
+			return;
+
         Ferr2DT_PathTerrain collider = (Ferr2DT_PathTerrain)target;
-        Ferr2D_Path         path     = collider.gameObject.GetComponent<Ferr2D_Path>();
 
-        EditorUtility.SetSelectedWireframeHidden(collider.gameObject.GetComponent<Renderer>(), Ferr2DT_Menu.HideMeshes);
+	    #if UNITY_5_5_OR_NEWER
+	    EditorUtility.SetSelectedRenderState(collider.gameObject.GetComponent<Renderer>(), Ferr2DT_Menu.HideMeshes ? EditorSelectedRenderState.Hidden : EditorSelectedRenderState.Highlight);
+		#else
+	    EditorUtility.SetSelectedWireframeHidden(collider.gameObject.GetComponent<Renderer>(), Ferr2DT_Menu.HideMeshes);
+		#endif
 	    
-	    if (!(collider.enabled == false || path == null || path.pathVerts.Count <= 1 || !collider.createCollider || multiSelect) && Ferr2DT_SceneOverlay.showCollider) {
-            Handles.color = new Color(0, 1, 0, 1);
-            DrawColliderEdge(collider);
-        }
-
         Ferr2DT_SceneOverlay.OnGUI();
     }
+    
 	public override void OnInspectorGUI() {
 		Undo.RecordObject(target, "Modified Path Terrain");
 
 		Ferr2DT_PathTerrain sprite = (Ferr2DT_PathTerrain)target;
-		multiSelect = targets.Length > 1;
 
         // render the material selector!
-		Ferr.EditorTools.Box(4, ()=>{
-			
-			IFerr2DTMaterial material = sprite.TerrainMaterial;
-			
-	        EditorGUILayout.BeginHorizontal();
-			GUIContent button = material != null && material.edgeMaterial != null && material.edgeMaterial.mainTexture != null ? new GUIContent(material.edgeMaterial.mainTexture) : new GUIContent("Pick");
-			if (GUILayout.Button(button, GUILayout.Width(48f),GUILayout.Height(48f))){
-				Action<IFerr2DTMaterial> callback = null;
-				for (int i=0; i<targets.Length; i+=1) {
-					Ferr2DT_PathTerrain curr = (Ferr2DT_PathTerrain)targets[i];
-					callback += (mat)=> {
-						Undo.RecordObject(curr, "Changed Terrain Material");
-						curr.SetMaterial(mat);
-						EditorUtility.SetDirty(curr);
-					};
-				}
-				Ferr2DT_MaterialSelector.Show(callback);
-			}
-			
-	        EditorGUILayout.BeginVertical();
-	        EditorGUILayout.LabelField   ("Terrain Material:");
-	        EditorGUI      .indentLevel = 2;
-	        EditorGUILayout.LabelField   (sprite.TerrainMaterial == null ? "None" : sprite.TerrainMaterial.name);
-	        EditorGUI      .indentLevel = 0;
-	        EditorGUILayout.EndVertical  ();
-			EditorGUILayout.EndHorizontal();
+        EditorGUILayout.LabelField("TERRAIN MATERIAL");
+
+        Ferr.EditorTools.Box(4, ()=>{
+            EditorGUILayout.BeginHorizontal();
+            IFerr2DTMaterial material = sprite.TerrainMaterial;
+            GUIContent button = material != null && material.edgeMaterial != null && material.edgeMaterial.mainTexture != null ? new GUIContent(material.edgeMaterial.mainTexture) : new GUIContent("Pick");
+            if (GUILayout.Button(button, GUILayout.Width(64f), GUILayout.Height(64f))) {
+                Ferr2DT_MaterialSelector.Show((mat) => {
+                    if (mat != sprite.TerrainMaterial) {
+                        SelectMaterial((UnityEngine.Object)mat);
+                    }
+                });
+            }
+
+            UnityEngine.Object obj = EditorGUILayout.ObjectField((UnityEngine.Object)sprite.TerrainMaterial, typeof(Ferr2DT_Material), false, GUILayout.Height(64f));
+            if (obj != (UnityEngine.Object)sprite.TerrainMaterial) {
+                SelectMaterial(obj);
+            }
+            EditorGUILayout.EndHorizontal();
 		});
 		
 		
@@ -225,6 +219,7 @@ public class Ferr2DT_PathTerrainEditor : Editor {
 		        if (fill.enumValueIndex != (int)Ferr2DT_FillMode.None && (sprite.TerrainMaterial != null && sprite.TerrainMaterial.fillMaterial == null)) fill.enumValueIndex = (int)Ferr2DT_FillMode.None;
 		        if (fill.enumValueIndex != (int)Ferr2DT_FillMode.None ) EditorGUILayout.PropertyField(fillZ, new GUIContent("Fill Z Offset"));
 		        if (fill.enumValueIndex == (int)Ferr2DT_FillMode.Skirt) EditorGUILayout.PropertyField(fillY, new GUIContent("Skirt Y Value"));
+		        if (fill.enumValueIndex == (int)Ferr2DT_FillMode.InvertedClosed) EditorGUILayout.PropertyField(invertFillBorder);
 		        
 		        EditorGUILayout.PropertyField(splitCorners  );
 		        EditorGUILayout.PropertyField(smoothPath    );
@@ -302,7 +297,14 @@ public class Ferr2DT_PathTerrainEditor : Editor {
 				        EditorGUILayout.PropertyField(colliderThickness);
 				        EditorGUI.indentLevel = 0;
 			        }
-		        }
+
+					if (GUILayout.Button("Prebuild collider")) {
+						for (int i = 0; i < targets.Length; i++) {
+							Ferr2DT_PathTerrain t = targets[i] as Ferr2DT_PathTerrain;
+							if (t != null) t.RecreateCollider();
+						}
+					}
+				}
 	        });
         }
 		EditorGUI.indentLevel = 0;
@@ -336,20 +338,34 @@ public class Ferr2DT_PathTerrainEditor : Editor {
         if (dir == Ferr2DT_TerrainDirection.Bottom && aSprite.collidersBottom) return true;
         return false;
     }
-	void DrawColliderEdge (Ferr2DT_PathTerrain aTerrain) {
-        if (cachedColliders == null) cachedColliders = aTerrain.GetColliderVerts();
+	public static void DrawColliderEdge (Ferr2DT_PathTerrain aTerrain) {
+		if ((aTerrain.enabled == false || aTerrain.Path == null || aTerrain.Path.Count <= 1 || !aTerrain.createCollider) || !Ferr2DT_SceneOverlay.showCollider)
+			return;
+		Handles.color = Ferr2D_Visual.ColliderColor;
+
+		if (cachedColliders == null) cachedColliders = aTerrain.GetColliderVerts();
 		List<List<Vector2>> verts     = cachedColliders;
         Matrix4x4           mat       = aTerrain.transform.localToWorldMatrix;
 
+		Handles.matrix = mat;
         for (int t = 0; t < verts.Count; t++) {
             for (int i = 0; i < verts[t].Count - 1; i++) {
-                Handles.DrawLine(mat.MultiplyPoint3x4((Vector3)verts[t][i]), mat.MultiplyPoint3x4((Vector3)verts[t][i+1]));
+				Handles.DrawLine(verts[t][i], verts[t][i+1]);
             }
         }
         if (verts.Count > 0 && verts[verts.Count - 1].Count > 0) {
             Handles.color = Color.yellow;
-            Handles.DrawLine(mat.MultiplyPoint3x4((Vector3)verts[0][0]), mat.MultiplyPoint3x4((Vector3)verts[verts.Count - 1][verts[verts.Count - 1].Count - 1]));
-            Handles.color = Color.green;
+			Handles.DrawLine(verts[0][0], verts[verts.Count - 1][verts[verts.Count - 1].Count - 1]);
+			Handles.color = Ferr2D_Visual.ColliderColor;
         }
+		Handles.matrix = Matrix4x4.identity;
 	}
+    void SelectMaterial(UnityEngine.Object aMaterial) {
+        for (int i = 0; i<targets.Length; i+=1) {
+            Ferr2DT_PathTerrain curr = (Ferr2DT_PathTerrain)targets[i];
+            Undo.RecordObject(curr, "Changed Terrain Material");
+            curr.SetMaterial((IFerr2DTMaterial)aMaterial);
+            EditorUtility.SetDirty(curr);
+        }
+    }
 }

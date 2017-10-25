@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Linq;
+using Spine.Unity;
 
 namespace Assets.Code.Player
 {
@@ -13,11 +15,21 @@ namespace Assets.Code.Player
         public bool held = false;
 
         public bool grabOneWayPlatforms = true;
+        public Vector3 ledgeVertex;
 
         public override void OnEnter()
         {
             base.OnEnter();
             actor.states.Jump.count = 0;
+            actor.GetComponentsInChildren<SkeletonUtilityBone>()
+                .Where(c => c.mode == SkeletonUtilityBone.Mode.Override && c.gameObject.name.Contains("Arm"))
+                .Select(c =>
+                {
+                    c.enabled = true;
+                    c.transform.position = ledgeVertex;
+                    return c;
+                })
+                .ToArray();
         }
 
         public override void Update()
@@ -35,6 +47,7 @@ namespace Assets.Code.Player
         {
             base.OnExit();
             actor.velocity.x = 0;
+            actor.GetComponentsInChildren<SkeletonUtilityBone>().Where(c => c.mode == SkeletonUtilityBone.Mode.Override && c.gameObject.name.Contains("Arm")).Select(c => c.enabled = false).ToArray();
         }
 
     }

@@ -142,7 +142,8 @@ namespace Assets.Code
                 }
                 else if (ClampAngle(Vector3.Angle(down, rot)) > maxClimbAngle && Vector3.Dot(down, original) >= 0) // trying to move up a wall while originally not moving upwards
                 {
-                    if (StepUp(velocity, down, original, out var info, ref position, ref bounds))
+                    CollisionInfo info;
+                    if (StepUp(velocity, down, original, out info, ref position, ref bounds))
                     {
                         return info;
                     }

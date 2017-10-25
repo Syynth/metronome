@@ -48,6 +48,15 @@ namespace Spine.Unity.Examples {
 
 		[SpineAnimation]
 		public string shootAnimationName;
+
+		[Header("Transitions")]
+		[SpineAnimation]
+		public string idleTurnAnimationName;
+
+		[SpineAnimation]
+		public string runToIdleAnimationName;
+
+		public float runWalkDuration = 1.5f;
 		#endregion
 
 		SkeletonAnimation skeletonAnimation;
@@ -57,7 +66,8 @@ namespace Spine.Unity.Examples {
 		public Spine.Skeleton skeleton;
 
 		void Start () {
-			// Make sure you get these AnimationState and Skeleton references in Start or Later. Getting and using them in Awake is not guaranteed by default execution order.
+			// Make sure you get these AnimationState and Skeleton references in Start or Later.
+			// Getting and using them in Awake is not guaranteed by default execution order.
 			skeletonAnimation = GetComponent<SkeletonAnimation>();
 			spineAnimationState = skeletonAnimation.AnimationState;
 			skeleton = skeletonAnimation.Skeleton;
@@ -65,31 +75,36 @@ namespace Spine.Unity.Examples {
 			StartCoroutine(DoDemoRoutine());
 		}
 
-		/// <summary>This is an infinitely repeating Unity Coroutine. Read the Unity documentation on Coroutines to learn more.</summary>
+		/// This is an infinitely repeating Unity Coroutine. Read the Unity documentation on Coroutines to learn more.
 		IEnumerator DoDemoRoutine () {
-
 			while (true) {
 				// SetAnimation is the basic way to set an animation.
 				// SetAnimation sets the animation and starts playing it from the beginning.
 				// Common Mistake: If you keep calling it in Update, it will keep showing the first pose of the animation, do don't do that.
 
 				spineAnimationState.SetAnimation(0, walkAnimationName, true);
-				yield return new WaitForSeconds(1.5f);
+				yield return new WaitForSeconds(runWalkDuration);
 
-				// skeletonAnimation.AnimationName = runAnimationName; // this line also works for quick testing/simple uses.
 				spineAnimationState.SetAnimation(0, runAnimationName, true);
-				yield return new WaitForSeconds(1.5f);
+				yield return new WaitForSeconds(runWalkDuration);
 
-				spineAnimationState.SetAnimation(0, idleAnimationName, true);
+				// AddAnimation queues up an animation to play after the previous one ends.
+				spineAnimationState.SetAnimation(0, runToIdleAnimationName, false);
+				spineAnimationState.AddAnimation(0, idleAnimationName, true, 0);
 				yield return new WaitForSeconds(1f);
 
 				skeleton.FlipX = true;		// skeleton allows you to flip the skeleton.
+				spineAnimationState.SetAnimation(0, idleTurnAnimationName, false);
+				spineAnimationState.AddAnimation(0, idleAnimationName, true, 0);
 				yield return new WaitForSeconds(0.5f);
 				skeleton.FlipX = false;
+				spineAnimationState.SetAnimation(0, idleTurnAnimationName, false);
+				spineAnimationState.AddAnimation(0, idleAnimationName, true, 0);
 				yield return new WaitForSeconds(0.5f);
 
 			}
 		}
+
 	}
 
 }

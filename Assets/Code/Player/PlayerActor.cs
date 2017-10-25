@@ -20,7 +20,7 @@ namespace Assets.Code.Player
         public Transform rootBone;
 
         public PlayerStates states;
-        public List<(Collider2D, float)> ignoreColliders;
+        public List<Tuple<Collider2D, float>> ignoreColliders;
 
         #region IStateMachine Implementation
 
@@ -43,7 +43,7 @@ namespace Assets.Code.Player
 
         void Start()
         {
-            ignoreColliders = new List<(Collider2D, float)>();
+            ignoreColliders = new List<Tuple<Collider2D, float>>();
             motionController = GetComponents<IMotionController>()
                 .Select(mc => mc as MonoBehaviour)
                 .Where(c => c.enabled)

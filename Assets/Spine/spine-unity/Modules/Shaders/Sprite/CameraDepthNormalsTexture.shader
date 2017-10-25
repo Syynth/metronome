@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
-
 Shader "Hidden/Sprite-CameraDepthNormalsTexture" {
 
 // Use this shader to render a DepthNormals texture for a camera with correct sprite normals (using camera.RenderWithShader with replacement tag "RenderType")

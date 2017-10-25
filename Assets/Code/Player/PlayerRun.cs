@@ -51,10 +51,10 @@ namespace Assets.Code.Player
                 actor.ChangeState(actor.states.Jump);
                 return;
             }
-
-            if (actor.states.Duck.held && actor.motionController.OnJumpThrough(actor.gravity, out var collider))
+            Collider2D collider;
+            if (actor.states.Duck.held && actor.motionController.OnJumpThrough(actor.gravity, out collider))
             {
-                actor.ignoreColliders.Add((collider, Time.time + 1f));
+                actor.ignoreColliders.Add(Tuple.Create<Collider2D, float>(collider, Time.time + 1f));
                 actor.ChangeState(actor.states.Fall);
                 return;
             }

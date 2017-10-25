@@ -55,7 +55,7 @@ namespace Spine.Unity.Examples {
 
 		void Start () {
 			skeletonAnimation = GetComponent<SkeletonAnimation>();
-			skeletonAnimation.state.Event += HandleEvent;
+			skeletonAnimation.AnimationState.Event += HandleEvent;
 			StartCoroutine(GunGrabRoutine());
 		}
 
@@ -68,15 +68,15 @@ namespace Spine.Unity.Examples {
 
 		IEnumerator GunGrabRoutine () {		
 			// Play the walk animation on track 0.
-			skeletonAnimation.state.SetAnimation(0, walk, true);
+			skeletonAnimation.AnimationState.SetAnimation(0, walk, true);
 
 			// Repeatedly play the gungrab and gunkeep animation on track 1.
 			while (true) {
 				yield return new WaitForSeconds(Random.Range(0.5f, 3f));
-				skeletonAnimation.state.SetAnimation(1, gungrab, false);
+				skeletonAnimation.AnimationState.SetAnimation(1, gungrab, false);
 
 				yield return new WaitForSeconds(Random.Range(0.5f, 3f));
-				skeletonAnimation.state.SetAnimation(1, gunkeep, false);
+				skeletonAnimation.AnimationState.SetAnimation(1, gunkeep, false);
 			}
 
 		}

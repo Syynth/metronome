@@ -21,7 +21,7 @@ namespace Assets.Code.Player
             var pos = LedgeDetect.transform.localPosition;
             LedgeDetect.OnCollisionEnter += TouchLedge;
             LedgeDetect.OnCollisionExit += StopTouchLedge;
-            pos.y = 5f;
+            pos.y = 5.8f;
             LedgeDetect.transform.localPosition = pos;
         }
 
@@ -49,8 +49,9 @@ namespace Assets.Code.Player
             return false;
         }
 
-        private bool ValidLedgeContact(Collider2D collider)
+        private bool ValidLedgeContact(Collider2D collider, out Vector3 pos)
         {
+            pos = LedgeDetect.transform.position;
             if (collider is EdgeCollider2D)
             {
                 var effector = collider.gameObject.GetComponent<PlatformEffector2D>();
@@ -59,10 +60,13 @@ namespace Assets.Code.Player
                     return actor.states.LedgeHang.grabOneWayPlatforms;
                 }
                 var c = collider as EdgeCollider2D;
-                
-                return c.points
+
+                var points = c.points
                     .Select(p => collider.transform.TransformPoint(p))
-                    .Where((p, i) => CloseEnough(p) && WithinAngle(i, c.points)).Count() > 0;
+                    .Where((p, i) => CloseEnough(p) && WithinAngle(i, c.points));
+                var count = points.Count();
+                pos = count > 0 ? points.First() : pos;
+                return count > 0;
             }
             if (collider is PolygonCollider2D)
             {
@@ -73,17 +77,22 @@ namespace Assets.Code.Player
                 }
                 var c = collider as PolygonCollider2D;
 
-                return c.points
+                var points = c.points
                     .Select(p => collider.transform.TransformPoint(p))
-                    .Where((p, i) => CloseEnough(p) && WithinAngle(i, c.points)).Count() > 0;
+                    .Where((p, i) => CloseEnough(p) && WithinAngle(i, c.points));
+                var count = points.Count();
+                pos = count > 0 ? points.First() : pos;
+                return count > 0;
             }
             return false;
         }
 
         private void TouchLedge(Collision2D collision)
         {
-            if (Utils.IsInLayerMask(collision.gameObject.layer, actor.motionController.SolidLayer) && ValidLedgeContact(collision.collider))
+            Vector3 pos;
+            if (Utils.IsInLayerMask(collision.gameObject.layer, actor.motionController.SolidLayer) && ValidLedgeContact(collision.collider, out pos))
             {
+                actor.states.LedgeHang.ledgeVertex = pos;
                 touchingLedge = true;
             }
         }

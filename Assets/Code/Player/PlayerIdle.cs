@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using Spine;
-using Spine.Unity;
+﻿using Spine;
 using Spine.Unity.Modules;
+using Spine.Unity;
+using System;
+using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Assets.Code.Player
 {
@@ -59,9 +59,10 @@ namespace Assets.Code.Player
                 actor.ChangeState(actor.states.Run);
                 return;
             }
-            if (actor.states.Duck.held && controller.OnJumpThrough(actor.gravity, out var collider))
+            Collider2D collider;
+            if (actor.states.Duck.held && controller.OnJumpThrough(actor.gravity, out collider))
             {
-                actor.ignoreColliders.Add((collider, Time.time + 1f));
+                actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 1f));
                 actor.ChangeState(actor.states.Fall);
                 return;
             }
