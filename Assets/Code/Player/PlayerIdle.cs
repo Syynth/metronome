@@ -59,10 +59,10 @@ namespace Assets.Code.Player
                 actor.ChangeState(actor.states.Run);
                 return;
             }
-            Collider2D collider;
+            Collider collider;
             if (actor.states.Duck.held && controller.OnJumpThrough(actor.gravity, out collider))
             {
-                actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 1f));
+                //actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 1f));
                 actor.ChangeState(actor.states.Fall);
                 return;
             }
@@ -76,7 +76,7 @@ namespace Assets.Code.Player
                 actor.ChangeState(actor.states.Duck);
                 return;
             }
-            actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.3f);
+            //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.3f);
         }
 
     }

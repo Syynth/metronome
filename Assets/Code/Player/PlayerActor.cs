@@ -8,7 +8,7 @@ namespace Assets.Code.Player
 {
 
     [RequireComponent(typeof(IMotionController))]
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody))]
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
     {
 
@@ -17,10 +17,10 @@ namespace Assets.Code.Player
         public Vector2 input = Vector2.zero;
 
         public IMotionController motionController;
-        public Transform rootBone;
+        //public Transform rootBone;
 
         public PlayerStates states;
-        public List<Tuple<Collider2D, float>> ignoreColliders;
+        //public List<Tuple<Collider, float>> ignoreColliders;
 
         #region IStateMachine Implementation
 
@@ -43,12 +43,12 @@ namespace Assets.Code.Player
 
         void Start()
         {
-            ignoreColliders = new List<Tuple<Collider2D, float>>();
+            //ignoreColliders = new List<Tuple<Collider2D, float>>();
             motionController = GetComponents<IMotionController>()
                 .Select(mc => mc as MonoBehaviour)
                 .Where(c => c.enabled)
                 .Select(c => c as IMotionController).First();
-            GetComponent<Rigidbody2D>().isKinematic = true;
+            GetComponent<Rigidbody>().isKinematic = true;
 
             states.Duck.SetActor(this);
             states.Fall.SetActor(this);
@@ -69,24 +69,24 @@ namespace Assets.Code.Player
             CurrentState.OnEnter();
         }
 
-        void Update()
+        void FixedUpdate()
         {
             CurrentState.Update();
             CurrentState.Render();
-            var skeleton = GetComponent<SkeletonAnimation>().skeleton;
-            ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
-            var pos = states.Fall.LedgeDetect.transform.localPosition;
-            if (velocity.x < 0)
-            {
-                skeleton.flipX = true;
-                pos.x = -1.7f / 2;
-            }
-            if (velocity.x > 0)
-            {
-                skeleton.flipX = false;
-                pos.x = 1.7f / 2;
-            }
-            states.Fall.LedgeDetect.transform.localPosition = pos;
+            //var skeleton = GetComponent<SkeletonAnimation>().skeleton;
+            //ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
+            //var pos = states.Fall.LedgeDetect.transform.localPosition;
+            //if (velocity.x < 0)
+            //{
+            //    skeleton.flipX = true;
+            //    pos.x = -1.7f / 2;
+            //}
+            //if (velocity.x > 0)
+            //{
+            //    skeleton.flipX = false;
+            //    pos.x = 1.7f / 2;
+            //}
+            //states.Fall.LedgeDetect.transform.localPosition = pos;
         }
 
         public void InputX()
@@ -156,7 +156,7 @@ namespace Assets.Code.Player
 
         public CollisionInfo Move(Vector3 velocity)
         {
-            return motionController.Move(velocity, gravity, ignoreColliders.Select(p => p.Item1).ToList());
+            return motionController.Move(velocity, gravity, new List<Collider>());
         }
 
     }

@@ -23,10 +23,10 @@ namespace Assets.Code
         public virtual void SetActor(T actor)
         {
             this.actor = actor;
-            if (actor.GetComponent<SkeletonAnimation>() == null)
-            {
-                throw new ArgumentException("Actor must contain a SkeletonAnimation component");
-            }
+            //if (actor.GetComponent<SkeletonAnimation>() == null)
+            //{
+            //    throw new ArgumentException("Actor must contain a SkeletonAnimation component");
+            //}
         }
 
         public virtual void OnStart()
@@ -52,7 +52,7 @@ namespace Assets.Code
 
         public virtual void Render()
         {
-            actor.GetComponent<SkeletonAnimation>().AnimationName = AnimationName;
+            //actor.GetComponent<SkeletonAnimation>().AnimationName = AnimationName;
         }
 
         

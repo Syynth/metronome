@@ -6,7 +6,7 @@ using System.Linq;
 namespace Assets.Code
 {
 
-    class VelocityMotionController : RaycastController, IMotionController
+    class VelocityMotionController : RaycastController //, IMotionController
     {
 
         public float maxSlopeAngle = 80;

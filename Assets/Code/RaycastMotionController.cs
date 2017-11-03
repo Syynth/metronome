@@ -6,7 +6,7 @@ using System.Linq;
 namespace Assets.Code
 {
     
-    class RaycastMotionController : RaycastController, IMotionController
+    class RaycastMotionController : RaycastController //, IMotionController
     {
 
         public LayerMask SolidLayer => solidLayer;

@@ -163,7 +163,7 @@ namespace Assets.Code.Player
                     return;
                 }
             }
-            actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.2f);
+            //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.2f);
         }
 
     }
