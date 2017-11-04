@@ -28,7 +28,12 @@ namespace Assets.Code
 
         public bool CanStand(Vector3 normal)
         {
-            return false;
+            var a = Vector3.Angle(Vector3.up, normal);
+            if (a < 180)
+            {
+                return a < 65;
+            }
+            return 360 - a < 65;
         }
 
         public CollisionInfo CheckMove(Vector3 velocity, Vector3 down, Vector3 position)
@@ -47,7 +52,16 @@ namespace Assets.Code
             }
             else
             {
+                if (Vector3.Dot(velocity, down) > 0)
+                {
+                    info.Below = true;
+                }
                 var vel = velocity.normalized * (hit.distance - skinWidth);
+                if (Vector3.Distance(velocity.normalized, down.normalized) < skinWidth)
+                {
+                    body.MovePosition(transform.position + vel);
+                    return info;
+                }
                 var rem = GetMoveVector(velocity.normalized * (velocity.magnitude - hit.distance), hit.normal);
                 var mov = rem + vel;
                 if (!body.SweepTest(rem + vel, out hit, mov.magnitude + skinWidth))
@@ -57,19 +71,24 @@ namespace Assets.Code
                 else
                 {
                     body.MovePosition(transform.position + mov.normalized * (hit.distance - skinWidth));
+                    if (Vector3.Dot(mov, down) > 0)
+                    {
+                        info.Below = true;
+                    }
                 }
-                //body.MovePosition(transform.position + velocity.normalized * (hit.distance - skinWidth));
 
-                if (Vector3.Dot(velocity, down) > 0)
-                {
-                    info.Below = true;
-                }
             }
             return info;
         }
 
         public bool OnJumpThrough(Vector3 down, out Collider collider)
         {
+            RaycastHit hit;
+            if (GetComponent<Rigidbody>().SweepTest(down, out hit, skinWidth * 2))
+            {
+                collider = hit.collider;
+                return true;
+            }
             collider = null;
             return false;
         }
