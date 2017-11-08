@@ -20,7 +20,7 @@ namespace Assets.Code.Player
         //public Transform rootBone;
 
         public PlayerStates states;
-        //public List<Tuple<Collider, float>> ignoreColliders;
+        public List<Tuple<Collider, float>> ignoreColliders;
 
         #region IStateMachine Implementation
 
@@ -43,7 +43,7 @@ namespace Assets.Code.Player
 
         void Start()
         {
-            //ignoreColliders = new List<Tuple<Collider2D, float>>();
+            ignoreColliders = new List<Tuple<Collider, float>>();
             motionController = GetComponents<IMotionController>()
                 .Select(mc => mc as MonoBehaviour)
                 .Where(c => c.enabled)
@@ -74,7 +74,7 @@ namespace Assets.Code.Player
             CurrentState.Update();
             CurrentState.Render();
             //var skeleton = GetComponent<SkeletonAnimation>().skeleton;
-            //ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
+            ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
             //var pos = states.Fall.LedgeDetect.transform.localPosition;
             //if (velocity.x < 0)
             //{
@@ -94,10 +94,6 @@ namespace Assets.Code.Player
             bool downReleased = input.y >= 0;
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             states.Run.pressed = input.x != 0;
-            if (!states.Jump.pressed && Input.GetButtonDown("Jump"))
-            {
-                Debug.Log("detected juump");
-            }
             var held = states.Jump.held;
             states.Jump.held = Input.GetButton("Jump");
             states.Jump.pressed = states.Jump.held && !held;
@@ -161,12 +157,12 @@ namespace Assets.Code.Player
 
         public CollisionInfo Move(bool findGround)
         {
-            return motionController.Move(velocity * Time.deltaTime, gravity, new List<Collider>(), findGround);
+            return motionController.Move(velocity * Time.deltaTime, gravity, ignoreColliders.Select(p => p.Item1).ToList(), findGround);
         }
 
         public CollisionInfo Move(Vector3 velocity)
         {
-            return motionController.Move(velocity, gravity, new List<Collider>());
+            return motionController.Move(velocity, gravity, ignoreColliders.Select(p => p.Item1).ToList());
         }
 
     }

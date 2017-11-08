@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Assets.Code
 {
@@ -19,6 +20,19 @@ namespace Assets.Code
         public const float skinWidth = 0.02f;
         [Range(1, 89)]
         public float maxClimbAngle = 65f;
+
+        Rigidbody body;
+
+        void Start()
+        {
+            body = GetComponent<Rigidbody>();
+        }
+
+        bool SweepTest(Vector3 direction, out RaycastHit raycastHit, float maxDistance, List<Collider> ignore)
+        {
+            raycastHit = body.SweepTestAll(direction, maxDistance).Where(h => !ignore.Contains(h.collider)).OrderBy(h => h.distance).FirstOrDefault();
+            return raycastHit.collider != null;
+        }
 
         Vector3 GetMoveVector(Vector3 velocity, Vector3 normal)
         {
@@ -56,8 +70,7 @@ namespace Assets.Code
         RaycastHit MoveTo(Vector3 velocity, List<Collider> ignore, out Vector3 vel)
         {
             RaycastHit hit;
-            var body = GetComponent<Rigidbody>();
-            if (!body.SweepTest(velocity, out hit, velocity.magnitude + skinWidth))
+            if (!SweepTest(velocity, out hit, velocity.magnitude + skinWidth, ignore))
             {
                 body.MovePosition(transform.position + velocity);
                 vel = velocity;
@@ -71,7 +84,6 @@ namespace Assets.Code
 
         public CollisionInfo Move(Vector3 velocity, Vector3 down, List<Collider> ignore, bool findGround)
         {
-            var body = GetComponent<Rigidbody>();
             CollisionInfo info = new CollisionInfo();
             var isUp = Vector3.Dot(velocity, down) < 0;
             var isDown = Vector3.Dot(velocity, down) > 0;
@@ -117,13 +129,13 @@ namespace Assets.Code
                     rem2 = Vector3.Dot(rem2, down) > 0 ? rem2 : -rem2;
                     info.Below = false;
                 }
-                else if (findGround)
-                {
-                    rem2 += downVel;
-                }
                 Vector3 vel2;
                 var mov1 = vel1 + rem2;
-                MoveTo(mov1, ignore, out vel2);
+                var hit2 = MoveTo(mov1, ignore, out vel2);
+                if (hit2.collider != null && CanStand(hit2.normal))
+                {
+                    info.Below = true;
+                }
                 body.MovePosition(transform.position + vel2);
                 return info;
             }
@@ -137,7 +149,7 @@ namespace Assets.Code
             if (GetComponent<Rigidbody>().SweepTest(down, out hit, skinWidth * 2))
             {
                 collider = hit.collider;
-                return true;
+                return Utils.IsInLayerMask(collider.gameObject.layer, oneWayLayer);
             }
             collider = null;
             return false;
