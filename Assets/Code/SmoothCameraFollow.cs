@@ -28,6 +28,8 @@ namespace Assets.Code
         [Range(0.01f, 0.5f)]
         public float maxVerticalLead = 0.1f;
 
+        public Vector2 offset = Vector2.zero;
+
         private float dx, dy;
 
         private new Camera camera;
@@ -81,6 +83,9 @@ namespace Assets.Code
             {
                 dy -= (dy - gy) / yFac;
             }
+
+            dx += offset.x;
+            dy += offset.y;
 
             var pos = transform.position;
 
