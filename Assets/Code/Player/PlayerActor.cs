@@ -94,8 +94,13 @@ namespace Assets.Code.Player
             bool downReleased = input.y >= 0;
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             states.Run.pressed = input.x != 0;
-            states.Jump.pressed = Input.GetButtonDown("Jump");
+            if (!states.Jump.pressed && Input.GetButtonDown("Jump"))
+            {
+                Debug.Log("detected juump");
+            }
+            var held = states.Jump.held;
             states.Jump.held = Input.GetButton("Jump");
+            states.Jump.pressed = states.Jump.held && !held;
             states.Duck.pressed = input.y < 0 && downReleased;
             states.Duck.held = input.y < 0;
             var sign = Math.Sign(input.x);
@@ -152,6 +157,11 @@ namespace Assets.Code.Player
         public CollisionInfo Move()
         {
             return Move(velocity * Time.deltaTime);
+        }
+
+        public CollisionInfo Move(bool findGround)
+        {
+            return motionController.Move(velocity * Time.deltaTime, gravity, new List<Collider>(), findGround);
         }
 
         public CollisionInfo Move(Vector3 velocity)

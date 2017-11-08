@@ -17,6 +17,7 @@ namespace Assets.Code.Player
 
         public float vMax = 16f;
         public bool pressed = false;
+        public bool onGroundLastFrame = true;
 
         bool CheckIdle()
         {
@@ -31,6 +32,7 @@ namespace Assets.Code.Player
         public override void OnEnter()
         {
             base.OnEnter();
+            onGroundLastFrame = true;
             if (CheckIdle())
             {
                 actor.velocity.y = actor.gravity.y * Time.deltaTime;
@@ -44,7 +46,7 @@ namespace Assets.Code.Player
             actor.InputX();
             actor.AccelerateX();
 
-            info = actor.Move();
+            info = actor.Move(onGroundLastFrame);
 
             if (actor.states.Jump.pressed)
             {
@@ -63,8 +65,15 @@ namespace Assets.Code.Player
 
             if (!info.Below)
             {
-                actor.ChangeState(actor.states.Fall);
-                return;
+                if (onGroundLastFrame)
+                {
+                    onGroundLastFrame = false;
+                }
+                else
+                {
+                    actor.ChangeState(actor.states.Fall);
+                    return;
+                }
             }
             //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, info.GroundNormal, 0.2f);
 
