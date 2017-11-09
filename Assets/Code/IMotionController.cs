@@ -16,4 +16,13 @@ namespace Assets.Code
         bool OnJumpThrough(Vector3 down, out Collider collider);
         bool CanStand(Vector3 normal);
     }
+
+    public struct CollisionInfo
+    {
+        public bool Below { get; set; }
+        public bool Above { get; set; }
+        public bool Left { get; set; }
+        public bool Right { get; set; }
+    }
+
 }

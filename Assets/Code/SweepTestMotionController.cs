@@ -110,7 +110,10 @@ namespace Assets.Code
             }
             if (isUp)
             {
+                var rem2 = GetMoveVector(rem1, hit1.normal);
                 Vector3 vel2;
+                var mov1 = vel1 + rem2;
+                mov1.y = Mathf.Min(velocity.y, mov1.y);
                 MoveTo(vel1 + GetMoveVector(rem1, hit1.normal), ignore, out vel2);
                 body.MovePosition(transform.position + vel2);
                 return info;
@@ -124,13 +127,17 @@ namespace Assets.Code
                     return info;
                 }
                 var rem2 = GetMoveVector(rem1, hit1.normal);
+                Vector3 vel2;
+                var mov1 = vel1 + rem2;
                 if (!CanStand(hit1.normal))
                 {
                     rem2 = Vector3.Dot(rem2, down) > 0 ? rem2 : -rem2;
                     info.Below = false;
                 }
-                Vector3 vel2;
-                var mov1 = vel1 + rem2;
+                else
+                {
+                    mov1 = mov1 * (velocity.x / mov1.x);
+                }
                 var hit2 = MoveTo(mov1, ignore, out vel2);
                 if (hit2.collider != null && CanStand(hit2.normal))
                 {
