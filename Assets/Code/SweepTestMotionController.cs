@@ -30,7 +30,10 @@ namespace Assets.Code
 
         bool SweepTest(Vector3 direction, out RaycastHit raycastHit, float maxDistance, List<Collider> ignore)
         {
-            raycastHit = body.SweepTestAll(direction, maxDistance).Where(h => !ignore.Contains(h.collider)).OrderBy(h => h.distance).FirstOrDefault();
+            raycastHit = body.SweepTestAll(direction, maxDistance)
+                .Where(h => !ignore.Contains(h.collider) && (!Utils.IsInLayerMask(h.collider.gameObject.layer, oneWayLayer) || CanStand(h.normal)))
+                .OrderBy(h => h.distance)
+                .FirstOrDefault();
             return raycastHit.collider != null;
         }
 
@@ -91,6 +94,7 @@ namespace Assets.Code
             var straightDown = Vector3.Distance(velocity.normalized, down.normalized) < skinWidth;
             Vector3 downVel;
             var downHit = MoveTo(down.normalized * velocity.magnitude, ignore, out downVel);
+            var includeOneWay = new List<Collider>();
             Vector3 vel1;
             var hit1 = MoveTo(velocity, ignore, out vel1);
             var rem1 = velocity - vel1;
