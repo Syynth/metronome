@@ -54,6 +54,7 @@ namespace Assets.Code
 
         bool CanMove(Vector3 velocity)
         {
+            if (Vector3.Dot(velocity, Vector3.down) > 0) return true;
             var a = Vector3.Angle(Vector3.right, new Vector3(Mathf.Abs(velocity.x), velocity.y));
             if (a < 180)
             {
@@ -127,12 +128,20 @@ namespace Assets.Code
                     return info;
                 }
                 var rem2 = GetMoveVector(rem1, hit1.normal);
+                if (!CanMove(rem2) && Vector3.Dot(rem2, Vector3.up) > 0)
+                {
+                    rem2 = Vector3.zero;
+                }
                 Vector3 vel2;
                 var mov1 = vel1 + rem2;
                 if (!CanStand(hit1.normal))
                 {
                     rem2 = Vector3.Dot(rem2, down) > 0 ? rem2 : -rem2;
                     info.Below = false;
+                    if (CanStand(downHit.normal) && rem2 == Vector3.zero)
+                    {
+                        info.Below = true;
+                    }
                 }
                 else
                 {
@@ -163,3 +172,4 @@ namespace Assets.Code
         }
     }
 }
+
