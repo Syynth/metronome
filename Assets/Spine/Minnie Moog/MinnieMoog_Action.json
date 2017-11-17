@@ -1,5 +1,12 @@
 {
-"skeleton": { "hash": "1hu4Rmg2xL+bTzAIUCo+zw9Ne/k", "spine": "3.6.47", "width": 0, "height": 0, "fps": 60, "images": "./Bones/Action/" },
+"skeleton": {
+	"hash": "1hu4Rmg2xL+bTzAIUCo+zw9Ne/k",
+	"spine": "3.6.47",
+	"width": 338,
+	"height": 899.94,
+	"fps": 60,
+	"images": "./Bones/Action/"
+},
 "bones": [
 	{ "name": "root", "color": "00f1ffff" },
 	{ "name": "IKControllers", "parent": "root", "x": -1.49, "y": 36.69, "color": "ffa300ff" },

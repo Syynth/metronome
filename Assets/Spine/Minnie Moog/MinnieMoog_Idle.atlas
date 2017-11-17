@@ -1,0 +1,426 @@
+
+MinnieMoog_Idle.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+idle-classic/aBrow-neutral
+  rotate: false
+  xy: 211, 306
+  size: 37, 21
+  orig: 37, 21
+  offset: 0, 0
+  index: -1
+idle-classic/aBrow-serious
+  rotate: false
+  xy: 331, 346
+  size: 48, 17
+  orig: 48, 17
+  offset: 0, 0
+  index: -1
+idle-classic/aEye-glassesNeutral
+  rotate: false
+  xy: 849, 674
+  size: 47, 62
+  orig: 47, 62
+  offset: 0, 0
+  index: -1
+idle-classic/aEye-neutral
+  rotate: false
+  xy: 539, 352
+  size: 81, 92
+  orig: 81, 92
+  offset: 0, 0
+  index: -1
+idle-classic/aEyeLid-closed
+  rotate: true
+  xy: 539, 293
+  size: 57, 82
+  orig: 57, 82
+  offset: 0, 0
+  index: -1
+idle-classic/aEyeLid-closing1
+  rotate: false
+  xy: 336, 101
+  size: 57, 46
+  orig: 57, 46
+  offset: 0, 0
+  index: -1
+idle-classic/aEyeLid-closing2
+  rotate: true
+  xy: 975, 642
+  size: 57, 46
+  orig: 57, 46
+  offset: 0, 0
+  index: -1
+idle-classic/aEyeLid-opening1
+  rotate: false
+  xy: 898, 587
+  size: 58, 56
+  orig: 58, 56
+  offset: 0, 0
+  index: -1
+idle-classic/aEyeLid-opening2
+  rotate: false
+  xy: 187, 2
+  size: 57, 50
+  orig: 57, 50
+  offset: 0, 0
+  index: -1
+idle-classic/aEyeLid-serious
+  rotate: false
+  xy: 958, 584
+  size: 58, 56
+  orig: 58, 56
+  offset: 0, 0
+  index: -1
+idle-classic/aFoot-action
+  rotate: false
+  xy: 765, 738
+  size: 131, 102
+  orig: 131, 102
+  offset: 0, 0
+  index: -1
+idle-classic/aFoot-diagonal
+  rotate: true
+  xy: 534, 446
+  size: 125, 105
+  orig: 125, 105
+  offset: 0, 0
+  index: -1
+idle-classic/aFoot-fg
+  rotate: false
+  xy: 432, 190
+  size: 98, 105
+  orig: 98, 105
+  offset: 0, 0
+  index: -1
+idle-classic/bFoot-fg
+  rotate: false
+  xy: 432, 190
+  size: 98, 105
+  orig: 98, 105
+  offset: 0, 0
+  index: -1
+idle-classic/aHand-closed
+  rotate: false
+  xy: 153, 54
+  size: 61, 65
+  orig: 61, 65
+  offset: 0, 0
+  index: -1
+idle-classic/aHand-open
+  rotate: false
+  xy: 532, 206
+  size: 87, 85
+  orig: 87, 85
+  offset: 0, 0
+  index: -1
+idle-classic/aHand-shoot
+  rotate: true
+  xy: 898, 701
+  size: 70, 99
+  orig: 70, 99
+  offset: 0, 0
+  index: -1
+idle-classic/aIris-neutral
+  rotate: false
+  xy: 354, 6
+  size: 37, 46
+  orig: 37, 46
+  offset: 0, 0
+  index: -1
+idle-classic/aLowerArm-neutral
+  rotate: false
+  xy: 251, 149
+  size: 128, 178
+  orig: 128, 178
+  offset: 0, 0
+  index: -1
+idle-classic/aLowerLeg-neutral
+  rotate: false
+  xy: 331, 365
+  size: 97, 183
+  orig: 97, 183
+  offset: 0, 0
+  index: -1
+idle-classic/aUpperArm
+  rotate: true
+  xy: 601, 750
+  size: 92, 162
+  orig: 92, 162
+  offset: 0, 0
+  index: -1
+idle-classic/aUpperLeg-neutral
+  rotate: true
+  xy: 2, 3
+  size: 49, 183
+  orig: 49, 183
+  offset: 0, 0
+  index: -1
+idle-classic/bBrow-neutral
+  rotate: false
+  xy: 381, 161
+  size: 27, 17
+  orig: 27, 17
+  offset: 0, 0
+  index: -1
+idle-classic/bBrow-serious
+  rotate: false
+  xy: 216, 102
+  size: 33, 17
+  orig: 33, 17
+  offset: 0, 0
+  index: -1
+idle-classic/bEye-glassesNeutral
+  rotate: true
+  xy: 246, 11
+  size: 41, 58
+  orig: 41, 58
+  offset: 0, 0
+  index: -1
+idle-classic/bEye-neutral
+  rotate: true
+  xy: 601, 690
+  size: 58, 94
+  orig: 58, 94
+  offset: 0, 0
+  index: -1
+idle-classic/bEyeLid-closed
+  rotate: true
+  xy: 251, 102
+  size: 45, 83
+  orig: 45, 83
+  offset: 0, 0
+  index: -1
+idle-classic/bEyeLid-closing1
+  rotate: true
+  xy: 306, 7
+  size: 45, 46
+  orig: 45, 46
+  offset: 0, 0
+  index: -1
+idle-classic/bEyeLid-closing2
+  rotate: false
+  xy: 622, 398
+  size: 45, 46
+  orig: 45, 46
+  offset: 0, 0
+  index: -1
+idle-classic/bEyeLid-opening1
+  rotate: true
+  xy: 216, 54
+  size: 46, 56
+  orig: 46, 56
+  offset: 0, 0
+  index: -1
+idle-classic/bEyeLid-opening2
+  rotate: true
+  xy: 332, 54
+  size: 45, 50
+  orig: 45, 50
+  offset: 0, 0
+  index: -1
+idle-classic/bEyeLid-serious
+  rotate: true
+  xy: 274, 54
+  size: 46, 56
+  orig: 46, 56
+  offset: 0, 0
+  index: -1
+idle-classic/bFoot-action
+  rotate: true
+  xy: 430, 424
+  size: 131, 102
+  orig: 131, 102
+  offset: 0, 0
+  index: -1
+idle-classic/bFoot-diagonal
+  rotate: true
+  xy: 432, 297
+  size: 125, 105
+  orig: 125, 105
+  offset: 0, 0
+  index: -1
+idle-classic/bHand-closed
+  rotate: true
+  xy: 697, 687
+  size: 61, 65
+  orig: 61, 65
+  offset: 0, 0
+  index: -1
+idle-classic/bHand-neutral
+  rotate: false
+  xy: 677, 603
+  size: 84, 82
+  orig: 84, 82
+  offset: 0, 0
+  index: -1
+idle-classic/bHand-neutralFlip
+  rotate: true
+  xy: 764, 664
+  size: 72, 83
+  orig: 72, 83
+  offset: 0, 0
+  index: -1
+idle-classic/bHand-shoot
+  rotate: false
+  xy: 596, 598
+  size: 79, 90
+  orig: 79, 90
+  offset: 0, 0
+  index: -1
+idle-classic/bIris-neutral
+  rotate: false
+  xy: 622, 352
+  size: 30, 44
+  orig: 30, 44
+  offset: 0, 0
+  index: -1
+idle-classic/bLowerArm-neutral
+  rotate: true
+  xy: 429, 715
+  size: 127, 170
+  orig: 127, 170
+  offset: 0, 0
+  index: -1
+idle-classic/bLowerLeg-neutral
+  rotate: false
+  xy: 153, 121
+  size: 96, 182
+  orig: 96, 182
+  offset: 0, 0
+  index: -1
+idle-classic/bUpperArm-neutral
+  rotate: false
+  xy: 426, 557
+  size: 91, 156
+  orig: 91, 156
+  offset: 0, 0
+  index: -1
+idle-classic/bUpperLeg-neutral
+  rotate: false
+  xy: 381, 180
+  size: 49, 183
+  orig: 49, 183
+  offset: 0, 0
+  index: -1
+idle-classic/bangs-neutral
+  rotate: true
+  xy: 774, 842
+  size: 177, 217
+  orig: 177, 217
+  offset: 0, 0
+  index: -1
+idle-classic/ear-neutral
+  rotate: false
+  xy: 763, 594
+  size: 70, 68
+  orig: 70, 68
+  offset: 0, 0
+  index: -1
+idle-classic/goldBuckleBelt-neutral
+  rotate: true
+  xy: 519, 573
+  size: 140, 75
+  orig: 140, 75
+  offset: 0, 0
+  index: -1
+idle-classic/hairStyleA-neutral
+  rotate: false
+  xy: 2, 529
+  size: 281, 308
+  orig: 281, 308
+  offset: 0, 0
+  index: -1
+idle-classic/hairStyleB-neutral
+  rotate: false
+  xy: 429, 844
+  size: 343, 175
+  orig: 343, 175
+  offset: 0, 0
+  index: -1
+idle-classic/hairStyleC-neutral
+  rotate: false
+  xy: 2, 839
+  size: 425, 180
+  orig: 425, 180
+  offset: 0, 0
+  index: -1
+idle-classic/hairTopper-neutral
+  rotate: false
+  xy: 835, 593
+  size: 61, 69
+  orig: 61, 69
+  offset: 0, 0
+  index: -1
+idle-classic/head-neutral
+  rotate: false
+  xy: 2, 305
+  size: 207, 222
+  orig: 207, 222
+  offset: 0, 0
+  index: -1
+idle-classic/lowerBody-neutral
+  rotate: true
+  xy: 285, 550
+  size: 287, 139
+  orig: 287, 139
+  offset: 0, 0
+  index: -1
+idle-classic/mouth-neutral
+  rotate: false
+  xy: 993, 999
+  size: 28, 20
+  orig: 28, 20
+  offset: 0, 0
+  index: -1
+idle-classic/mouth-serious
+  rotate: true
+  xy: 285, 529
+  size: 19, 21
+  orig: 19, 21
+  offset: 0, 0
+  index: -1
+idle-classic/mouth-seriousClosed
+  rotate: true
+  xy: 596, 573
+  size: 23, 14
+  orig: 23, 14
+  offset: 0, 0
+  index: -1
+idle-classic/neck-neutral
+  rotate: false
+  xy: 898, 773
+  size: 124, 67
+  orig: 124, 67
+  offset: 0, 0
+  index: -1
+idle-classic/purpleGlasses-neutral
+  rotate: true
+  xy: 211, 329
+  size: 198, 118
+  orig: 198, 118
+  offset: 0, 0
+  index: -1
+idle-classic/purpleZipper-neutral
+  rotate: false
+  xy: 999, 734
+  size: 23, 37
+  orig: 23, 37
+  offset: 0, 0
+  index: -1
+idle-classic/starClip-neutral
+  rotate: false
+  xy: 898, 645
+  size: 75, 54
+  orig: 75, 54
+  offset: 0, 0
+  index: -1
+idle-classic/upperBody-neutral
+  rotate: false
+  xy: 2, 54
+  size: 149, 249
+  orig: 149, 249
+  offset: 0, 0
+  index: -1

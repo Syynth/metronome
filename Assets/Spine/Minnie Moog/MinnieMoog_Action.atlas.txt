@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 action-classic/aBrow-neutral
   rotate: true
-  xy: 708, 178
+  xy: 779, 178
   size: 36, 19
   orig: 36, 19
   offset: 0, 0
@@ -39,51 +39,58 @@ action-classic/bFoot-action
   orig: 131, 104
   offset: 0, 0
   index: -1
+action-classic/aFoot-diagonal
+  rotate: false
+  xy: 655, 66
+  size: 125, 105
+  orig: 125, 105
+  offset: 0, 0
+  index: -1
 action-classic/aHand-closed
   rotate: false
-  xy: 814, 65
+  xy: 782, 2
   size: 61, 65
   orig: 61, 65
   offset: 0, 0
   index: -1
 action-classic/aHand-neutralFlip
   rotate: true
-  xy: 729, 50
+  xy: 913, 138
   size: 72, 83
   orig: 72, 83
   offset: 0, 0
   index: -1
 action-classic/bHand-neutralFlip
   rotate: true
-  xy: 729, 50
+  xy: 913, 138
   size: 72, 83
   orig: 72, 83
   offset: 0, 0
   index: -1
 action-classic/aHand-open
   rotate: true
-  xy: 812, 173
+  xy: 646, 15
   size: 49, 88
   orig: 49, 88
   offset: 0, 0
   index: -1
 action-classic/bHand-open
   rotate: true
-  xy: 812, 173
+  xy: 646, 15
   size: 49, 88
   orig: 49, 88
   offset: 0, 0
   index: -1
 action-classic/aHand-shoot
   rotate: true
-  xy: 812, 224
+  xy: 812, 150
   size: 70, 99
   orig: 70, 99
   offset: 0, 0
   index: -1
 action-classic/aIris-neutral
   rotate: false
-  xy: 712, 2
+  xy: 736, 18
   size: 30, 46
   orig: 30, 46
   offset: 0, 0
@@ -145,15 +152,15 @@ action-classic/bUpperLeg-neutral
   offset: 0, 0
   index: -1
 action-classic/bHand-closed
-  rotate: true
-  xy: 814, 2
+  rotate: false
+  xy: 845, 2
   size: 61, 65
   orig: 61, 65
   offset: 0, 0
   index: -1
 action-classic/bHand-shoot
-  rotate: false
-  xy: 729, 124
+  rotate: true
+  xy: 782, 69
   size: 79, 90
   orig: 79, 90
   offset: 0, 0
@@ -167,14 +174,14 @@ action-classic/bangs-neutral
   index: -1
 action-classic/ear-neutral
   rotate: true
-  xy: 810, 132
+  xy: 708, 175
   size: 39, 69
   orig: 39, 69
   offset: 0, 0
   index: -1
 action-classic/goldBuckleBelt-neutral
-  rotate: true
-  xy: 655, 59
+  rotate: false
+  xy: 812, 222
   size: 112, 72
   orig: 112, 72
   offset: 0, 0
@@ -202,7 +209,7 @@ action-classic/hairStyleC-neutral
   index: -1
 action-classic/hairTopper-neutral
   rotate: false
-  xy: 646, 5
+  xy: 907, 84
   size: 64, 52
   orig: 64, 52
   offset: 0, 0
@@ -223,14 +230,14 @@ action-classic/lowerBody-neutral
   index: -1
 action-classic/mouth-neutral
   rotate: false
-  xy: 984, 286
+  xy: 997, 305
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 action-classic/mouth-serious
-  rotate: false
-  xy: 881, 150
+  rotate: true
+  xy: 52, 3
   size: 19, 21
   orig: 19, 21
   offset: 0, 0
@@ -244,7 +251,7 @@ action-classic/mouth-seriousClosed
   index: -1
 action-classic/neck-neutral
   rotate: true
-  xy: 913, 212
+  xy: 926, 212
   size: 115, 69
   orig: 115, 69
   offset: 0, 0
@@ -257,15 +264,15 @@ action-classic/purpleGlasses-neutral
   offset: 0, 0
   index: -1
 action-classic/purpleZipper-neutral
-  rotate: true
-  xy: 984, 310
+  rotate: false
+  xy: 973, 98
   size: 17, 38
   orig: 17, 38
   offset: 0, 0
   index: -1
 action-classic/starClip-neutral
-  rotate: true
-  xy: 744, 17
+  rotate: false
+  xy: 874, 89
   size: 31, 59
   orig: 31, 59
   offset: 0, 0

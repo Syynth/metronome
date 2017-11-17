@@ -69,7 +69,7 @@ namespace Spine {
 				trackEntryPool
 			);
 		}
-			
+
 		/// <summary>
 		/// Increments the track entry times, setting queued animations as current if needed</summary>
 		/// <param name="delta">delta time</param>
@@ -220,9 +220,10 @@ namespace Spine {
 			if (from.mixingFrom != null) ApplyMixingFrom(from, skeleton, currentPose);
 
 			float mix;
-			if (to.mixDuration == 0) // Single frame mix to undo mixingFrom changes.
+			if (to.mixDuration == 0) { // Single frame mix to undo mixingFrom changes.
 				mix = 1;
-			else {
+				currentPose = MixPose.Setup;
+			} else {
 				mix = to.mixTime / to.mixDuration;
 				if (mix > 1) mix = 1;
 			}
@@ -258,13 +259,17 @@ namespace Spine {
 					break;
 				case Dip:
 					pose = MixPose.Setup;
-					alpha = alphaDip;
+					alpha = mix == 1 ? 0 : alphaDip;
 					break;
 				default:
 					pose = MixPose.Setup;
-					alpha = alphaDip;
-					var dipMix = timelineDipMix[i];
-					alpha *= Math.Max(0, 1 - dipMix.mixTime / dipMix.mixDuration);
+					if (mix == 1) {
+						alpha = 0;
+					} else {
+						alpha = alphaDip;
+						var dipMix = timelineDipMix[i];
+						alpha *= Math.Max(0, 1 - dipMix.mixTime / dipMix.mixDuration);
+					}
 					break;
 				}
 				from.totalAlpha += alpha;
@@ -1028,18 +1033,18 @@ namespace Spine {
 			Reset(obj);
 		}
 
-//		protected void FreeAll (List<T> objects) {
-//			if (objects == null) throw new ArgumentNullException("objects", "objects cannot be null.");
-//			var freeObjects = this.freeObjects;
-//			int max = this.max;
-//			for (int i = 0; i < objects.Count; i++) {
-//				T obj = objects[i];
-//				if (obj == null) continue;
-//				if (freeObjects.Count < max) freeObjects.Push(obj);
-//				Reset(obj);
-//			}
-//			Peak = Math.Max(Peak, freeObjects.Count);
-//		}
+		//		protected void FreeAll (List<T> objects) {
+		//			if (objects == null) throw new ArgumentNullException("objects", "objects cannot be null.");
+		//			var freeObjects = this.freeObjects;
+		//			int max = this.max;
+		//			for (int i = 0; i < objects.Count; i++) {
+		//				T obj = objects[i];
+		//				if (obj == null) continue;
+		//				if (freeObjects.Count < max) freeObjects.Push(obj);
+		//				Reset(obj);
+		//			}
+		//			Peak = Math.Max(Peak, freeObjects.Count);
+		//		}
 
 		public void Clear () {
 			freeObjects.Clear();
