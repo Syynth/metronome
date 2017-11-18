@@ -65,11 +65,13 @@ namespace Assets.Code.Player
             {
                 actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 1f));
                 actor.ChangeState(actor.states.Fall);
+                actor.animator.SetTrigger("descend");
                 return;
             }
             if (!info.Below)
             {
                 actor.ChangeState(actor.states.Fall);
+                actor.animator.SetTrigger("descend");
                 return;
             }
             if (actor.input.y < 0 && info.Below)

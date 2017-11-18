@@ -60,6 +60,7 @@ namespace Assets.Code.Player
             {
                 actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 1f));
                 actor.ChangeState(actor.states.Fall);
+                actor.animator.SetTrigger("descend");
                 return;
             }
 
@@ -74,6 +75,7 @@ namespace Assets.Code.Player
                 else
                 {
                     actor.ChangeState(actor.states.Fall);
+                    actor.animator.SetTrigger("descend");
                     return;
                 }
             }
