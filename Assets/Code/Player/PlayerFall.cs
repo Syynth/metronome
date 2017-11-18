@@ -23,6 +23,7 @@ namespace Assets.Code.Player
             LedgeDetect.OnCollisionExit += StopTouchLedge;
             pos.y = 5.8f;
             LedgeDetect.transform.localPosition = pos;
+            actor.animator.SetTrigger("fall");
         }
 
         bool CloseEnough(Vector2 p)

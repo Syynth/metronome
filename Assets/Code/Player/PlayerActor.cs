@@ -21,6 +21,7 @@ namespace Assets.Code.Player
 
         public PlayerStates states;
         public List<Tuple<Collider, float>> ignoreColliders;
+        public Animator animator;
 
         #region IStateMachine Implementation
 
@@ -49,6 +50,7 @@ namespace Assets.Code.Player
                 .Where(c => c.enabled)
                 .Select(c => c as IMotionController).First();
             GetComponent<Rigidbody>().isKinematic = true;
+            animator = GetComponentInChildren<Animator>();
 
             states.Duck.SetActor(this);
             states.Fall.SetActor(this);
@@ -73,20 +75,21 @@ namespace Assets.Code.Player
         {
             CurrentState.Update();
             CurrentState.Render();
+            var skeleton = GetComponentInChildren<SkeletonAnimator>().skeleton;
             //var skeleton = GetComponent<SkeletonAnimation>().skeleton;
             ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
-            //var pos = states.Fall.LedgeDetect.transform.localPosition;
-            //if (velocity.x < 0)
-            //{
-            //    skeleton.flipX = true;
-            //    pos.x = -1.7f / 2;
-            //}
-            //if (velocity.x > 0)
-            //{
-            //    skeleton.flipX = false;
-            //    pos.x = 1.7f / 2;
-            //}
-            //states.Fall.LedgeDetect.transform.localPosition = pos;
+            var pos = states.Fall.LedgeDetect.transform.localPosition;
+            if (velocity.x < 0)
+            {
+                skeleton.flipX = true;
+                pos.x = -1.7f / 2;
+            }
+            if (velocity.x > 0)
+            {
+                skeleton.flipX = false;
+                pos.x = 1.7f / 2;
+            }
+            states.Fall.LedgeDetect.transform.localPosition = pos;
         }
 
         public void InputX()

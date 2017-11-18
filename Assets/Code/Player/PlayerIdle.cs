@@ -19,6 +19,7 @@ namespace Assets.Code.Player
             actor.velocity.y = 0;
             actor.states.Jump.wallGrab = false;
             actor.GetComponentsInChildren<SkeletonUtilityGroundConstraint>().Select(c => c.enabled = true).ToArray();
+            actor.animator.SetTrigger("idle");
         }
 
         public override void OnExit()

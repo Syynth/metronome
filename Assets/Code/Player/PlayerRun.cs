@@ -37,11 +37,13 @@ namespace Assets.Code.Player
             {
                 actor.velocity.y = actor.gravity.y * Time.deltaTime;
             }
+            actor.animator.SetTrigger("run");
         }
 
         public override void Update()
         {
             Age += Time.deltaTime * (0.015f + Mathf.Abs(actor.velocity.x / maxSpeed) * 0.985f);
+            actor.animator.SetFloat("run-speed", Mathf.Abs(actor.velocity.x / maxSpeed));
 
             actor.InputX();
             actor.AccelerateX();
