@@ -8,8 +8,12 @@ namespace Assets.Code.Player
 {
 
     [Serializable]
-    public class PlayerLedgeHang : ActorState<PlayerActor>
+    public class PlayerLedgeHang : PlayerState
     {
+
+        [SerializeField]
+        private string triggerName = "ledge-hang";
+        public override string TriggerName => TriggerName;
 
         public bool pressed = false;
         public bool held = false;

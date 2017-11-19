@@ -5,8 +5,12 @@ namespace Assets.Code.Player
 {
 
     [Serializable]
-    public class PlayerRun : ActorState<PlayerActor>
+    public class PlayerRun : PlayerState
     {
+
+        [SerializeField]
+        private string triggerName = "run";
+        public override string TriggerName => triggerName;
 
         public float walkThreshold = 0.3f;
         public float jogThreshold = 0.8f;
@@ -37,7 +41,6 @@ namespace Assets.Code.Player
             {
                 actor.velocity.y = actor.gravity.y * Time.deltaTime;
             }
-            actor.animator.SetTrigger("run");
         }
 
         public override void Update()
@@ -58,9 +61,9 @@ namespace Assets.Code.Player
             Collider collider;
             if (actor.states.Duck.held && actor.motionController.OnJumpThrough(actor.gravity, out collider))
             {
-                actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 1f));
+                actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 0.2f));
+                actor.states.Fall.descend = false;
                 actor.ChangeState(actor.states.Fall);
-                actor.animator.SetTrigger("descend");
                 return;
             }
 
@@ -74,8 +77,8 @@ namespace Assets.Code.Player
                 }
                 else
                 {
+                    actor.states.Fall.descend = false;
                     actor.ChangeState(actor.states.Fall);
-                    actor.animator.SetTrigger("descend");
                     return;
                 }
             }

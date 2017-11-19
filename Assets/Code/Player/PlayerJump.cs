@@ -6,8 +6,12 @@ namespace Assets.Code.Player
 {
 
     [Serializable]
-    public class PlayerJump : ActorState<PlayerActor>
+    public class PlayerJump : PlayerState
     {
+
+        [SerializeField]
+        private string triggerName = "jump";
+        public override string TriggerName => triggerName;
 
         public bool wallGrab = false;
         public bool pressed = false;
@@ -37,7 +41,6 @@ namespace Assets.Code.Player
             actor.UpdateVelocity(actor.velocity.x, maxSpeed);
             count += 1;
             wallGrab = false;
-            actor.animator.SetTrigger("jump");
         }
 
         public override void Update()
@@ -71,8 +74,8 @@ namespace Assets.Code.Player
 
             if (actor.velocity.y <= 0)
             {
+                actor.states.Fall.descend = true;
                 actor.ChangeState(actor.states.Fall);
-                actor.animator.SetTrigger("fall");
                 return;
             }
             //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.2f);

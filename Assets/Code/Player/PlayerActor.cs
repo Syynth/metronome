@@ -11,6 +11,7 @@ namespace Assets.Code.Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
     {
+        public int frame = 0;
 
         public Vector3 velocity;
         public Vector3 gravity = Vector3.down * 10;
@@ -73,6 +74,7 @@ namespace Assets.Code.Player
 
         void FixedUpdate()
         {
+            frame += 1;
             CurrentState.Update();
             CurrentState.Render();
             var skeleton = GetComponentInChildren<SkeletonAnimator>().skeleton;

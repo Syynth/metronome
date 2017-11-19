@@ -7,8 +7,16 @@ namespace Assets.Code.Player
 {
 
     [Serializable]
-    public class PlayerFall : ActorState<PlayerActor>
+    public class PlayerFall : PlayerState
     {
+
+        [SerializeField]
+        private string fallTriggerName = "fall";
+        [SerializeField]
+        private string descendTriggerName = "descend";
+
+        public bool descend = true;
+        public override string TriggerName => descend ? descendTriggerName : fallTriggerName;
 
         public float maxSpeed = 16f;
         public bool skipLedge = true;

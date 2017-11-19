@@ -10,8 +10,11 @@ namespace Assets.Code.Player
 {
 
     [Serializable]
-    public class PlayerIdle : ActorState<PlayerActor>
+    public class PlayerIdle : PlayerState
     {
+        [SerializeField]
+        private string triggerName = "idle";
+        public override string TriggerName => triggerName;
 
         public override void OnEnter()
         {
@@ -19,7 +22,6 @@ namespace Assets.Code.Player
             actor.velocity.y = 0;
             actor.states.Jump.wallGrab = false;
             actor.GetComponentsInChildren<SkeletonUtilityGroundConstraint>().Select(c => c.enabled = true).ToArray();
-            actor.animator.SetTrigger("idle");
         }
 
         public override void OnExit()
@@ -63,15 +65,15 @@ namespace Assets.Code.Player
             Collider collider;
             if (actor.states.Duck.held && controller.OnJumpThrough(actor.gravity, out collider))
             {
-                actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 1f));
+                actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 0.2f));
+                actor.states.Fall.descend = false;
                 actor.ChangeState(actor.states.Fall);
-                actor.animator.SetTrigger("descend");
                 return;
             }
             if (!info.Below)
             {
+                actor.states.Fall.descend = false;
                 actor.ChangeState(actor.states.Fall);
-                actor.animator.SetTrigger("descend");
                 return;
             }
             if (actor.input.y < 0 && info.Below)

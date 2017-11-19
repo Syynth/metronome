@@ -147,7 +147,7 @@ namespace Assets.Code
                         info.Below = true;
                     }
                 }
-                else
+                else if (Mathf.Abs(velocity.x) < Mathf.Abs(mov1.x))
                 {
                     mov1 = mov1 * (velocity.x / mov1.x);
                 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using Spine.Unity;
+using Assets.Code.Player;
 
 namespace Assets.Code
 {
@@ -23,10 +24,6 @@ namespace Assets.Code
         public virtual void SetActor(T actor)
         {
             this.actor = actor;
-            //if (actor.GetComponent<SkeletonAnimation>() == null)
-            //{
-            //    throw new ArgumentException("Actor must contain a SkeletonAnimation component");
-            //}
         }
 
         public virtual void OnStart()
