@@ -21,6 +21,7 @@ namespace Assets.Code.Player
 
         public float vMax = 16f;
         public bool pressed = false;
+        public bool fastPressed = false;
         public bool onGroundLastFrame = true;
 
         bool CheckIdle()

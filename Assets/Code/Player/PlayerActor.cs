@@ -24,6 +24,8 @@ namespace Assets.Code.Player
         public List<Tuple<Collider, float>> ignoreColliders;
         public Animator animator;
 
+        public InputController Input;
+
         #region IStateMachine Implementation
 
         public ActorState<PlayerActor> CurrentState { get; set; }
@@ -52,6 +54,7 @@ namespace Assets.Code.Player
                 .Select(c => c as IMotionController).First();
             GetComponent<Rigidbody>().isKinematic = true;
             animator = GetComponentInChildren<Animator>();
+            Input = GetComponent<InputController>();
 
             states.Duck.SetActor(this);
             states.Fall.SetActor(this);

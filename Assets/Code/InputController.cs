@@ -11,19 +11,40 @@ namespace Assets.Code
         bool GetButton(string button);
         bool GetButtonDown(string button);
         float GetAxis(string axis);
+        float GetAxisRaw(string axis);
         Vector2 GetAxis2D(string xAxis, string yAxis);
+        Vector2 GetAxis2DRaw(string xAxis, string yAxis);
 
     }
 
+    [RequireComponent(typeof(IInputSource))]
     public class InputController : MonoBehaviour
     {
 
         Stack<IInputSource> InputSources = new Stack<IInputSource>();
 
-        // Use this for initialization
         void Start()
         {
             InputSources.Push(GetComponent<IInputSource>());
+        }
+
+        public void PushInputSource(IInputSource inputSource)
+        {
+            InputSources.Push(inputSource);
+        }
+
+        public IInputSource GetCurrentInputSource()
+        {
+            return InputSources.Peek();
+        }
+
+        public IInputSource ReleaseInputSource()
+        {
+            if (InputSources.Count > 1)
+            {
+                return InputSources.Pop();
+            }
+            return null;
         }
 
         public bool GetButton(string button)
@@ -44,6 +65,16 @@ namespace Assets.Code
         public Vector2 GetAxis2D(string xAxis, string yAxis)
         {
             return InputSources.Peek().GetAxis2D(xAxis, yAxis);
+        }
+
+        public float GetAxisRaw(string axis)
+        {
+            return InputSources.Peek().GetAxisRaw(axis);
+        }
+
+        public Vector2 GetAxis2DRaw(string xAxis, string yAxis)
+        {
+            return InputSources.Peek().GetAxis2DRaw(xAxis, yAxis);
         }
 
     }
