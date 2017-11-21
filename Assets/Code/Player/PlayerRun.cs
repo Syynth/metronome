@@ -20,8 +20,8 @@ namespace Assets.Code.Player
         public float maxSpeed = 10f;
 
         public float vMax = 16f;
+        public bool xPressed = false;
         public bool pressed = false;
-        public bool fastPressed = false;
         public bool onGroundLastFrame = true;
 
         bool CheckIdle()

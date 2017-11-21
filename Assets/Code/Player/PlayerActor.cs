@@ -9,6 +9,8 @@ namespace Assets.Code.Player
 
     [RequireComponent(typeof(IMotionController))]
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(InputController))]
+    [RequireComponent(typeof(RewiredInputSource))]
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
     {
         public int frame = 0;
@@ -18,11 +20,12 @@ namespace Assets.Code.Player
         public Vector2 input = Vector2.zero;
 
         public IMotionController motionController;
-        //public Transform rootBone;
 
         public PlayerStates states;
         public List<Tuple<Collider, float>> ignoreColliders;
         public Animator animator;
+
+        public float duckJoystickThreshold = 0.25f;
 
         public InputController Input;
 
@@ -99,14 +102,17 @@ namespace Assets.Code.Player
 
         public void InputX()
         {
-            bool downReleased = input.y >= 0;
+            bool downReleased = input.y >= -duckJoystickThreshold;
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            states.Run.pressed = input.x != 0;
+            states.Run.xPressed = input.x != 0;
+            if (CurrentState == states.Run) {
+                states.Run.pressed = Input.GetButton("Run");
+            }
             var held = states.Jump.held;
             states.Jump.held = Input.GetButton("Jump");
             states.Jump.pressed = states.Jump.held && !held;
-            states.Duck.pressed = input.y < 0 && downReleased;
-            states.Duck.held = input.y < 0;
+            states.Duck.pressed = input.y < -duckJoystickThreshold && downReleased;
+            states.Duck.held = input.y < -duckJoystickThreshold;
             var sign = Math.Sign(input.x);
             if (sign == Direction.Right)
             {
@@ -120,21 +126,22 @@ namespace Assets.Code.Player
 
         public void AccelerateX()
         {
+            var maxSpeed = states.Run.pressed ? states.Run.maxSpeed : states.Run.maxSpeed * states.Run.walkThreshold;
             var dx = states.Run.acceleration * Mathf.Sign(states.Run.vMax) * Time.deltaTime;
-            if (states.Run.pressed)
+            if (states.Run.xPressed)
             {
                 // Accumulate speed when traveling
                 velocity.x += dx;
 
                 // Bonus speed if you're going slow
-                if (Mathf.Abs(velocity.x) < states.Run.maxSpeed * 0.5f)
+                if (Mathf.Abs(velocity.x) < maxSpeed * 0.5f)
                 {
                     velocity.x += dx;
                 }
 
-                if (Mathf.Abs(velocity.x) > states.Run.maxSpeed)
+                if (Mathf.Abs(velocity.x) > maxSpeed)
                 {
-                    velocity.x = states.Run.vMax;
+                    velocity.x = maxSpeed * Mathf.Sign(states.Run.vMax);
                 }
             }
             if (Mathf.Abs(velocity.x) < states.Run.friction * Time.deltaTime)
