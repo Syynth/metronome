@@ -13,7 +13,7 @@ namespace Assets.Code.Player
         public override string TriggerName => triggerName;
 
         public float walkThreshold = 0.3f;
-        public float jogThreshold = 0.8f;
+        public float jogThreshold = 0.6f;
 
         public float acceleration = 40f;
         public float friction = 34f;
