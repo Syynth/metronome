@@ -126,7 +126,7 @@ namespace Assets.Code.Player
 
         public void AccelerateX()
         {
-            var maxSpeed = states.Run.down ? states.Run.maxSpeed : states.Run.maxSpeed * states.Run.walkThreshold;
+            var maxSpeed = states.Run.down ? states.Run.maxSpeed : states.Run.maxSpeed * states.Run.jogThreshold;
             var dx = states.Run.acceleration * Mathf.Sign(states.Run.vMax) * Time.deltaTime;
             if (states.Run.xPressed)
             {
