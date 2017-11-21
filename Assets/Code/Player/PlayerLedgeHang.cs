@@ -24,16 +24,16 @@ namespace Assets.Code.Player
         public override void OnEnter()
         {
             base.OnEnter();
-            actor.states.Jump.count = 0;
-            actor.GetComponentsInChildren<SkeletonUtilityBone>()
-                .Where(c => c.mode == SkeletonUtilityBone.Mode.Override && c.gameObject.name.Contains("Arm"))
-                .Select(c =>
-                {
-                    c.enabled = true;
-                    c.transform.position = ledgeVertex;
-                    return c;
-                })
-                .ToArray();
+            //actor.states.Jump.count = 0;
+            //actor.GetComponentsInChildren<SkeletonUtilityBone>()
+            //    .Where(c => c.mode == SkeletonUtilityBone.Mode.Override && c.gameObject.name.Contains("Arm"))
+            //    .Select(c =>
+            //    {
+            //        c.enabled = true;
+            //        c.transform.position = ledgeVertex;
+            //        return c;
+            //    })
+            //    .ToArray();
         }
 
         public override void Update()
@@ -42,6 +42,11 @@ namespace Assets.Code.Player
             if (actor.states.Jump.pressed)
             {
                 actor.ChangeState(actor.states.Jump);
+                return;
+            }
+            if (actor.states.Duck.pressed)
+            {
+                actor.ChangeState(actor.states.Fall);
                 return;
             }
             //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.2f);
