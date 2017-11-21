@@ -106,7 +106,7 @@ namespace Assets.Code.Player
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             states.Run.xPressed = input.x != 0;
             if (CurrentState == states.Run) {
-                states.Run.pressed = Input.GetButton("Run");
+                states.Run.down = Input.GetButton("Run");
             }
             var held = states.Jump.held;
             states.Jump.held = Input.GetButton("Jump");
@@ -126,7 +126,7 @@ namespace Assets.Code.Player
 
         public void AccelerateX()
         {
-            var maxSpeed = states.Run.pressed ? states.Run.maxSpeed : states.Run.maxSpeed * states.Run.walkThreshold;
+            var maxSpeed = states.Run.down ? states.Run.maxSpeed : states.Run.maxSpeed * states.Run.walkThreshold;
             var dx = states.Run.acceleration * Mathf.Sign(states.Run.vMax) * Time.deltaTime;
             if (states.Run.xPressed)
             {
