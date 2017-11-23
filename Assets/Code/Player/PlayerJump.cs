@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Linq;
 
 namespace Assets.Code.Player
 {
@@ -77,6 +78,24 @@ namespace Assets.Code.Player
                 actor.states.Fall.descend = true;
                 actor.ChangeState(actor.states.Fall);
                 return;
+            }
+
+            var hits = actor.states.Fall.LedgeDetect.GetComponent<Rigidbody>()
+                .SweepTestAll(Vector3.down, 0.3f)
+                .Where(
+                    hit => !actor.states.LedgeHang.ignoreLedges
+                    .Select(t => t.Item1)
+                    .Contains(hit.collider)
+                );
+            if (hits.Count() > 0)
+            {
+                var hit = hits.First();
+                if (actor.motionController.CanStand(hit.normal) && Utils.IsInLayerMask(hit.collider.gameObject.layer, actor.motionController.SolidLayer))
+                {
+                    actor.states.LedgeHang.Ledge = hit.collider;
+                    actor.ChangeState(actor.states.LedgeHang);
+                    return;
+                }
             }
             //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.2f);
         }

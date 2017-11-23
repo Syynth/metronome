@@ -52,6 +52,7 @@ namespace Assets.Code.Player
             actor.InputX();
             if (actor.states.Jump.pressed)
             {
+                ignoreLedges.Add(Tuple.Create(Ledge, Time.time + 0.08f));
                 actor.ChangeState(actor.states.Jump);
                 return;
             }
