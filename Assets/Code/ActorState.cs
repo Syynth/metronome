@@ -42,6 +42,11 @@ namespace Assets.Code
             Active = false;
         }
 
+        public virtual void Tick()
+        {
+
+        }
+
         public virtual void Update()
         {
             Age += Time.deltaTime;

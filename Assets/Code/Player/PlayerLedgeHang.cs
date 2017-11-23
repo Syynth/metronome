@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 using Spine.Unity;
@@ -13,7 +13,10 @@ namespace Assets.Code.Player
 
         [SerializeField]
         private string triggerName = "ledge-hang";
-        public override string TriggerName => TriggerName;
+        public override string TriggerName => triggerName;
+        public List<Tuple<Collider, float>> ignoreLedges = new List<Tuple<Collider, float>>();
+
+        public Collider Ledge;
 
         public bool pressed = false;
         public bool held = false;
@@ -24,6 +27,8 @@ namespace Assets.Code.Player
         public override void OnEnter()
         {
             base.OnEnter();
+            actor.states.Jump.count = 0;
+            actor.velocity.y = 0;
             //actor.states.Jump.count = 0;
             //actor.GetComponentsInChildren<SkeletonUtilityBone>()
             //    .Where(c => c.mode == SkeletonUtilityBone.Mode.Override && c.gameObject.name.Contains("Arm"))
@@ -36,6 +41,12 @@ namespace Assets.Code.Player
             //    .ToArray();
         }
 
+        public override void Tick()
+        {
+            base.Tick();
+            ignoreLedges = ignoreLedges.Where(tuple => Time.time < tuple.Item2).ToList();
+        }
+
         public override void Update()
         {
             actor.InputX();
@@ -46,6 +57,7 @@ namespace Assets.Code.Player
             }
             if (actor.states.Duck.pressed)
             {
+                ignoreLedges.Add(Tuple.Create(Ledge, Time.time + 0.08f));
                 actor.ChangeState(actor.states.Fall);
                 return;
             }

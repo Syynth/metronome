@@ -46,6 +46,23 @@ namespace Assets.Code.Player
             CurrentState.OnEnter();
         }
 
+        public List<ActorState<PlayerActor>> States
+        {
+            get
+            {
+                return new List<ActorState<PlayerActor>>(
+                    new ActorState<PlayerActor>[] {
+                        states.Run,
+                        states.Jump,
+                        states.Idle,
+                        states.Fall,
+                        states.Duck,
+                        states.LedgeHang
+                    }
+                );
+            }
+        }
+
         #endregion
 
         void Start()
@@ -59,20 +76,9 @@ namespace Assets.Code.Player
             animator = GetComponentInChildren<Animator>();
             Input = GetComponent<InputController>();
 
-            states.Duck.SetActor(this);
-            states.Fall.SetActor(this);
-            states.Idle.SetActor(this);
-            states.Jump.SetActor(this);
-            states.Run.SetActor(this);
-            states.LedgeHang.SetActor(this);
-
-            states.Duck.OnStart();
-            states.Fall.OnStart();
-            states.Idle.OnStart();
-            states.Jump.OnStart();
-            states.Run.OnStart();
-            states.LedgeHang.OnStart();
-
+            States.ForEach(state => state.SetActor(this));
+            States.ForEach(state => state.OnStart());
+            
             CurrentState = states.Idle;
             PreviousState = states.Idle;
             CurrentState.OnEnter();
@@ -81,6 +87,7 @@ namespace Assets.Code.Player
         void FixedUpdate()
         {
             frame += 1;
+            States.ForEach(state => state.Tick());
             CurrentState.Update();
             CurrentState.Render();
             var skeleton = GetComponentInChildren<SkeletonAnimator>().skeleton;
@@ -90,12 +97,12 @@ namespace Assets.Code.Player
             if (velocity.x < 0)
             {
                 skeleton.flipX = true;
-                pos.x = -1.7f / 2;
+                pos.x = -0.7f;
             }
             if (velocity.x > 0)
             {
                 skeleton.flipX = false;
-                pos.x = 1.7f / 2;
+                pos.x = 0.7f;
             }
             states.Fall.LedgeDetect.transform.localPosition = pos;
         }

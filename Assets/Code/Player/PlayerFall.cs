@@ -22,100 +22,13 @@ namespace Assets.Code.Player
         public bool skipLedge = true;
         public bool touchingLedge = false;
 
-        public CollisionEvents LedgeDetect;
+        public GameObject LedgeDetect;
 
         public override void OnStart()
         {
             var pos = LedgeDetect.transform.localPosition;
-            LedgeDetect.OnCollisionEnter += TouchLedge;
-            LedgeDetect.OnCollisionExit += StopTouchLedge;
-            pos.y = 5.8f;
+            pos.y = 4.5f;
             LedgeDetect.transform.localPosition = pos;
-        }
-
-        bool CloseEnough(Vector2 p)
-        {
-            return Vector2.Distance(LedgeDetect.transform.position, p) < LedgeDetect.GetComponent<CircleCollider2D>().radius;
-        }
-
-        Vector2 GetUpVector(Vector2 a, Vector2 b)
-        {
-            var dist = b - a;
-            var normal = Utils.Clockwise(dist);
-            return (Vector2.Dot(normal, Vector2.up) > 0) ? normal : -normal;
-        }
-
-        bool WithinAngle(int index, Vector2[] points)
-        {
-            var point = points[index];
-            var left = points[Utils.Mod(index - 1, points.Length)];
-            var right = points[Utils.Mod(index + 1, points.Length)];
-            if (Vector2.Angle(left - point, right - point) < 120)
-            {
-                return actor.motionController.CanStand(GetUpVector(point, left)) || actor.motionController.CanStand(GetUpVector(point, right));
-            }
-            return false;
-        }
-
-        private bool ValidLedgeContact(Collider2D collider, out Vector3 pos)
-        {
-            pos = LedgeDetect.transform.position;
-            if (collider is EdgeCollider2D)
-            {
-                var effector = collider.gameObject.GetComponent<PlatformEffector2D>();
-                if (effector != null && effector.useOneWay)
-                {
-                    return actor.states.LedgeHang.grabOneWayPlatforms;
-                }
-                var c = collider as EdgeCollider2D;
-
-                var points = c.points
-                    .Select(p => collider.transform.TransformPoint(p))
-                    .Where((p, i) => CloseEnough(p) && WithinAngle(i, c.points));
-                var count = points.Count();
-                pos = count > 0 ? points.First() : pos;
-                return count > 0;
-            }
-            if (collider is PolygonCollider2D)
-            {
-                var effector = collider.gameObject.GetComponent<PlatformEffector2D>();
-                if (effector != null && effector.useOneWay)
-                {
-                    return actor.states.LedgeHang.grabOneWayPlatforms;
-                }
-                var c = collider as PolygonCollider2D;
-
-                var points = c.points
-                    .Select(p => collider.transform.TransformPoint(p))
-                    .Where((p, i) => CloseEnough(p) && WithinAngle(i, c.points));
-                var count = points.Count();
-                pos = count > 0 ? points.First() : pos;
-                return count > 0;
-            }
-            return false;
-        }
-
-        private void TouchLedge(Collision2D collision)
-        {
-            Vector3 pos;
-            if (Utils.IsInLayerMask(collision.gameObject.layer, actor.motionController.SolidLayer) && ValidLedgeContact(collision.collider, out pos))
-            {
-                actor.states.LedgeHang.ledgeVertex = pos;
-                touchingLedge = true;
-            }
-        }
-
-        private void StopTouchLedge(Collision2D collision)
-        {
-            if (Utils.IsInLayerMask(collision.gameObject.layer, actor.motionController.SolidLayer))
-            {
-                touchingLedge = false;
-            }
-        }
-
-        public override void OnExit()
-        {
-            base.OnExit();
         }
 
         public override void Update()
@@ -144,9 +57,28 @@ namespace Assets.Code.Player
 
             info = actor.Move();
 
-            if (info.Left || info.Right)
+            if (info.Side)
             {
+                Debug.Log("info.Side == true");
                 actor.velocity.x = 0;
+            }
+
+            var hits = LedgeDetect.GetComponent<Rigidbody>()
+                .SweepTestAll(Vector3.down, 0.3f)
+                .Where(
+                    hit => !actor.states.LedgeHang.ignoreLedges
+                    .Select(t => t.Item1)
+                    .Contains(hit.collider)
+                );
+            if (hits.Count() > 0)
+            {
+                var hit = hits.First();
+                if (actor.motionController.CanStand(hit.normal) && Utils.IsInLayerMask(hit.collider.gameObject.layer, actor.motionController.SolidLayer))
+                {
+                    actor.states.LedgeHang.Ledge = hit.collider;
+                    actor.ChangeState(actor.states.LedgeHang);
+                    return;
+                }
             }
 
             if (info.Below)
@@ -171,7 +103,6 @@ namespace Assets.Code.Player
                     return;
                 }
             }
-            //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.2f);
         }
 
     }

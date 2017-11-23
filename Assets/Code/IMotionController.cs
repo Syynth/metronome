@@ -23,6 +23,13 @@ namespace Assets.Code
         public bool Above { get; set; }
         public bool Left { get; set; }
         public bool Right { get; set; }
+        public bool Side
+        {
+            get
+            {
+                return Left || Right;
+            }
+        }
     }
 
 }

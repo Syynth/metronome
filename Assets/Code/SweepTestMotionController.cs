@@ -121,6 +121,18 @@ namespace Assets.Code
                 mov1.y = Mathf.Min(velocity.y, mov1.y);
                 MoveTo(vel1 + GetMoveVector(rem1, hit1.normal), ignore, out vel2);
                 body.MovePosition(transform.position + vel2);
+                if (!CanStand(hit1.normal))
+                {
+                    // TODO: Better logic here, maybe checking between max climb angle and max ceiling angle?
+                    if (Vector3.Dot(Vector3.left, hit1.normal) > 0)
+                    {
+                        info.Right = true;
+                    }
+                    else
+                    {
+                        info.Left = true;
+                    }
+                }
                 return info;
             }
             if (isDown)
@@ -135,6 +147,14 @@ namespace Assets.Code
                 if (!CanMove(rem2) && Vector3.Dot(rem2, Vector3.up) > 0)
                 {
                     rem2 = Vector3.zero;
+                    if (Vector3.Dot(velocity, Vector3.left) > 0)
+                    {
+                        info.Left = true;
+                    }
+                    else
+                    {
+                        info.Right = true;
+                    }
                 }
                 Vector3 vel2;
                 var mov1 = vel1 + rem2;

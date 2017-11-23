@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 
 namespace Assets.Code
@@ -7,6 +7,8 @@ namespace Assets.Code
 
     public interface IStateMachine<T> where T : MonoBehaviour, IStateMachine<T>
     {
+
+        List<ActorState<T>> States { get; }
 
         ActorState<T> CurrentState { get; set; }
         ActorState<T> PreviousState { get; set; }
