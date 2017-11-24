@@ -31,7 +31,10 @@ namespace Assets.Code
         bool SweepTest(Vector3 direction, out RaycastHit raycastHit, float maxDistance, List<Collider> ignore)
         {
             raycastHit = body.SweepTestAll(direction, maxDistance)
-                .Where(h => !ignore.Contains(h.collider) && (!Utils.IsInLayerMask(h.collider.gameObject.layer, oneWayLayer) || CanStand(h.normal)))
+                .Where(
+                    h => !ignore.Contains(h.collider) &&
+                         (!Utils.IsInLayerMask(h.collider.gameObject.layer, oneWayLayer) || CanStand(h.normal)) &&
+                         Utils.IsInLayerMask(h.collider.gameObject.layer, AllLayer))
                 .OrderBy(h => h.distance)
                 .FirstOrDefault();
             return raycastHit.collider != null;
@@ -126,10 +129,13 @@ namespace Assets.Code
                     // TODO: Better logic here, maybe checking between max climb angle and max ceiling angle?
                     if (Vector3.Dot(Vector3.left, hit1.normal) > 0)
                     {
+                        Debug.Log("setting info.Side on UP");
+                        Debug.Log(string.Format("velocity: {0}, {1}", velocity.x, velocity.y));
                         info.Right = true;
                     }
                     else
                     {
+                        Debug.Log("setting info.Side on UP");
                         info.Left = true;
                     }
                 }
@@ -149,10 +155,12 @@ namespace Assets.Code
                     rem2 = Vector3.zero;
                     if (Vector3.Dot(velocity, Vector3.left) > 0)
                     {
+                        Debug.Log("setting info.Side on DOWN");
                         info.Left = true;
                     }
                     else
                     {
+                        Debug.Log("setting info.Side on DOWN");
                         info.Right = true;
                     }
                 }

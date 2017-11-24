@@ -39,7 +39,8 @@ namespace Assets.Code.Player
         public override void OnEnter()
         {
             base.OnEnter();
-            actor.UpdateVelocity(actor.velocity.x, maxSpeed);
+            actor.velocity.y = maxSpeed;
+            // actor.UpdateVelocity(actor.velocity.x, maxSpeed);
             count += 1;
             wallGrab = false;
         }
@@ -63,8 +64,9 @@ namespace Assets.Code.Player
 
             info = actor.Move();
 
-            if (info.Left || info.Right)
+            if (info.Side)
             {
+                Debug.Log("Setting velocity.x to 0");
                 actor.velocity.x = 0;
             }
 
