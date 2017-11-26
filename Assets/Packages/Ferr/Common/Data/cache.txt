@@ -12,7 +12,9 @@ Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_07/Desert_Terrain_07
 Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_010/Desert_Terrain_10.asset
 Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_08/Desert_Terrain_08.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 01/Jungle Rock 01.asset
-Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 02/Jungle Rocks 02.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 03/Jungle Rocks 03.asset
+Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 02/Jungle Rocks 02.asset
+Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Grass 01.asset
+Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 04/Terrain Material.asset
 
 [Ferr2DT_PathTerrain]
