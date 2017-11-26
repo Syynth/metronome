@@ -28,6 +28,7 @@ namespace Assets.Code.Player
         {
             if (actor.input.x == 0 && actor.velocity.x == 0)
             {
+                Debug.Log("Check Idle passed");
                 actor.ChangeState(actor.states.Idle);
                 return false;
             }

@@ -29,6 +29,8 @@ namespace Assets.Code.Player
 
         public InputController Input;
 
+        public bool aiming = false;
+
         #region IStateMachine Implementation
 
         public ActorState<PlayerActor> CurrentState { get; set; }
@@ -81,7 +83,7 @@ namespace Assets.Code.Player
             
             CurrentState = states.Idle;
             PreviousState = states.Idle;
-            CurrentState.OnEnter();
+            //CurrentState.OnEnter();
         }
 
         void FixedUpdate()
@@ -112,6 +114,7 @@ namespace Assets.Code.Player
             bool downReleased = input.y >= -duckJoystickThreshold;
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             states.Run.xPressed = input.x != 0;
+            aiming = Input.GetButton("Aim");
             if (CurrentState == states.Run) {
                 states.Run.down = Input.GetButton("Run");
             }
@@ -133,7 +136,8 @@ namespace Assets.Code.Player
 
         public void AccelerateX()
         {
-            var maxSpeed = states.Run.down ? states.Run.maxSpeed : states.Run.maxSpeed * states.Run.walkThreshold;
+            var runSpeed = states.Run.down ? states.Run.maxSpeed : states.Run.maxSpeed * states.Run.walkThreshold;
+            var maxSpeed = aiming ? states.Run.maxSpeed * 0.2f : runSpeed;
             var dx = states.Run.acceleration * Mathf.Sign(states.Run.vMax) * Time.deltaTime;
             if (states.Run.xPressed)
             {
