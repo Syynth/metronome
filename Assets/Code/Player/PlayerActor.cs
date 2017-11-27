@@ -112,9 +112,28 @@ namespace Assets.Code.Player
         {
             bool downReleased = input.y >= -duckJoystickThreshold;
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            aimInput = Input.GetAxis2DRaw("AimX", "AimY");
             states.Run.xPressed = input.x != 0;
             aiming = Input.GetButton("Aim");
+            if (aiming)
+            {
+                if (Input.GetButton("MouseAim"))
+                {
+                    var pos = transform.position;
+                    pos.y += 3;
+                    Vector2 p = Camera.main.WorldToScreenPoint(pos);
+                    var m = Input.mousePosition;
+                    aimInput = (m - p).normalized;
+                }
+                else
+                {
+                    aimInput = Input.GetAxis2DRaw("AimX", "AimY");
+                }
+            }
+            else
+            {
+                aimInput = Vector2.zero;
+            }
+
             states.Run.down = Input.GetButton("Run");
             
             var held = states.Jump.held;

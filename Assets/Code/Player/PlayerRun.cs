@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Spine.Unity;
 
 namespace Assets.Code.Player
 {
@@ -114,6 +115,34 @@ namespace Assets.Code.Player
             }
             //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, info.GroundNormal, 0.2f);
 
+        }
+
+        public override void Render()
+        {
+            base.Render();
+            var skeleton = actor.GetComponentInChildren<SkeletonAnimator>().skeleton;
+            if (actor.aiming)
+            {
+                if (actor.aimInput.x < 0)
+                {
+                    skeleton.flipX = true;
+                }
+                if (actor.aimInput.x > 0)
+                {
+                    skeleton.flipX = false;
+                }
+            }
+            else
+            {
+                if (actor.velocity.x < 0)
+                {
+                    skeleton.flipX = true;
+                }
+                if (actor.velocity.x > 0)
+                {
+                    skeleton.flipX = false;
+                }
+            }
         }
 
     }

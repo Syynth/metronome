@@ -14,6 +14,7 @@ namespace Assets.Code
         float GetAxisRaw(string axis);
         Vector2 GetAxis2D(string xAxis, string yAxis);
         Vector2 GetAxis2DRaw(string xAxis, string yAxis);
+        Vector2 mousePosition { get; }
 
     }
 
@@ -76,6 +77,8 @@ namespace Assets.Code
         {
             return InputSources.Peek().GetAxis2DRaw(xAxis, yAxis);
         }
+
+        public Vector2 mousePosition => InputSources.Peek().mousePosition;
 
     }
 

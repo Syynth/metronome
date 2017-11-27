@@ -47,7 +47,9 @@ namespace Assets.Code.Player
         {
             return Input.GetButtonDown(button);
         }
-    }
 
+        public Vector2 mousePosition => ReInput.controllers.Mouse.screenPosition;
+        
+    }
 
 }

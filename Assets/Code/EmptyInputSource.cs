@@ -39,5 +39,8 @@ namespace Assets.Code
         {
             return false;
         }
+
+        public Vector2 mousePosition => Vector2.zero;
+
     }
 }
