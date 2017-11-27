@@ -34,8 +34,11 @@ namespace Assets.Code.Player
             }
             set
             {
-                _down = value;
-                lastDown = Time.time;
+                if (actor.CurrentState == this)
+                {
+                    _down = value;
+                    lastDown = Time.time;
+                }
             }
         }
         public bool onGroundLastFrame = true;
@@ -46,7 +49,7 @@ namespace Assets.Code.Player
             {
                 return maxSpeed * aimWalkThreshold;
             }
-            return !W1Ddown ? maxSpeed * walkThreshold : maxSpeed;
+            return !down ? maxSpeed * walkThreshold : maxSpeed;
         }
 
         bool CheckIdle()

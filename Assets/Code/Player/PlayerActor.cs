@@ -112,11 +112,11 @@ namespace Assets.Code.Player
         {
             bool downReleased = input.y >= -duckJoystickThreshold;
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            aimInput = Input.GetAxis2DRaw("AimX", "AimY");
             states.Run.xPressed = input.x != 0;
             aiming = Input.GetButton("Aim");
-            if (CurrentState == states.Run) {
-                states.Run.down = Input.GetButton("Run");
-            }
+            states.Run.down = Input.GetButton("Run");
+            
             var held = states.Jump.held;
             states.Jump.held = Input.GetButton("Jump");
             states.Jump.pressed = states.Jump.held && !held;
