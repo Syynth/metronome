@@ -135,6 +135,7 @@ namespace Assets.Code.Player
             }
             else
             {
+                actor.animator.SetFloat("walk-backwards", 0);
                 if (actor.velocity.x < 0)
                 {
                     skeleton.flipX = true;

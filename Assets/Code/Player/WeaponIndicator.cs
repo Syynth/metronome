@@ -22,11 +22,15 @@ namespace Assets.Code.Player
 
         void Update()
         {
-            if (actor.aiming != meshRenderer.enabled)
+            if (actor.aimInput == Vector2.zero)
             {
-                meshRenderer.enabled = actor.aiming;
+                meshRenderer.enabled = false;
             }
-            var p = actor.aimInput * radius;
+            else if (actor.aiming)
+            {
+                meshRenderer.enabled = true;
+            }
+            var p = actor.aimInput.normalized * radius;
             p.y += 3;
             transform.localPosition = p;
         }
