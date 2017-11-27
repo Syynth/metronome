@@ -12,17 +12,42 @@ namespace Assets.Code.Player
         private string triggerName = "run";
         public override string TriggerName => triggerName;
 
-        public float walkThreshold = 0.3f;
-        public float jogThreshold = 0.6f;
+        public float aimWalkThreshold = 0.3f;
+        public float walkThreshold = 0.45f;
 
         public float acceleration = 40f;
         public float friction = 34f;
         public float maxSpeed = 10f;
+        public float accelerationTime = 0.2f;
 
         public float vMax = 16f;
         public bool xPressed = false;
-        public bool down = false;
+
+        [SerializeField]
+        private bool _down = false;
+        private float lastDown = 0;
+        public bool down
+        {
+            get
+            {
+                return _down;
+            }
+            set
+            {
+                _down = value;
+                lastDown = Time.time;
+            }
+        }
         public bool onGroundLastFrame = true;
+
+        public float GetRunSpeed()
+        {
+            if (actor.aiming)
+            {
+                return maxSpeed * aimWalkThreshold;
+            }
+            return !W1Ddown ? maxSpeed * walkThreshold : maxSpeed;
+        }
 
         bool CheckIdle()
         {

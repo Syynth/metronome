@@ -18,6 +18,7 @@ namespace Assets.Code.Player
         public Vector3 velocity;
         public Vector3 gravity = Vector3.down * 10;
         public Vector2 input = Vector2.zero;
+        public Vector2 aimInput = Vector2.zero;
 
         public IMotionController motionController;
 
@@ -83,7 +84,6 @@ namespace Assets.Code.Player
             
             CurrentState = states.Idle;
             PreviousState = states.Idle;
-            //CurrentState.OnEnter();
         }
 
         void FixedUpdate()
@@ -91,9 +91,7 @@ namespace Assets.Code.Player
             frame += 1;
             States.ForEach(state => state.Tick());
             CurrentState.Update();
-            CurrentState.Render();
             var skeleton = GetComponentInChildren<SkeletonAnimator>().skeleton;
-            //var skeleton = GetComponent<SkeletonAnimation>().skeleton;
             ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
             var pos = states.Fall.LedgeDetect.transform.localPosition;
             if (velocity.x < 0)
@@ -107,6 +105,7 @@ namespace Assets.Code.Player
                 pos.x = 0.7f;
             }
             states.Fall.LedgeDetect.transform.localPosition = pos;
+            CurrentState.Render();
         }
 
         public void InputX()
