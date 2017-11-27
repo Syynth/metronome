@@ -131,6 +131,7 @@ namespace Assets.Code.Player
                 {
                     skeleton.flipX = false;
                 }
+                actor.animator.SetFloat("walk-backwards", Mathf.Sign(actor.aimInput.x) == Mathf.Sign(actor.velocity.x) ? 0 : 1);
             }
             else
             {
