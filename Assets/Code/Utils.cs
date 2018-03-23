@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
 
 namespace Assets.Code
 {
@@ -12,6 +13,9 @@ namespace Assets.Code
 
     public static class Utils
     {
+
+        public static readonly string SaveFileDirectory = Application.dataPath + Path.DirectorySeparatorChar + "saves" + Path.DirectorySeparatorChar;
+        public const string DateFormat = "yyyy-MM-dd HH.mm.ss";
 
         public static bool IsInLayerMask(int layer, LayerMask layermask)
         {
