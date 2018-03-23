@@ -16,5 +16,19 @@ Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 03/Jungle Rocks 03.asse
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 02/Jungle Rocks 02.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Grass 01.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 04/Terrain Material.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/RockTerrainMaterial.prefab
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/PipeMaterial.prefab
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/CaveTerrainMaterial.prefab
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/ForegroundTerrainMaterial.prefab
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.prefab
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/ForegroundTerrainMaterial.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/MossyTerrainMaterial.prefab
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/RockTerrainMaterial.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/MossyTerrainMaterial.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/CaveTerrainMaterial.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/PipeMaterial.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.prefab
 
 [Ferr2DT_PathTerrain]
