@@ -15,11 +15,26 @@ namespace Assets.Code.Editor
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
+
+            var gameState = target as GameState.GameState;
+
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Load from file"))
+            {
+                string filePath = UnityEditor.EditorUtility.OpenFilePanel(
+                    "Load save data",
+                    Utils.SaveFileDirectory,
+                    "json"
+                );
+                gameState.Load(filePath);
+            }
             if (GUILayout.Button("Save to file"))
             {
-                var gameState = target as GameState.GameState;
                 gameState.Save();
             }
+
+            EditorGUILayout.EndHorizontal();
         }
 
     }

@@ -13,17 +13,26 @@ namespace Assets.Code.GameState
     public class GameState : ScriptableObject
     {
 
+        public string SaveName = "New Save";
         public string LastSave = DateTime.Now.ToString(Utils.DateFormat);
+
+        public GameState TestState = null;
 
         public void Save()
         {
             Directory.CreateDirectory(Utils.SaveFileDirectory);
-            var jsonText = JsonUtility.ToJson(this);
-            var previousFileName = Utils.SaveFileDirectory + LastSave + ".json";
-            File.WriteAllText(previousFileName, jsonText);
+            TestState = CreateInstance<GameState>();
+            TestState.SaveName = "Boop";
+            var jsonText = JsonSerializer.SerializeRecursive(this);
+            var fileName = Utils.SaveFileDirectory + SaveName + ".json";
+            File.WriteAllText(fileName, jsonText);
             LastSave = DateTime.Now.ToString(Utils.DateFormat);
-            var nextFileName = Utils.SaveFileDirectory + LastSave + ".json";
-            File.Move(previousFileName, nextFileName);
+        }
+
+        public void Load(string filePath)
+        {
+            string jsonText = File.ReadAllText(filePath);
+            JsonUtility.FromJsonOverwrite(jsonText, this);
         }
 
     }
