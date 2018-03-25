@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Assets.Code;
+using UnityEngine.UI;
 
 namespace Assets.Code.GameState
 {
@@ -10,9 +11,10 @@ namespace Assets.Code.GameState
     {
 
         public GameState EditorGameState = null;
+        public Button LoadButton = null;
 
         [SerializeField]
-        string[] saveFiles;
+        string[] saveFiles = new string[0];
 
         public void DetectSaveGames()
         {
@@ -22,6 +24,10 @@ namespace Assets.Code.GameState
         private void Start()
         {
             DetectSaveGames();
+            if (LoadButton != null)
+            {
+                LoadButton.gameObject.SetActive(saveFiles.Length > 0);
+            }
         }
 
         public void LoadGameState(string fileName)
