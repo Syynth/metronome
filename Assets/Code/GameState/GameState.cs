@@ -21,8 +21,6 @@ namespace Assets.Code.GameState
         public void Save()
         {
             Directory.CreateDirectory(Utils.SaveFileDirectory);
-            TestState = CreateInstance<GameState>();
-            TestState.SaveName = "Boop";
             var jsonText = JsonSerializer.SerializeRecursive(this);
             var fileName = Utils.SaveFileDirectory + SaveName + ".json";
             File.WriteAllText(fileName, jsonText);
@@ -32,7 +30,7 @@ namespace Assets.Code.GameState
         public void Load(string filePath)
         {
             string jsonText = File.ReadAllText(filePath);
-            JsonUtility.FromJsonOverwrite(jsonText, this);
+            JsonSerializer.DeserializeRecursive<GameState>(jsonText, this);
         }
 
     }

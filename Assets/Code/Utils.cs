@@ -50,6 +50,33 @@ namespace Assets.Code
             return data.ToString();
         }
 
+        public static T DeserializeRecursive<T>(string json, T target)
+        {
+            var data = JObject.Parse(json);
+            JsonUtility.FromJsonOverwrite(json, target);
+            data.Properties()
+                .Where(prop =>
+                {
+                    Debug.Log("Testing prop " + prop.Name + ", Value.Count=" + prop.Value.Count() + ", Value.Type=" + prop.Value.Type); // + ", instanceID=" + prop.Value["instanceID"] + ", instanceData=" + prop.Value["instanceData"]);
+                    return prop.Value.Type == JTokenType.Object &&
+                        prop.Value.Count() == 2 &&
+                        prop.Value["instanceID"] != null &&
+                        prop.Value["instanceData"] != null;
+                })
+                .ToList()
+                .ForEach(prop =>
+                {
+                    var instanceID = (string)prop.Value["instanceID"];
+                    var instanceData = (string)prop.Value["instanceData"];
+                    Debug.Log("Recursing into prop " + prop.Name + ", instanceID=" + instanceID);
+                    if (instanceID == "0") return;
+                    var child = target.GetType().GetField(prop.Name).GetValue(target);
+                    DeserializeRecursive(instanceData, child);
+                });
+
+            return target;
+        }
+
     }
 
     public static class Direction
