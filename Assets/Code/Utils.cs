@@ -94,7 +94,7 @@ namespace Assets.Code
     public static class Utils
     {
 
-        public static readonly string SaveFileDirectory = Application.dataPath + Path.DirectorySeparatorChar + "saves" + Path.DirectorySeparatorChar;
+        public static readonly string SaveFileDirectory = Application.dataPath + "/saves/";
         public const string DateFormat = "yyyy-MM-dd HH.mm.ss";
 
         public static bool IsInLayerMask(int layer, LayerMask layermask)
