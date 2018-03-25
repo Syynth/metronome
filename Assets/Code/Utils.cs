@@ -50,7 +50,7 @@ namespace Assets.Code
             return data.ToString();
         }
 
-        public static T DeserializeRecursive<T>(string json, T target)
+        public static T DeserializeRecursiveOverwrite<T>(string json, T target)
         {
             var data = JObject.Parse(json);
             JsonUtility.FromJsonOverwrite(json, target);
@@ -71,10 +71,16 @@ namespace Assets.Code
                     Debug.Log("Recursing into prop " + prop.Name + ", instanceID=" + instanceID);
                     if (instanceID == "0") return;
                     var child = target.GetType().GetField(prop.Name).GetValue(target);
-                    DeserializeRecursive(instanceData, child);
+                    DeserializeRecursiveOverwrite(instanceData, child);
                 });
 
             return target;
+        }
+
+        public static T DeserializeRecursive<T>(string json) where T : ScriptableObject
+        {
+            var target = ScriptableObject.CreateInstance<T>();
+            return DeserializeRecursiveOverwrite(json, target);
         }
 
     }

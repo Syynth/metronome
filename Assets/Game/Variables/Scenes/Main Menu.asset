@@ -8,9 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71eeb0004523bb4c9f734b628ec7c37, type: 3}
-  m_Name: Test State
+  m_Script: {fileID: 11500000, guid: 9187db7dbe10d4f40bd1d28345cda631, type: 3}
+  m_Name: Main Menu
   m_EditorClassIdentifier: 
-  SaveName: toot
-  LastSave: 2018-03-24 21.17.56
-  TestState: {fileID: 0}
+  Value: Assets/Game/Menus/Main Menu.unity

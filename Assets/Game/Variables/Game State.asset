@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: Game State
   m_EditorClassIdentifier: 
   SaveName: Main Save
-  LastSave: 2018-03-24 21.25.15
-  TestState: {fileID: 11400000, guid: a66ee804d610fc64eb8e84d3b8dca8cd, type: 2}
+  LastSave: 2018-03-25 15.37.34
+  TestState: {fileID: 0}

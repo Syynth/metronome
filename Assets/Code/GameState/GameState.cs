@@ -16,21 +16,26 @@ namespace Assets.Code.GameState
         public string SaveName = "New Save";
         public string LastSave = DateTime.Now.ToString(Utils.DateFormat);
 
-        public GameState TestState = null;
+
+
+        public void Reinitialize(string SaveName)
+        {
+            this.SaveName = SaveName;
+        }
 
         public void Save()
         {
             Directory.CreateDirectory(Utils.SaveFileDirectory);
             var jsonText = JsonSerializer.SerializeRecursive(this);
             var fileName = Utils.SaveFileDirectory + SaveName + ".json";
-            File.WriteAllText(fileName, jsonText);
             LastSave = DateTime.Now.ToString(Utils.DateFormat);
+            File.WriteAllText(fileName, jsonText);
         }
 
         public void Load(string filePath)
         {
             string jsonText = File.ReadAllText(filePath);
-            JsonSerializer.DeserializeRecursive<GameState>(jsonText, this);
+            JsonSerializer.DeserializeRecursiveOverwrite(jsonText, this);
         }
 
     }

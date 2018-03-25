@@ -24,23 +24,6 @@ namespace Assets.Code.GameState
         private void Start()
         {
             DetectSaveGames();
-            if (LoadButton != null)
-            {
-                LoadButton.gameObject.SetActive(saveFiles.Length > 0);
-            }
-        }
-
-        public void LoadGameState(string fileName)
-        {
-            var jsonText = File.ReadAllText(Utils.SaveFileDirectory + fileName);
-            JsonUtility.FromJsonOverwrite(jsonText, EditorGameState);
-        }
-
-        public void SaveGameState(GameState gameState)
-        {
-            var jsonText = JsonUtility.ToJson(gameState);
-            var fileName = gameState.LastSave + ".json";
-            File.WriteAllText(Utils.SaveFileDirectory + fileName, jsonText);
         }
 
     }
