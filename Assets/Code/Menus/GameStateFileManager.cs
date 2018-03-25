@@ -9,6 +9,8 @@ namespace Assets.Code.Menu
     {
 
         public GameState.GameState EditorGameState = null;
+        public GameObject LoadScreenButton = null;
+
         public Button LoadFileButton = null;
         public RectTransform LoadFileButtonList = null;
 
@@ -18,18 +20,25 @@ namespace Assets.Code.Menu
         public void DetectSaveGames()
         {
             saveFiles = Directory.GetFileSystemEntries(Utils.SaveFileDirectory, "*.json");
-            for (var index = 0; index < saveFiles.Length; ++index)
+            if (LoadScreenButton != null)
             {
-                var nextButton = Instantiate<Button>(LoadFileButton);
-                nextButton.GetComponentInChildren<Text>().text = saveFiles[index].Split('/').Last().Replace(".json", "");
-                // nextButton.onClick.AddListener(() => EditorGameState.Load(saveFiles[index]));
-                var rect = nextButton.GetComponent<RectTransform>().rect;
-                rect.xMin = 25;
-                rect.xMax = 25;
-                var pos = nextButton.transform.localPosition;
-                pos.y = -50 - 75 * index;
-                nextButton.transform.localPosition = pos;
-                nextButton.transform.SetParent(LoadFileButtonList, false);
+                LoadScreenButton.SetActive(saveFiles.Length > 0);
+            }
+            else
+            {
+                for (var index = 0; index < saveFiles.Length; ++index)
+                {
+                    var nextButton = Instantiate<Button>(LoadFileButton);
+                    nextButton.GetComponentInChildren<Text>().text = saveFiles[index].Split('/').Last().Replace(".json", "");
+                    // nextButton.onClick.AddListener(() => EditorGameState.Load(saveFiles[index]));
+                    var rect = nextButton.GetComponent<RectTransform>().rect;
+                    rect.xMin = 25;
+                    rect.xMax = 25;
+                    var pos = nextButton.transform.localPosition;
+                    pos.y = -50 - 75 * index;
+                    nextButton.transform.localPosition = pos;
+                    nextButton.transform.SetParent(LoadFileButtonList, false);
+                }
             }
         }
 

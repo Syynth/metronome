@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Game/Menus/New Save Menu.unity
     guid: 410ab905ec0fe4a46853001c1f403197
   - enabled: 1
+    path: Assets/Game/Menus/Load Save Menu.unity
+    guid: 4fb3cdc3243a8eb4f8b0de3b79ff0584
+  - enabled: 1
     path: Assets/Protoyping/Scenes/test-2.unity
     guid: aa5cde6562a687d40827b1ef17f6944d
   - enabled: 1
