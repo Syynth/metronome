@@ -19,6 +19,7 @@ namespace Assets.Code.Menu
 
         public void DetectSaveGames()
         {
+            Directory.CreateDirectory(Utils.SaveFileDirectory);
             saveFiles = Directory.GetFileSystemEntries(Utils.SaveFileDirectory, "*.json");
             if (LoadScreenButton != null)
             {
