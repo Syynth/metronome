@@ -28,6 +28,11 @@ namespace Assets.Code.GameState
             CurrentScene = DefaultIntroScene;
         }
 
+        public void StartGame()
+        {
+            CurrentScene.GoTo();
+        }
+
         public void Save()
         {
             Directory.CreateDirectory(Utils.SaveFileDirectory);
