@@ -12,15 +12,18 @@ namespace Assets.Code.Editors
         public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
         {
             var scene = target as SceneVariable;
-            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(scene.Value) == null)
-            {
-                return AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Gizmos/CustomAssetError Icon.png");
-            }
+            Texture2D texture = null;
             if (scene.LoadingZone == null)
             {
-                return AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Gizmos/CustomAssetWarning Icon.png");
+                texture = new Texture2D(width, height);
+                EditorUtility.CopySerialized(AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Gizmos/CustomAssetWarning Icon.png"), texture);
             }
-            return null;
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(scene.Value) == null)
+            {
+                texture = new Texture2D(width, height);
+                EditorUtility.CopySerialized(AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Gizmos/CustomAssetError Icon.png"), texture);
+            }
+            return texture;
         }
 
         public override void OnInspectorGUI()
