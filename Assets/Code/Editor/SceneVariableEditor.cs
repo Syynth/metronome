@@ -9,6 +9,20 @@ namespace Assets.Code.Editors
     public class SceneVariableEditor : Editor
     {
 
+        public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
+        {
+            var scene = target as SceneVariable;
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(scene.Value) == null)
+            {
+                return AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Gizmos/CustomAssetError Icon.png");
+            }
+            if (scene.LoadingZone == null)
+            {
+                return AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Gizmos/CustomAssetWarning Icon.png");
+            }
+            return null;
+        }
+
         public override void OnInspectorGUI()
         {
             var sceneVariable = target as SceneVariable;
@@ -42,14 +56,8 @@ namespace Assets.Code.Editors
             {
                 var zoneProperty = serializedObject.FindProperty("LoadingZone");
                 zoneProperty.objectReferenceValue = newZone;
-                if (oldZone != null)
-                {
-                    oldZone.RemoveScene(sceneVariable);
-                }
-                if (newScene != null)
-                {
-                    newZone.AddScene(sceneVariable);
-                }
+                oldZone?.RemoveScene(sceneVariable);
+                newZone?.AddScene(sceneVariable);
             }
 
 

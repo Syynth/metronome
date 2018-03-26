@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Name: Main Menu
   m_EditorClassIdentifier: 
   Value: Assets/Game/Menus/Main Menu.unity
+  LoadingZone: {fileID: 11400000, guid: 901f39ca38b84f745bb2ff5971c06799, type: 2}
