@@ -17,7 +17,7 @@ namespace Assets.Code.GameState
         public string SaveName = "New Save";
         public string LastSave = DateTime.Now.ToString(Utils.DateFormat);
 
-        public SceneVariable GameStartScene;
+        public SceneVariable DefaultIntroScene;
 
         public SceneVariable CurrentScene;
 
@@ -25,6 +25,7 @@ namespace Assets.Code.GameState
         public void Reinitialize(string SaveName)
         {
             this.SaveName = SaveName;
+            CurrentScene = DefaultIntroScene;
         }
 
         public void Save()

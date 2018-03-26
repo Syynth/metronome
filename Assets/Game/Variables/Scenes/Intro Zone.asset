@@ -9,7 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11655129fdfa3c2498502f52a320f040, type: 3}
-  m_Name: Test Zone 1
+  m_Name: Intro Zone
   m_EditorClassIdentifier: 
-  Name: Test Zone 1
-  Scenes: []
+  Name: 
+  Scenes:
+  - {fileID: 11400000, guid: 0cc0256a18c5a864ab0b1f6c24315de4, type: 2}
