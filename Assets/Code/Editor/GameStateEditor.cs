@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEditor;
 
-namespace Assets.Code.Editor
+namespace Assets.Code.Editors
 {
     [CustomEditor(typeof(GameState.GameState))]
-    public class GameStateEditor : UnityEditor.Editor
+    public class GameStateEditor : Editor
     {
 
         public override void OnInspectorGUI()

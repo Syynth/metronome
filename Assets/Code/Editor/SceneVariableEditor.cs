@@ -2,17 +2,18 @@
 using UnityEditor;
 using Assets.Code.References;
 
-namespace Assets.Code.Editor
+namespace Assets.Code.Editors
 {
 
     [CustomEditor(typeof(SceneVariable))]
-    public class SceneVariableEditor : UnityEditor.Editor
+    public class SceneVariableEditor : Editor
     {
 
         public override void OnInspectorGUI()
         {
             var sceneVariable = target as SceneVariable;
             var oldScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(sceneVariable.Value);
+            var oldZone = sceneVariable.LoadingZone;
 
             serializedObject.Update();
 
@@ -24,6 +25,7 @@ namespace Assets.Code.Editor
                 var newPath = AssetDatabase.GetAssetPath(newScene);
                 var scenePathProperty = serializedObject.FindProperty("Value");
                 scenePathProperty.stringValue = newPath;
+
             }
             else
             {
@@ -32,6 +34,25 @@ namespace Assets.Code.Editor
                     EditorGUILayout.HelpBox("This scene variable is invalid.", MessageType.Error);
                 }
             }
+
+            EditorGUI.BeginChangeCheck();
+
+            var newZone = EditorGUILayout.ObjectField("Loading Zone", oldZone, typeof(SceneLoadingZone), false) as SceneLoadingZone;
+            if (EditorGUI.EndChangeCheck())
+            {
+                var zoneProperty = serializedObject.FindProperty("LoadingZone");
+                zoneProperty.objectReferenceValue = newZone;
+                if (oldZone != null)
+                {
+                    oldZone.RemoveScene(sceneVariable);
+                }
+                if (newScene != null)
+                {
+                    newZone.AddScene(sceneVariable);
+                }
+            }
+
+
             serializedObject.ApplyModifiedProperties();
         }
 
