@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Assets.Code;
 using System.IO;
+using Assets.Code.References;
 
 namespace Assets.Code.GameState
 {
@@ -16,6 +17,9 @@ namespace Assets.Code.GameState
         public string SaveName = "New Save";
         public string LastSave = DateTime.Now.ToString(Utils.DateFormat);
 
+        public SceneVariable GameStartScene;
+
+        public SceneVariable CurrentScene;
 
 
         public void Reinitialize(string SaveName)
@@ -36,6 +40,11 @@ namespace Assets.Code.GameState
         {
             string jsonText = File.ReadAllText(filePath);
             JsonSerializer.DeserializeRecursiveOverwrite(jsonText, this);
+        }
+
+        public void ExitGame()
+        {
+            Application.Quit();
         }
 
     }
