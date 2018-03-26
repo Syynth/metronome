@@ -22,7 +22,7 @@ namespace Assets.Code.GameState
         public SceneVariable CurrentScene;
 
 
-        public void Reinitialize(string SaveName)
+        public void Reinitialize(string SaveName = "New Save")
         {
             this.SaveName = SaveName;
             CurrentScene = DefaultIntroScene;

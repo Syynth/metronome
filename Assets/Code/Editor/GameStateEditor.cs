@@ -20,6 +20,10 @@ namespace Assets.Code.Editors
 
             EditorGUILayout.BeginHorizontal();
 
+            if (GUILayout.Button("Reset"))
+            {
+                gameState.Reinitialize();
+            }
             if (GUILayout.Button("Load from file"))
             {
                 string filePath = UnityEditor.EditorUtility.OpenFilePanel(
