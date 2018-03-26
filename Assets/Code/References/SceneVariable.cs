@@ -10,6 +10,7 @@ namespace Assets.Code.References
     {
 
         public string Value = null;
+        public SceneLoadingZone LoadingZone = null;
 
         public void GoTo()
         {
