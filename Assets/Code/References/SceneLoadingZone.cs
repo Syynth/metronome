@@ -22,7 +22,7 @@ namespace Assets.Code.References
 
         public void RemoveScene(SceneVariable scene)
         {
-            Scenes = Scenes.Where(s => s.Value != scene.Value).ToList();
+            Scenes = Scenes.Where(s => s == null || s.Value != scene.Value).ToList();
         }
 
     }

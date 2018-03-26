@@ -8,8 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9187db7dbe10d4f40bd1d28345cda631, type: 3}
-  m_Name: New Save Menu
+  m_Script: {fileID: 11500000, guid: 11655129fdfa3c2498502f52a320f040, type: 3}
+  m_Name: Test Zone 2
   m_EditorClassIdentifier: 
-  Value: Assets/Game/Menus/New Save Menu.unity
-  LoadingZone: {fileID: 11400000, guid: 901f39ca38b84f745bb2ff5971c06799, type: 2}
+  Name: 
+  Scenes: []

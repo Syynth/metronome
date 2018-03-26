@@ -31,9 +31,6 @@ namespace Assets.Code.Editors
         private void AddCallback(ReorderableList list)
         {
             ReorderableList.defaultBehaviours.DoAddButton(list);
-            serializedObject.ApplyModifiedProperties();
-            var scenes = (target as SceneLoadingZone).Scenes;
-            scenes[scenes.Count - 1] = null;
         }
 
         private void RemoveCallback(ReorderableList list)
@@ -45,7 +42,20 @@ namespace Assets.Code.Editors
         {
             var item = sceneList.serializedProperty.GetArrayElementAtIndex(index);
             var fieldRect = new Rect(rect.x, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight);
-            EditorGUI.ObjectField(fieldRect, item, typeof(SceneVariable));
+            var oldSceneVariable = item.objectReferenceValue as SceneVariable;
+            var zone = target as SceneLoadingZone;
+
+            var newSceneVariable = EditorGUI.ObjectField(fieldRect, "Scene #" + (index + 1).ToString(), oldSceneVariable, typeof(SceneVariable), false) as SceneVariable;
+
+            newSceneVariable?.SetLoadingZone(zone);
+
+            if (newSceneVariable == null || zone.Scenes.Find(scene => scene != null && newSceneVariable.Value == scene.Value) == null)
+            {
+                oldSceneVariable?.SetLoadingZone(null);
+                item.objectReferenceValue = newSceneVariable;
+            }
+
+            serializedObject.ApplyModifiedProperties();
         }
 
         public override void OnInspectorGUI()

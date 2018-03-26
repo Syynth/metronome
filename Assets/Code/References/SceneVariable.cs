@@ -12,6 +12,15 @@ namespace Assets.Code.References
         public string Value = null;
         public SceneLoadingZone LoadingZone = null;
 
+        public void SetLoadingZone(SceneLoadingZone zone)
+        {
+            if (LoadingZone != null & LoadingZone != zone)
+            {
+                LoadingZone.RemoveScene(this);
+            }
+            LoadingZone = zone;
+        }
+
         public void GoTo()
         {
             SceneManager.LoadSceneAsync(Value, LoadSceneMode.Single);
