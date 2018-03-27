@@ -31,7 +31,11 @@ namespace Assets.Code.Menu
                 {
                     var nextButton = Instantiate<Button>(LoadFileButton);
                     nextButton.GetComponentInChildren<Text>().text = saveFiles[index].Split('/').Last().Replace(".json", "");
-                    nextButton.onClick.AddListener(() => EditorGameState.Load(saveFiles[index]));
+                    var count = index;
+                    nextButton.onClick.AddListener(() => {
+                        EditorGameState.Load(saveFiles[count]);
+                        EditorGameState.CurrentScene.GoTo();
+                    });
                     var rect = nextButton.GetComponent<RectTransform>().rect;
                     rect.xMin = 25;
                     rect.xMax = 25;

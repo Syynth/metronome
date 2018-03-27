@@ -1,4 +1,11 @@
 {
   "SaveName": "test",
-  "LastSave": "2018-03-25 15.37.34"
+  "LastSave": "2018-03-25 15.37.34",
+  "DefaultIntroScene": {
+    "instanceID": 19372,
+    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/test-2.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 15012,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 19372\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  }\r\n}"
+  },
+  "CurrentScene": {
+    "instanceID": 19372
+  }
 }
