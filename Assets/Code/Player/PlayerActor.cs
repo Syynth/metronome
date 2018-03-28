@@ -11,6 +11,7 @@ namespace Assets.Code.Player
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(InputController))]
     [RequireComponent(typeof(RewiredInputSource))]
+    [RequireComponent(typeof(BoxCollider))]
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
     {
         public int frame = 0;
@@ -192,6 +193,16 @@ namespace Assets.Code.Player
         {
             velocity.x = x;
             velocity.y = y;
+        }
+
+        private void OnTriggerEnter(Collider collider)
+        {
+            Debug.Log("collided with trigger");
+            var door = collider.gameObject.GetComponent<SceneEntrance>();
+            if (door != null && door.TransitionImmediately)
+            {
+                door.Enter();
+            }
         }
 
         public CollisionInfo Move()

@@ -34,18 +34,19 @@ namespace Assets.Code
                 .ForEach(prop =>
                 {
                     var instanceID = (string)prop.Value["instanceID"];
-                    Debug.Log("Recursing into prop " + prop.Name + ", instanceID=" + instanceID);
                     if (set.Contains(instanceID) || instanceID == "0") return;
+                    var newSet = new HashSet<string>(set)
+                    {
+                        instanceID
+                    };
                     (prop.Value as JObject)
                         .Property("instanceID")
                         .AddAfterSelf(
                             new JProperty(
                                 "instanceData",
-                                SerializeRecursiveWithoutCircular(target.GetType().GetField(prop.Name).GetValue(target), set)
+                                SerializeRecursiveWithoutCircular(target.GetType().GetField(prop.Name).GetValue(target), newSet)
                             )  
                         );
-                    Debug.Log(prop);
-                    set.Add(instanceID);
                 });
             return data.ToString();
         }

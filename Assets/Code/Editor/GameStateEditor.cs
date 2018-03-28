@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 namespace Assets.Code.Editors
@@ -11,6 +6,18 @@ namespace Assets.Code.Editors
     [CustomEditor(typeof(GameState.GameState))]
     public class GameStateEditor : Editor
     {
+
+        public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
+        {
+            var gameState = target as GameState.GameState;
+            Texture2D texture = null;
+            if (gameState.DefaultIntroScene == null)
+            {
+                texture = new Texture2D(width, height);
+                EditorUtility.CopySerialized(AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Gizmos/CustomAssetError Icon.png"), texture);
+            }
+            return texture;
+        }
 
         public override void OnInspectorGUI()
         {

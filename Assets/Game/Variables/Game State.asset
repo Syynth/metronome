@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71eeb0004523bb4c9f734b628ec7c37, type: 3}
   m_Name: Game State
   m_EditorClassIdentifier: 
-  SaveName: Main Save
-  LastSave: 2018-03-25 15.37.34
+  SaveName: room test 2
+  LastSave: 2018-03-28 00.30.57
   DefaultIntroScene: {fileID: 11400000, guid: 0cc0256a18c5a864ab0b1f6c24315de4, type: 2}
   CurrentScene: {fileID: 0}
