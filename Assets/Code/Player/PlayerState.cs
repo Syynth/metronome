@@ -12,7 +12,7 @@ namespace Assets.Code.Player
             base.OnEnter();
             if (TriggerName != null)
             {
-                Debug.Log(string.Format("setting animation to {0} on frame {1}", TriggerName, actor.frame));
+                //Debug.Log(string.Format("setting animation to {0} on frame {1}", TriggerName, actor.frame));
                 actor.animator.SetTrigger(TriggerName);
             }
         }

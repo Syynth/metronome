@@ -27,7 +27,8 @@ public class Ferr2DT_MaterialSelector : ScriptableWizard
     void OnGUI() {
         EditorGUILayout.BeginVertical();
         
-        EditorGUILayout.HelpBox("If you cannot find your material, you may need to convert it to the new format.", MessageType.Info);
+		EditorGUILayout.Space();
+		EditorGUILayout.LabelField("Select a Material \u25BC", EditorStyles.boldLabel);
         EditorGUILayout.BeginHorizontal();
         if (_selectedObject != null) {
             IFerr2DTMaterial mat = _selectedObject as IFerr2DTMaterial;
@@ -39,7 +40,8 @@ public class Ferr2DT_MaterialSelector : ScriptableWizard
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndVertical();
         
-        EditorGUILayout.LabelField("Recent Materials", EditorStyles.boldLabel);
+		EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Or Pick From Recent Materials", EditorStyles.boldLabel);
         _scroll = EditorGUILayout.BeginScrollView(_scroll, EditorStyles.helpBox);
         List<UnityEngine.Object> history = GetRecentList();
         for (int i = 0; i < history.Count; i++) {

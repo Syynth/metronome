@@ -1,34 +1,22 @@
 v1
 
 [IFerr2DTMaterial]
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_06/Desert_Terrain_06.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_05/Desert_Terrain_05.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_03/Desert_Terrain_03.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_09/Desert_Terrain_09.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_02/Desert_Terrain_02.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_04/Desert_Terrain_04.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_01/Desert_Terrain_01.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_07/Desert_Terrain_07.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_010/Desert_Terrain_10.asset
-Assets/Packages/DesertPack/Desert/Terrain Materials/Terrain_08/Desert_Terrain_08.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 01/Jungle Rock 01.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 03/Jungle Rocks 03.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 02/Jungle Rocks 02.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Grass 01.asset
 Assets/Packages/2D_Jungle/Terrain_Materials/Jungle Rocks 04/Terrain Material.asset
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/RockTerrainMaterial.prefab
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/PipeMaterial.prefab
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/CaveTerrainMaterial.prefab
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/ForegroundTerrainMaterial.prefab
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.prefab
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.asset
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/ForegroundTerrainMaterial.asset
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/MossyTerrainMaterial.prefab
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/RockTerrainMaterial.asset
 Assets/Packages/Ferr/2DTerrain/TerrainMaterials/ForestTerrainMaterial.asset
 Assets/Packages/Ferr/2DTerrain/TerrainMaterials/MossyTerrainMaterial.asset
 Assets/Packages/Ferr/2DTerrain/TerrainMaterials/CaveTerrainMaterial.asset
 Assets/Packages/Ferr/2DTerrain/TerrainMaterials/PipeMaterial.asset
-Assets/Packages/Ferr/2DTerrain/TerrainMaterials/SandTerrainMaterial.prefab
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/JungleLit.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/CastleUnlit.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/JungleUnlit.asset
+Assets/Packages/Ferr/2DTerrain/TerrainMaterials/CastleLit.asset
 
 [Ferr2DT_PathTerrain]
+Assets/Packages/Ferr/2DTerrain/Examples/Assets/InfinitePrefabs/Prefab2.prefab
+Assets/Packages/Ferr/2DTerrain/Examples/Assets/InfinitePrefabs/Prefab4.prefab
+Assets/Packages/Ferr/2DTerrain/Examples/Assets/InfinitePrefabs/Prefab1.prefab
+Assets/Packages/Ferr/2DTerrain/Examples/Assets/InfinitePrefabs/Prefab3.prefab

@@ -3,7 +3,7 @@ Thanks for buying the Ferr2D Terrain Tool for Unity3D! We hope your experience w
 If you see Gizmo icon related warnings, and/or the handles aren't displaying properly, please delete the Ferr folder, and re-install the plugin!
 
 For documentation and tutorial videos go here! Or check out the quickstart guide and reference in the same folder as this file.
-http://ferrlib.com/page/Ferr2D_Terrain_Tool
+http://ferrlib.com/tool/ferr2d
 
 We can always be reached either by email, or on twitter!
 support@simbryocorp.com
@@ -14,13 +14,13 @@ Also, big thanks to Kelde for providing some sweet materials~ Check out his stuf
 http://artbyelde.wordpress.com/
 
 MENUS
-GameObject->Create Ferr2D Terrain->Create Physical 2D Terrain (Ctrl+T)
+GameObject->Create Ferr2D->Create Physical 2D Terrain (Ctrl+T)
 	Creates a pre-built terrain object in the scene, with collider options on. It's the easiest way of creating a terrain object.
 
-GameObject->Create Ferr2D Terrain->Create Decorative 2D Terrain (Ctrl+Shift+T)
+GameObject->Create Ferr2D->Create Decorative 2D Terrain (Ctrl+Shift+T)
 	Same as previous, but with colliders off.
 	
-GameObject->Create Ferr2D Terrain->Create Terrain Material
+GameObject->Create Ferr2D->Create Terrain Material
 	This creates a basic empty terrain material prefab. Hook up some materials to it, define some sides, and go!
 
 Tools->Ferr->2D Terrain->Rebuild Ferr2D terrain in scene
@@ -33,18 +33,46 @@ Edit->Preferences->Ferr
 	Various configuration options for visual and default values.
 
 KEY CONTROLS
-SHIFT+CTRL:  drag select path points
-SHIFT+Click: add path point
-ALT  +Click: removes path points
+SHIFT+Click: add control point
+C    +Click: change control point mode
+ALT  +Click: removes control points
 CTRL +Click: snap move points
 Ctrl +R:     toggle smart snap
 Ctrl +L:     toggle segment lock mode
 
-KNOWN ISSUES
--If you drag your mouse outside the material editor window and let go while dragging a region, no undo data will be saved.
--Forcing an edge type on the closing segment will have no effect, however, forcing the edge type before the closing segment will affect both.
-
 VERSION LOG
+
+v2.0.1 2018-3
++Bug fixes
+ -Fixed an infinite loop if body was set to zero
+ -Fixed inverted edges being flipped the wrong direction
+ -Help overlay was missing a small piece of text
+
+v2.0 2018-3
++Terrain
+ -Total re-write of core path code
+ -Added control point modes: sharp, bezier, arc
+ -Better curved edges, less texture distortion
+ -Mutli-select now works without requiring hot-keys
+ -Edit->Preferences Update Only On Release option for performance with complicated terrains
+ -Streamlined the Ferr2DT_PathTerrain inspector
+ -More than 4 edges are now available through Edge Overrides
+ -Inner caps, and per-cap settings
+ -Edge collider settings have been moved to the Terrain Material
+ -Physics materials per-edge
+ -A collection of different collider cap types
+ -Legacy system for working with v1.12 terrains, 100% compatible
++Demos
+ -Added new art assets and Terrain Materials from Kai Elde
+ -Redid the Lighting demo scene
+ -Runtime Edit demo was improved to show add/remove/edit
+ -Infinite Terrain demo was re-written using a significantly better prefab system
+ -Removed some really old demo files
++Bug Fixes
+ -All closing segment issues should be gone
+ -Fixed a bug where Applying a prefab would revert scene-linked properties
+
+ UPDATING: This is a large update, please delete old Ferr2D and re-install plugin! It is backwards compatible with terrain objects, v1.x terrains will behave exactly as they did before, and will have an "Upgrade" button. New terrains can exist side by side with old ones.
 
 v1.12 2017-9
 +Terrain

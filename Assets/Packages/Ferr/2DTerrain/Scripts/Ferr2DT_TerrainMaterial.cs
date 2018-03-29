@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 /// <summary>
 /// Describes a material that can be applied to a Ferr2DT_PathTerrain
@@ -24,6 +25,10 @@ public class Ferr2DT_TerrainMaterial : MonoBehaviour, IFerr2DTMaterial
     /// The material of the edges of the terrain.
     /// </summary>
 	public Material edgeMaterial { get{return _edgeMaterial;} set{_edgeMaterial = value;} }
+	/// <summary>
+	/// How many edge descriptors are present in the material?
+	/// </summary>
+	public int descriptorCount { get{ return descriptors.Length; } }
     #endregion
 
     #region Constructor
@@ -131,6 +136,24 @@ public class Ferr2DT_TerrainMaterial : MonoBehaviour, IFerr2DTMaterial
             aNativeRect.width  * edgeMaterial.mainTexture.width,
             aNativeRect.height * edgeMaterial.mainTexture.height);
     }
+
+	public void Add() {
+		Array.Resize(ref descriptors, descriptors.Length+1);
+		var newSegment = new Ferr2DT_SegmentDescription();
+		newSegment.applyTo = (Ferr2DT_TerrainDirection)descriptors.Length-1;
+		descriptors[descriptors.Length-1] = newSegment;
+	}
+	public void Remove(Ferr2DT_TerrainDirection aDirection) {
+		if ((int)aDirection <= 3) {
+			Set(aDirection, false);
+			return;
+		}
+
+		for (int i = (int)aDirection; i < descriptors.Length-1; i++) {
+			descriptors[i] = descriptors[i+1];
+		}
+		Array.Resize(ref descriptors, descriptors.Length-1);
+	}
 
     public Ferr2DT_Material CreateNewFormatMaterial() {
         Ferr2DT_Material result = ScriptableObject.CreateInstance<Ferr2DT_Material>();

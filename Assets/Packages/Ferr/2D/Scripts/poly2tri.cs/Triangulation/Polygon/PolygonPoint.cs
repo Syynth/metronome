@@ -38,7 +38,7 @@ namespace FerrPoly2Tri
 {
     public class PolygonPoint : TriangulationPoint
     {
-        public PolygonPoint(double x, double y) : base(x, y) { }
+        public PolygonPoint(double x, double y, int aId=-1) : base(x, y, aId) { }
 
         public PolygonPoint Next { get; set; }
         public PolygonPoint Previous { get; set; }

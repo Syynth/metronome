@@ -70,7 +70,7 @@ namespace FerrPoly2Tri
 
         public override string ToString()
         {
-            return "[" + X.ToString() + "," + Y.ToString() + "]";
+            return "[" + mX.ToString() + "," + mY.ToString() + "]";
         }
 
 
@@ -100,7 +100,7 @@ namespace FerrPoly2Tri
 
         public bool Equals(Point2D p, double epsilon)
         {
-            if ((object)p == null || !MathUtil.AreValuesEqual(X, p.X, epsilon) || !MathUtil.AreValuesEqual(Y, p.Y, epsilon))
+            if ((object)p == null || !MathUtil.AreValuesEqual(mX, p.mX, epsilon) || !MathUtil.AreValuesEqual(mY, p.mY, epsilon))
             {
                 return false;
             }
@@ -111,21 +111,21 @@ namespace FerrPoly2Tri
 
         public int CompareTo(Point2D other)
         {
-            if (Y < other.Y)
+            if (mY < other.mY)
             {
                 return -1;
             }
-            else if (Y > other.Y)
+            else if (mY > other.mY)
             {
                 return 1;
             }
             else
             {
-                if (X < other.X)
+                if (mX < other.mX)
                 {
                     return -1;
                 }
-                else if (X > other.X)
+                else if (mX > other.mX)
                 {
                     return 1;
                 }
@@ -136,26 +136,26 @@ namespace FerrPoly2Tri
 
 
         public virtual void Set(double x, double y) { X = x; Y = y; }
-        public virtual void Set(Point2D p) { X = p.X; Y = p.Y; }
+        public virtual void Set(Point2D p) { X = p.mX; Y = p.mY; }
 
-        public void Add(Point2D p) { X += p.X; Y += p.Y; }
+        public void Add(Point2D p) { X += p.mX; Y += p.mY; }
         public void Add(double scalar) { X += scalar; Y += scalar; }
-        public void Subtract(Point2D p) { X -= p.X; Y -= p.Y; }
+        public void Subtract(Point2D p) { X -= p.mX; Y -= p.mY; }
         public void Subtract(double scalar) { X -= scalar; Y -= scalar; }
-        public void Multiply(Point2D p) { X *= p.X; Y *= p.Y; }
+        public void Multiply(Point2D p) { X *= p.mX; Y *= p.mY; }
         public void Multiply(double scalar) { X *= scalar; Y *= scalar; }
-        public void Divide(Point2D p) { X /= p.X; Y /= p.Y; }
+        public void Divide(Point2D p) { X /= p.mX; Y /= p.mY; }
         public void Divide(double scalar) { X /= scalar; Y /= scalar; }
-        public void Negate() { X = -X; Y = -Y; }
-        public double Magnitude() { return Math.Sqrt((X * X) + (Y * Y)); }
-        public double MagnitudeSquared() { return (X * X) + (Y * Y); }
+        public void Negate() { X = -mX; Y = -mY; }
+        public double Magnitude() { return Math.Sqrt((mX * mX) + (mY * mY)); }
+        public double MagnitudeSquared() { return (mX * mX) + (mY * mY); }
         public double MagnitudeReciprocal() { return 1.0 / Magnitude(); }
         public void Normalize() { Multiply(MagnitudeReciprocal()); }
-        public double Dot(Point2D p) { return (X * p.X) + (Y * p.Y); }
-        public double Cross(Point2D p) { return (X * p.Y) - (Y * p.X); }
-        public void Clamp(Point2D low, Point2D high) { X = Math.Max(low.X, Math.Min(X, high.X)); Y = Math.Max(low.Y, Math.Min(Y, high.Y)); }
-        public void Abs() { X = Math.Abs(X); Y = Math.Abs(Y); }
-        public void Reciprocal() { if (X != 0.0 && Y != 0.0) { X = 1.0 / X; Y = 1.0 / Y; } }
+        public double Dot(Point2D p) { return (mX * p.mX) + (mY * p.mY); }
+        public double Cross(Point2D p) { return (mX * p.mY) - (Y * p.mX); }
+        public void Clamp(Point2D low, Point2D high) { X = Math.Max(low.mX, Math.Min(mX, high.mX)); Y = Math.Max(low.mY, Math.Min(mY, high.mY)); }
+        public void Abs() { X = Math.Abs(mX); Y = Math.Abs(mY); }
+        public void Reciprocal() { if (mX != 0.0 && mY != 0.0) { X = 1.0 / mX; Y = 1.0 / mY; } }
 
         public void Translate(Point2D vector) { Add(vector); }
         public void Translate(double x, double y) { X += x; Y += y; }
@@ -177,17 +177,17 @@ namespace FerrPoly2Tri
             Rotate(radians);
         }
 
-        public static double Dot(Point2D lhs, Point2D rhs) { return (lhs.X * rhs.X) + (lhs.Y * rhs.Y); }
-        public static double Cross(Point2D lhs, Point2D rhs) { return (lhs.X * rhs.Y) - (lhs.Y * rhs.X); }
+        public static double Dot(Point2D lhs, Point2D rhs) { return (lhs.mX * rhs.mX) + (lhs.mY * rhs.mY); }
+        public static double Cross(Point2D lhs, Point2D rhs) { return (lhs.mX * rhs.mY) - (lhs.mY * rhs.mX); }
         public static Point2D Clamp(Point2D a, Point2D low, Point2D high) { Point2D p = new Point2D(a); p.Clamp(low, high); return p; }
-        public static Point2D Min(Point2D a, Point2D b) { Point2D p = new Point2D(); p.X = Math.Min(a.X, b.X); p.Y = Math.Min(a.Y, b.Y); return p; }
-        public static Point2D Max(Point2D a, Point2D b) { Point2D p = new Point2D(); p.X = Math.Max(a.X, b.X); p.Y = Math.Max(a.Y, b.Y); return p; }
-        public static Point2D Abs(Point2D a) { Point2D p = new Point2D(Math.Abs(a.X), Math.Abs(a.Y)); return p; }
-        public static Point2D Reciprocal(Point2D a) { Point2D p = new Point2D(1.0 / a.X, 1.0 / a.Y); return p; }
+        public static Point2D Min(Point2D a, Point2D b) { Point2D p = new Point2D(); p.X = Math.Min(a.mX, b.mX); p.Y = Math.Min(a.mY, b.mY); return p; }
+        public static Point2D Max(Point2D a, Point2D b) { Point2D p = new Point2D(); p.X = Math.Max(a.mX, b.mX); p.Y = Math.Max(a.mY, b.mY); return p; }
+        public static Point2D Abs(Point2D a) { Point2D p = new Point2D(Math.Abs(a.mX), Math.Abs(a.mY)); return p; }
+        public static Point2D Reciprocal(Point2D a) { Point2D p = new Point2D(1.0 / a.mX, 1.0 / a.mY); return p; }
 
         // returns a scaled perpendicular vector.  Which direction it goes depends on the order in which the arguments are passed
-        public static Point2D Perpendicular(Point2D lhs, double scalar) { Point2D p = new Point2D(lhs.Y * scalar, lhs.X * -scalar); return p; }
-        public static Point2D Perpendicular(double scalar, Point2D rhs) { Point2D p = new Point2D(-scalar * rhs.Y, scalar * rhs.X); return p; }
+        public static Point2D Perpendicular(Point2D lhs, double scalar) { Point2D p = new Point2D(lhs.mY * scalar, lhs.mX * -scalar); return p; }
+        public static Point2D Perpendicular(double scalar, Point2D rhs) { Point2D p = new Point2D(-scalar * rhs.mY, scalar * rhs.mX); return p; }
 
         
         //

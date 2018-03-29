@@ -9,12 +9,26 @@ using UnityEditor.SceneManagement;
 // this class tracks Unity's play / stop play events, so we can enable and disable
 [InitializeOnLoad]
 class IsolationDeactivator {
+#if UNITY_2017_2_OR_NEWER
+	static IsolationDeactivator() {
+		EditorApplication.playModeStateChanged += HandleChange;
+	}
+	static void HandleChange(PlayModeStateChange aChange) {
+		if (aChange == PlayModeStateChange.ExitingEditMode) {
+			EditInIsolation.DisableObjects();
+		}
+		if (aChange == PlayModeStateChange.EnteredEditMode) {
+			EditInIsolation.EnableObjects();
+		}
+	}
+#else
 	static bool wasPlayingPre  = false;
 	static bool wasPlayingPost = false;
 
 	static IsolationDeactivator() {
 		EditorApplication.playmodeStateChanged = HandleChange;
 	}
+
 	static void HandleChange() {
 		// Disable objects -before- we start playing. Don't want Awake events.
 		if (!wasPlayingPre && EditorApplication.isPlayingOrWillChangePlaymode) {
@@ -27,6 +41,7 @@ class IsolationDeactivator {
 		wasPlayingPre  = EditorApplication.isPlayingOrWillChangePlaymode;
 		wasPlayingPost = EditorApplication.isPlaying;
 	}
+#endif
 }
 #endif
 
@@ -68,6 +83,9 @@ public class EditInIsolation : MonoBehaviour {
 		// find the isolation scene
 		for (int i = 0; i < EditorSceneManager.sceneCount; i++) {
 			Scene scene = EditorSceneManager.GetSceneAt(i);
+			if (!scene.isLoaded)
+				continue;
+
 			GameObject[] roots = scene.GetRootGameObjects();
 			edit = GetFrom(roots);
 			if (edit != null)
@@ -82,6 +100,9 @@ public class EditInIsolation : MonoBehaviour {
 		// find the isolation scene
 		for (int i = 0; i < EditorSceneManager.sceneCount; i++) {
 			result = EditorSceneManager.GetSceneAt(i);
+			if (!result.isLoaded)
+				continue;
+
 			GameObject[] roots = result.GetRootGameObjects();
 			edit = GetFrom(roots);
 			if (edit != null) 

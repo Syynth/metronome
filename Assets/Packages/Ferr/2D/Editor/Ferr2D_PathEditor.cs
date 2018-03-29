@@ -628,7 +628,7 @@ public class Ferr2D_PathEditor : Editor {
 		if (Event.current.control && Ferr2DT_Menu.SnapMode == Ferr2DT_Menu.SnapType.SnapGlobal) global = SnapVector(global, snap);
 		Vector3 local  = aInvMat.MultiplyPoint3x4(global);
 		if (Event.current.control && Ferr2DT_Menu.SnapMode == Ferr2DT_Menu.SnapType.SnapLocal ) local  = SnapVector(local, snap);
-		if (!Event.current.control && Ferr2DT_SceneOverlay.smartSnap) {
+		if (!Event.current.control && Ferr2DT_Menu.SmartSnap) {
 			local = SmartSnap(local, aPath.pathVerts, selectedPoints, Ferr2DT_Menu.SmartSnapDist);
 		}
 		

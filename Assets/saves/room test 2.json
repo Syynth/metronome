@@ -1,12 +1,12 @@
 {
   "SaveName": "room test 2",
-  "LastSave": "2018-03-28 00.36.48",
+  "LastSave": "2018-03-28 00.30.57",
   "DefaultIntroScene": {
-    "instanceID": 19502,
-    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/test-2.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 15204,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 19502\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 19916\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  }\r\n}"
+    "instanceID": 19656,
+    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/test-2.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 15348,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 19656\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 20072\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  }\r\n}"
   },
   "CurrentScene": {
-    "instanceID": 19916,
-    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/custom-jungle.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 15204,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 19502\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 19916\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  }\r\n}"
+    "instanceID": 19656,
+    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/test-2.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 15348,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 19656\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 20072\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  }\r\n}"
   }
 }

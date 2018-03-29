@@ -10,11 +10,24 @@ public partial class TerrainTracker : AssetPostprocessor {
 
 				Ferr2DT_PathTerrain[] terrains = o.GetComponentsInChildren<Ferr2DT_PathTerrain>();
 				for (int t = 0; t < terrains.Length; t++) {
-					terrains[t].Build(true);
+					MeshFilter filter = terrains[t].gameObject.GetComponent<MeshFilter>();
+					if (filter.sharedMesh == null){
+						terrains[t].CheckedLegacy = false;
+						terrains[t].PathData.SetDirty();
+						terrains[t].Build(true);
+					}
 				}
-				
-				if (PrefabUtility.GetPrefabParent(Selection.activeGameObject) == o) {
-					PrefabUtility.RevertPrefabInstance(Selection.activeGameObject);
+
+				if (terrains.Length > 0) {
+					Ferr2DT_PathTerrain[] sceneTerrains = null;
+					if (PrefabUtility.GetPrefabParent(Selection.activeGameObject) == o)
+						sceneTerrains = Selection.activeGameObject.GetComponentsInChildren<Ferr2DT_PathTerrain>();
+					
+					if (sceneTerrains != null) {
+						for (int t = 0; t < sceneTerrains.Length; t++) {
+							PrefabUtility.ResetToPrefabState(sceneTerrains[t].GetComponent<MeshFilter>());
+						}
+					}
 				}
 			}
 		}

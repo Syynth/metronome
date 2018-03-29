@@ -1,105 +1,148 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-[RequireComponent(typeof(Ferr2D_Path), typeof(Ferr2DT_PathTerrain))]
-public class InfiniteTerrain : MonoBehaviour {
-    public GameObject   centerAround;
-    public int          vertCount = 10;
-    public float        vertSpacing = 1;
-    public float        minHeight = 2;
-    public float        maxHeight = 10;
-    public float        heightVariance = 4;
-    public float        cliffChance = 0.1f;
-    
-    Ferr2DT_PathTerrain terrain;
-    List<float>         terrainHeights;
-    List<float>         terrainSecondaryHeights;
-    int                 currentOffset;
-    
-	void Start  () {
-        terrain = GetComponent<Ferr2DT_PathTerrain>();
-
-        terrainHeights          = new List<float>();
-        terrainSecondaryHeights = new List<float>();
-        for (int i = 0; i < vertCount; i++) {
-            NewRight();
-        }
-        RebuildTerrain();
+namespace Ferr.Example {
+	public enum Side {
+		Left,
+		Right
 	}
-	void Update () {
-        UpdateTerrain();
+	public class InfiniteTerrain : MonoBehaviour {
+		[SerializeField] Transform              _trackObject = null;
+		[SerializeField] InfiniteTerrainChunk[] _terrainPrefabs = null;
+		[SerializeField] float[]                _terrainPrefabWeights;
+		[SerializeField] float                  _generateDistanceRight = 10;
+		[SerializeField] float                  _generateDistanceLeft  = 10;
+		
+		float                                                        _weightSum;
+		List<InfiniteTerrainChunk>                                   _activeInstances = new List<InfiniteTerrainChunk>();
+		Dictionary<InfiniteTerrainChunk, List<InfiniteTerrainChunk>> _terrainPool = new Dictionary<InfiniteTerrainChunk, List<InfiniteTerrainChunk>>();
+
+		private void Awake() {
+			_weightSum = GetWeightSum();
+
+			// fill in the pool with some initial items
+			for (int i = 0; i < _terrainPrefabs.Length; i++) {
+				GetFreePrefabInstance(_terrainPrefabs[i]);
+			}
+		}
+
+		private void Start() {
+			Update();
+		}
+
+		private void Update() {
+			AddInstances();
+			ClipInstances();
+		}
+
+		void AddInstances() {
+			int     max         = 2;
+			Vector3 left        = GetLeftmost();
+			float   desiredLeft = _trackObject.position.x - _generateDistanceLeft;
+			while (left.x > desiredLeft && max > 0) {
+				AddNewChunk(left, Side.Left);
+				max -= 1;
+				left = GetLeftmost();
+			}
+
+			max = 2;
+			Vector3 right       = GetRightmost();
+			float   desiredRight = _trackObject.position.x + _generateDistanceRight;
+			while (right.x < desiredRight && max > 0) {
+				AddNewChunk(right, Side.Right);
+				max -= 1;
+				right = GetRightmost();
+			}
+		}
+
+		Vector3 GetLeftmost() {
+			Vector3 result = Vector3.zero;
+			for (int i = 0; i < _activeInstances.Count; i++) {
+				if (_activeInstances[i].LeftHook.x < result.x)
+					result = _activeInstances[i].LeftHook;
+			}
+			return result;
+		}
+		Vector3 GetRightmost() {
+			Vector3 result = Vector3.zero;
+			for (int i = 0; i < _activeInstances.Count; i++) {
+				if (_activeInstances[i].RightHook.x > result.x)
+					result = _activeInstances[i].RightHook;
+			}
+			return result;
+		}
+
+		void ClipInstances() {
+			float leftX  = _trackObject.position.x - _generateDistanceLeft;
+			float rightX = _trackObject.position.x + _generateDistanceRight;
+			for (int i=_activeInstances.Count-1; i>=0; i-=1) {
+				if (_activeInstances[i].RightHook.x < leftX || _activeInstances[i].LeftHook.x > rightX) {
+					_activeInstances[i].gameObject.SetActive(false);
+					_activeInstances.RemoveAt(i);
+				}
+			}
+		}
+
+		void AddNewChunk(Vector3 aTo, Side aSide) {
+			InfiniteTerrainChunk prefab   = GetRandomPrefab();
+			InfiniteTerrainChunk instance = GetFreePrefabInstance(prefab);
+			
+			instance.ConnectTo(aTo, aSide);
+			instance.gameObject.SetActive(true);
+			_activeInstances.Add(instance);
+		}
+
+		InfiniteTerrainChunk GetFreePrefabInstance(InfiniteTerrainChunk aPrefab) {
+			List<InfiniteTerrainChunk> instances;
+			// ensure the pool has a list available for this prefab
+			if (!_terrainPool.TryGetValue(aPrefab, out instances)) {
+				instances = new List<InfiniteTerrainChunk>();
+				_terrainPool.Add(aPrefab, instances);
+			}
+
+			// now make sure there's an available instance in the list
+			for (int i = 0; i < instances.Count; i++) {
+				if (!instances[i].gameObject.activeSelf)
+					return instances[i];
+			}
+
+			// no instance was found, go ahead and create one
+			GameObject obj = Instantiate(aPrefab.gameObject);
+			InfiniteTerrainChunk chunk = obj.GetComponent<InfiniteTerrainChunk>();
+			obj.SetActive(false);
+			instances.Add(chunk);
+			return chunk;
+		}
+
+		InfiniteTerrainChunk GetRandomPrefab() {
+			float random = UnityEngine.Random.value * _weightSum;
+
+			float curr = 0;
+			for (int i = 0; i < _terrainPrefabWeights.Length; i++) {
+				curr += _terrainPrefabWeights[i];
+				if (random <= curr)
+					return _terrainPrefabs[i];
+			}
+
+			return null;
+		}
+
+		float GetWeightSum() {
+			float result = 0;
+			for (int i = 0; i < _terrainPrefabWeights.Length; i++) {
+				result += _terrainPrefabWeights[i];
+			}
+			return result;
+		}
+
+		private void OnValidate() {
+			// ensure weights stay in sync with prefabs
+			if (_terrainPrefabWeights.Length != _terrainPrefabs.Length)
+				Array.Resize(ref _terrainPrefabWeights, _terrainPrefabs.Length);
+
+			// update this in case we're editing values during runtime
+			_weightSum = GetWeightSum();
+		}
 	}
-
-    void  UpdateTerrain () {
-        bool updated = false;
-
-        // generate points to the right if we need 'em
-        while (centerAround.transform.position.x > ((currentOffset+1) * vertSpacing)) {
-            currentOffset += 1;
-            NewRight();
-            terrainHeights         .RemoveAt(0);
-            terrainSecondaryHeights.RemoveAt(0);
-            updated = true;
-        }
-
-        // generate points to the left, if we need 'em
-        while (centerAround.transform.position.x < ((currentOffset-1) * vertSpacing)) {
-            currentOffset -= 1;
-            NewLeft();
-            terrainHeights         .RemoveAt(terrainHeights         .Count - 1);
-            terrainSecondaryHeights.RemoveAt(terrainSecondaryHeights.Count - 1);
-            updated = true;
-        }
-
-        // rebuild the terrain if we added any points
-        if (updated) {
-            RebuildTerrain();
-        }
-    }
-    void  RebuildTerrain() {
-        float startX = (currentOffset * vertSpacing) - ((vertCount / 2) * vertSpacing);
-        terrain.ClearPoints();
-        for (int i = 0; i < terrainHeights.Count; i++) {
-            Vector2 pos = new Vector2(startX + i * vertSpacing, terrainHeights[i]);
-            terrain.AddPoint(pos);
-            if (terrainSecondaryHeights[i] != terrainHeights[i]) {
-                pos = new Vector2(startX + i * vertSpacing+0.1f, terrainSecondaryHeights[i]);
-                terrain.AddPoint(pos);
-            }
-        }
-
-        terrain.Build    (false);
-        terrain.RecreateCollider();
-    }
-    void  NewRight      () {
-        float right  = GetRight();
-        float right2 = Random.value < cliffChance ? GetRight() : right;
-
-        if (Mathf.Abs(right - right2) < 3) {
-            right = right2;
-        }
-
-        terrainHeights         .Add(right );
-        terrainSecondaryHeights.Add(right2);
-    }
-    void  NewLeft       () {
-        float left = GetLeft();
-        float left2 = Random.value < cliffChance ? GetLeft() : left;
-
-        if (Mathf.Abs(left - left2) < 3) {
-            left = left2;
-        }
-
-        terrainHeights         .Insert(0, left );
-        terrainSecondaryHeights.Insert(0, left2);
-    }
-    float GetRight      () {
-        if (terrainHeights.Count <= 0) return minHeight + (maxHeight - minHeight) / 2;
-        return Mathf.Clamp(terrainSecondaryHeights[terrainHeights.Count - 1] + (-1 + Random.value * 2) * heightVariance, minHeight, maxHeight);
-    }
-    float GetLeft       () {
-        if (terrainHeights.Count <= 0) return minHeight + (maxHeight - minHeight) / 2;
-        return Mathf.Clamp(terrainSecondaryHeights[0                       ] + (-1 + Random.value * 2) * heightVariance, minHeight, maxHeight);
-    }
 }

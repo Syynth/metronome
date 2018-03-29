@@ -16,7 +16,7 @@ PlayerSettings:
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
-  m_ShowUnitySplashScreen: 0
+  m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
   m_SplashScreenAnimation: 1
@@ -623,7 +623,8 @@ PlayerSettings:
   incrementalIl2cppBuild: {}
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
-  apiCompatibilityLevelPerPlatform: {}
+  apiCompatibilityLevelPerPlatform:
+    Standalone: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: platforming-test
@@ -693,6 +694,7 @@ PlayerSettings:
   XboxOneSplashScreen: {fileID: 0}
   XboxOneAllowedProductIds: []
   XboxOnePersistentLocalStorageSize: 0
+  XboxOneXTitleMemory: 8
   xboxOneScriptCompiler: 0
   vrEditorSettings:
     daydream:
@@ -701,18 +703,18 @@ PlayerSettings:
   cloudServicesEnabled:
     Analytics: 0
     Build: 0
-    Collab: 0
+    Collab: 1
     ErrorHub: 0
     Game_Performance: 0
     Hub: 0
     Purchasing: 0
-    UNet: 0
+    UNet: 1
     Unity_Ads: 0
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 3
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: 8fd2784c-df6c-46ab-9493-e6692668cfcb
+  projectName: Master of Ceremonies
+  organizationId: status-92
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

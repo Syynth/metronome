@@ -78,7 +78,8 @@ namespace FerrPoly2Tri
         {
             for (int i = 0; i < 3; ++i)
             {
-                if (this[i] != null && this[i].Equals(value))
+				T c = this[i];
+                if (c != null && c.Equals(value))
                 {
                     return true;
                 }
@@ -92,7 +93,8 @@ namespace FerrPoly2Tri
         {
             for (int i = 0; i < 3; ++i)
             {
-                if (this[i] != null && this[i].Equals(value))
+				T c = this[i];
+                if (c != null && c.Equals(value))
                 {
                     return i;
                 }
@@ -112,7 +114,8 @@ namespace FerrPoly2Tri
         {
             for (int i = 0; i < 3; ++i)
             {
-                if (this[i] != null && this[i].Equals(value))
+				T c = this[i];
+                if (c != null && c.Equals(value))
                 {
                     this[i] = null;
                 }

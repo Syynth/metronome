@@ -84,28 +84,31 @@ namespace FerrPoly2Tri
 
         protected uint mVertexCode = 0;
         public uint VertexCode { get { return mVertexCode; } }
+		protected int id = -1;
+        public int Id { get { return id; } }
 
         // List of edges this point constitutes an upper ending point (CDT)
         public List<DTSweepConstraint> Edges { get; private set; }
         public bool HasEdges { get { return Edges != null; } }
 
 
-        public TriangulationPoint(double x, double y)
-            : this(x, y, kVertexCodeDefaultPrecision)
+        public TriangulationPoint(double x, double y, int aId=-1)
+            : this(x, y, kVertexCodeDefaultPrecision, aId)
         {
         }
 
 
-        public TriangulationPoint(double x, double y, double precision)
+        public TriangulationPoint(double x, double y, double precision, int aId=-1)
             : base(x,y)
         {
             mVertexCode = TriangulationPoint.CreateVertexCode(x, y, precision);
+			id = aId;
         }
 
 
         public override string ToString()
         {
-            return base.ToString() + ":{" + mVertexCode.ToString() + "}";
+            return "#" + id + ":" + base.ToString() + ":{" + mVertexCode.ToString() + "}";
         }
 
 
