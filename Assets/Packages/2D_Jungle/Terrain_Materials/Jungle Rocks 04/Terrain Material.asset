@@ -93,7 +93,7 @@ MonoBehaviour:
       height: 0.16894531
     _bodyWeights: []
     _yOffsetPercent: 0
-    _colliderOffset: -0.47
+    _colliderOffset: -0.5
     _colliderThickness: 1
     _physicsMaterial2D: {fileID: 0}
     _physicsMaterial3D: {fileID: 0}
@@ -176,7 +176,7 @@ MonoBehaviour:
       height: 0.20117188
     _bodyWeights: []
     _yOffsetPercent: -0.11
-    _colliderOffset: -0.19
+    _colliderOffset: -0.5
     _colliderThickness: 1
     _physicsMaterial2D: {fileID: 0}
     _physicsMaterial3D: {fileID: 0}
@@ -259,7 +259,7 @@ MonoBehaviour:
       height: 0.20019531
     _bodyWeights: []
     _yOffsetPercent: -0.15
-    _colliderOffset: -0.55
+    _colliderOffset: -0.5
     _colliderThickness: 1
     _physicsMaterial2D: {fileID: 0}
     _physicsMaterial3D: {fileID: 0}
@@ -342,7 +342,7 @@ MonoBehaviour:
       height: 0.16601562
     _bodyWeights: []
     _yOffsetPercent: 0
-    _colliderOffset: 0
+    _colliderOffset: -0.5
     _colliderThickness: 1
     _physicsMaterial2D: {fileID: 0}
     _physicsMaterial3D: {fileID: 0}

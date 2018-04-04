@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 
 namespace Assets.Code.References
 {
@@ -11,6 +11,7 @@ namespace Assets.Code.References
 
         public string Value = null;
         public SceneLoadingZone LoadingZone = null;
+        public List<SceneVariable> ConnectedScenes = new List<SceneVariable>();
 
         public void SetLoadingZone(SceneLoadingZone zone)
         {

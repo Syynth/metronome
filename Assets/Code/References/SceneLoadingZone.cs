@@ -12,6 +12,8 @@ namespace Assets.Code.References
         public string Name;
         public List<SceneVariable> Scenes = new List<SceneVariable>();
 
+        public GameObject SceneContainer;
+
         public void AddScene(SceneVariable scene)
         {
             if (Scenes.Find(s => s.Value == scene.Value) == null)

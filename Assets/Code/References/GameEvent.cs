@@ -3,10 +3,14 @@ using System.Collections.Generic;
 
 namespace Assets.Code.References
 {
+
+    [CreateAssetMenu(fileName = "Event.asset", menuName = "Status 92/Game Event", order = 3)]
     public class GameEvent : ScriptableObject
     {
 
         private List<GameEventListener> listeners = new List<GameEventListener>();
+
+        public Object DefaultParameter;
 
         public void Raise()
         {

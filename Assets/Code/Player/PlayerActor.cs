@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using Cinemachine;
 
 namespace Assets.Code.Player
 {
@@ -85,6 +86,7 @@ namespace Assets.Code.Player
             
             CurrentState = states.Idle;
             PreviousState = states.Idle;
+
         }
 
         void FixedUpdate()

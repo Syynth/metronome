@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9187db7dbe10d4f40bd1d28345cda631, type: 3}
+  m_Name: custom-jungle-4
+  m_EditorClassIdentifier: 
+  Value: Assets/Protoyping/Scenes/custom-jungle-4.unity
+  LoadingZone: {fileID: 11400000, guid: 755aa56e7e33295458bf7d92b4b2fcf5, type: 2}
+  ConnectedScenes:
+  - {fileID: 11400000, guid: 588e8ef0a8772af438037c558f5d3e97, type: 2}
