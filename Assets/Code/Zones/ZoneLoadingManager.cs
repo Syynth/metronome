@@ -1,11 +1,14 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿extern alias mscorlib;
+using mscorlib::System.Threading.Tasks;
+    
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Assets.Code.References;
-using System.Threading.Tasks;
 
 namespace Assets.Code.Zones
 {
@@ -25,11 +28,9 @@ namespace Assets.Code.Zones
 
         private void Start()
         {
-            var zlms = FindObjectsOfType<ZoneLoadingManager>();
-            if (!zlms.Contains(ZoneLoadingManagerReference.Value))
+            if (ZoneLoadingManagerReference.Value == null)
             {
                 ZoneLoadingManagerReference.Value = this;
-                EnterZone(CurrentZone, forceEntry: true);
             }
         }
 
@@ -39,7 +40,7 @@ namespace Assets.Code.Zones
 
             if (ZoneLoadingManagerReference.Value == this)
             {
-                ZoneLoadingManagerReference.Value = zlms.SingleOrDefault(zlm => zlm != this);
+                ZoneLoadingManagerReference.Value = zlms.FirstOrDefault(zlm => zlm != this);
             }
         }
 
@@ -53,7 +54,7 @@ namespace Assets.Code.Zones
             SceneManager.sceneLoaded -= SceneLoaded;
         }
 
-        private void LoadScene(SceneVariable scene, bool isParent)
+        private void LoadScene(SceneVariable scene, bool isParent, LoadSceneMode loadSceneMode)
         {
             Debug.Log($"Call to load scene {scene.Value}");
             var isLoading = LoadingScenes.Item2.Contains(scene);
@@ -72,7 +73,22 @@ namespace Assets.Code.Zones
                 else
                 {
                     Debug.Log($"Scene not already loaded or loading {scene.Value}");
-                    scene.LoadAsync();
+                    if (loadSceneMode == LoadSceneMode.Additive)
+                    {
+                        Debug.Log($"Entering scene {scene.Value} in additive mode");
+                        scene.LoadAsync();
+                    }
+                    else
+                    {
+                        Debug.Log($"Entering scene {scene.Value} in single mode");
+                        scene.GoTo();
+                        LoadingScenes.Item1.RemoveWhere(lscene => true);
+                        LoadingScenes.Item2.RemoveWhere(lscene => true);
+                        OpenScenes.Item1.RemoveWhere(oscene => true);
+                        OpenScenes.Item2.RemoveWhere(oscene => true);
+                        CancelledScenes.RemoveWhere(cscene => true);
+                        return;
+                    }
                     if (isParent)
                     {
                         LoadingScenes.Item1.Add(scene);
@@ -110,7 +126,6 @@ namespace Assets.Code.Zones
                 {
                     LoadingScenes.Item1.Remove(loadingScene);
                     OpenScenes.Item1.Add(loadingScene);
-                    var l = new List<int>();
                     if (SceneTasks.ContainsKey(loadingScene) && !SceneTasks[loadingScene].Item2 && loadingScene.ConnectedScenes.All(connectedScene => OpenScenes.Item2.Contains(connectedScene)))
                     {
                         SceneTasks[loadingScene].Item1.SetResult(Tuple.Create(scene, loadingScene));
@@ -125,16 +140,17 @@ namespace Assets.Code.Zones
                 var cancelledScene = CancelledScenes.SingleOrDefault(cancelled => cancelled.Value == scene.path);
                 if (cancelledScene != null)
                 {
+                    Debug.Log($"Call to unload cancelled scene {cancelledScene.name}");
                     SceneManager.UnloadSceneAsync(scene);
                     CancelledScenes.Remove(cancelledScene);
                 }
             }
         }
 
-        public Task<Tuple<Scene, SceneVariable>> EnterScene(SceneVariable newScene, List<GameObject> transfers = null)
+        public Task<Tuple<Scene, SceneVariable>> EnterScene(SceneVariable newScene, List<GameObject> transfers = null, LoadSceneMode loadSceneMode = LoadSceneMode.Additive)
         {
-            LoadScene(newScene, isParent: true);
-            newScene.ConnectedScenes.ForEach(scene => LoadScene(scene, isParent: false));
+            LoadScene(newScene, isParent: true, loadSceneMode: loadSceneMode);
+            newScene.ConnectedScenes.ForEach(scene => LoadScene(scene, isParent: false, loadSceneMode: LoadSceneMode.Additive));
 
             if (!SceneTasks.ContainsKey(newScene))
             {
@@ -146,6 +162,7 @@ namespace Assets.Code.Zones
 
         public void ExitScene(SceneVariable scene)
         {
+            Debug.Log($"Exit scene called {scene.name}");
             var isLoading = LoadingScenes.Item1.Contains(scene);
             var isOpen = OpenScenes.Item1.Contains(scene);
 
@@ -177,26 +194,29 @@ namespace Assets.Code.Zones
                     else
                     {
                         OpenScenes.Item2.Remove(unneededScene);
+                        Debug.Log($"Found unreferenced scene ${unneededScene.Value}");
                         SceneManager.UnloadSceneAsync(unneededScene.Value);
                     }
                 });
         }
 
-        public void EnterZone(SceneLoadingZone newZone, bool forceEntry = false)
+        public async Task EnterZone(SceneLoadingZone newZone, SceneVariable scene, bool forceEntry = false)
         {
             if (newZone == CurrentZone && !forceEntry) return;
+
+            Debug.Log($"Call to EnterZone, zone {newZone.name}");
             
-            LoadingScenes.Item2.ToList().ForEach(scene =>
+            LoadingScenes.Item2.ToList().ForEach(lscene =>
             {
-                CancelledScenes.Add(scene);
-                LoadingScenes.Item1.Remove(scene);
-                LoadingScenes.Item2.Remove(scene);
+                CancelledScenes.Add(lscene);
+                LoadingScenes.Item1.Remove(lscene);
+                LoadingScenes.Item2.Remove(lscene);
             });
-            OpenScenes.Item2.ToList().ForEach(scene =>
+            OpenScenes.Item2.ToList().ForEach(oscene =>
             {
-                OpenScenes.Item1.Remove(scene);
-                OpenScenes.Item2.Remove(scene);
-                SceneManager.UnloadSceneAsync(scene.Value);
+                OpenScenes.Item1.Remove(oscene);
+                OpenScenes.Item2.Remove(oscene);
+                SceneManager.UnloadSceneAsync(oscene.Value);
             });
 
             Destroy(CurrentZone.SceneContainer);
@@ -205,10 +225,20 @@ namespace Assets.Code.Zones
 
             if (newZone == null) return;
 
+            if (scene != null)
+            {
+                await EnterScene(scene, loadSceneMode: LoadSceneMode.Single);
+            }
+
             CurrentZone.SceneContainer = new GameObject();
             CurrentZone.SceneContainer.transform.position = Vector3.zero;
 
             DontDestroyOnLoad(CurrentZone.SceneContainer);
+
+            FindObjectsOfType<ZonePersistence>().ToList().ForEach(zp =>
+            {
+                zp.SceneReady(newZone);
+            });
 
             FindObjectsOfType<ZonePersistence>().ToList().ForEach(obj =>
             {

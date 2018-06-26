@@ -12,3 +12,11 @@ MonoBehaviour:
   m_Name: Load Scene
   m_EditorClassIdentifier: 
   DefaultParameter: {fileID: 0}
+  testReference:
+    literal: 0
+    m_Value: 0
+    m_Variable: {fileID: 0}
+  testReference2:
+    literal: 0
+    m_Value: 0
+    m_Variable: {fileID: 0}

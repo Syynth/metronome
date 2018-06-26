@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 namespace Assets.Code.References
 {
 
-    [CreateAssetMenu(fileName = "Scene Reference.asset", menuName = "Status 92/Scene Variable", order = 1)]
+    [CreateAssetMenu(fileName = "Scene Reference.asset", menuName = "Status 92/Scene Variable", order = 23)]
     public class SceneVariable : ScriptableObject
     {
 

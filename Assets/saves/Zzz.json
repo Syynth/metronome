@@ -1,0 +1,18 @@
+{
+  "SaveName": "Zzz",
+  "LastSave": "2018-06-03 01.05.57",
+  "Inventory": {
+    "instanceID": 0
+  },
+  "DefaultIntroScene": {
+    "instanceID": 0
+  },
+  "CurrentScene": {
+    "instanceID": 16738,
+    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/test-2.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 14226,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 16738\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 0\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  },\r\n  \"ConnectedScenes\": []\r\n}"
+  },
+  "ZoneLoadingManagerReference": {
+    "instanceID": 0
+  },
+  "lastSpawnGuid": ""
+}

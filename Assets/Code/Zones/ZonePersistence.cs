@@ -9,35 +9,67 @@ namespace Assets.Code.Zones
     public class ZonePersistence : MonoBehaviour
     {
 
-        public SharedObjectReference ZoneLoadingManagerReference;
-        public SceneLoadingZone Zone;
+        public SharedObjectReference ZoneLoadingManagerReference = null;
 
-        public string guid;
+        [SerializeField]
+        private SceneLoadingZone m_Zone = null;
+        public SceneLoadingZone Zone
+        {
+            get
+            {
+                return m_Zone ?? ZoneLoadingManager?.CurrentZone;
+            }
+            set
+            {
+                m_Zone = value;
+            }
+        }
+
+        public string guid = Guid.NewGuid().ToString();
 
         public ZoneLoadingManager ZoneLoadingManager
         {
             get
             {
-                return ZoneLoadingManagerReference.Value as ZoneLoadingManager;
+                return ZoneLoadingManagerReference?.Value as ZoneLoadingManager;
             }
         }
 
-        public void OnEnable()
+        public void SceneReady(SceneLoadingZone zone)
         {
-            if (guid == null)
-            {
-                guid = Guid.NewGuid().ToString();
-            }
+            Zone = zone;
+            Awake();
+        }
+
+        private void Start()
+        {
+            Awake();
         }
 
         private void Awake()
         {
+            if (Zone == null) return;
             var zps = FindObjectsOfType<ZonePersistence>().Where(zp => zp.guid.Equals(guid)).ToList();
-            if (zps.Count() > 1 &&
-                transform.parent != Zone.SceneContainer.transform)
+            if (Zone.SceneContainer == null)
             {
-                gameObject.SetActive(false);
-                DestroyImmediate(gameObject);
+                var go = new GameObject();
+                DontDestroyOnLoad(go);
+                Zone.SceneContainer = go;
+            }
+            if (zps.Count() > 1)
+            {
+                if (transform.parent != Zone.SceneContainer.transform)
+                {
+                    gameObject.SetActive(false);
+                    DestroyImmediate(gameObject);
+                }
+            }
+            else
+            {
+                if (transform.parent == null)
+                {
+                    transform.parent = Zone.SceneContainer.transform;
+                }
             }
         }
 

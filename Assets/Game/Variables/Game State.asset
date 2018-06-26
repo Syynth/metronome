@@ -11,7 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71eeb0004523bb4c9f734b628ec7c37, type: 3}
   m_Name: Game State
   m_EditorClassIdentifier: 
-  SaveName: room test 2
-  LastSave: 2018-03-28 00.30.57
-  DefaultIntroScene: {fileID: 11400000, guid: 0cc0256a18c5a864ab0b1f6c24315de4, type: 2}
-  CurrentScene: {fileID: 0}
+  SaveName: test save game file name lolol
+  LastSave: 2018-04-06 17.10.23
+  DefaultIntroScene: {fileID: 11400000, guid: 717f7bab0edf5d94fa57ae08ec2b181d, type: 2}
+  CurrentScene: {fileID: 11400000, guid: 0cc0256a18c5a864ab0b1f6c24315de4, type: 2}
+  ZoneLoadingManagerReference: {fileID: 11400000, guid: bd6471e8af9642740b34022e2d328735,
+    type: 2}

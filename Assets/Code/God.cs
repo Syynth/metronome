@@ -1,6 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+
 using UnityEngine;
+
+using Assets.Code.Player;
 
 namespace Assets.Code
 {
@@ -11,7 +14,7 @@ namespace Assets.Code
         private static God Instance = null;
         public GameState.GameState GameState;
 
-        void Start()
+        private void Awake()
         {
             if (Instance == null)
             {
@@ -21,6 +24,14 @@ namespace Assets.Code
             else
             {
                 DestroyImmediate(this);
+            }
+
+            if (FindObjectOfType<PlayerActor>() == null && GameState.lastSpawnGuid != null)
+            {
+                FindObjectsOfType<Spawn>()
+                    .ToList()
+                    .Find(spawn => spawn.guid == GameState.lastSpawnGuid)
+                    .SpawnObject();
             }
         }
 

@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Name: custom-jungle-zone
   m_EditorClassIdentifier: 
   Name: 
-  Scenes: []
+  Scenes:
+  - {fileID: 11400000, guid: 717f7bab0edf5d94fa57ae08ec2b181d, type: 2}
+  - {fileID: 11400000, guid: 976f8a3c5beb9904bb497d7ccd8a66ab, type: 2}
+  - {fileID: 11400000, guid: 588e8ef0a8772af438037c558f5d3e97, type: 2}
+  - {fileID: 11400000, guid: 72a8c288d6187394792653d3aba8aee8, type: 2}
+  SceneContainer: {fileID: 0}

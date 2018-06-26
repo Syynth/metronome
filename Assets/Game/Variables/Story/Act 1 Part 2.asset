@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44e82d7d345b6e42bee76050c01b34c, type: 3}
+  m_Name: Act 1 Part 2
+  m_EditorClassIdentifier: 
+  DisplayName: 
+  NextPart: {fileID: 0}
+  PreviousPart: {fileID: 0}
+  Act: {fileID: 0}

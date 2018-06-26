@@ -230,7 +230,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1487386021236240}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.6397018, z: -20}
+  m_LocalPosition: {x: 0, y: 7.002075, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4433226236935896}
@@ -431,9 +431,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ef553427f54a244b9b207cb76209cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZoneLoadingManagerReference: {fileID: 11400000, guid: 7ee30194daa71de469753dc1e0797da9,
+  ZoneLoadingManagerReference: {fileID: 11400000, guid: bd6471e8af9642740b34022e2d328735,
     type: 2}
-  Zone: {fileID: 11400000, guid: 755aa56e7e33295458bf7d92b4b2fcf5, type: 2}
+  m_Zone: {fileID: 0}
   guid: 1122526f-e281-4fc1-857d-120e209728b8
 --- !u!114 &114160316718343128
 MonoBehaviour:
@@ -514,7 +514,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 4378202690192874}
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 70
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000

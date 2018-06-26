@@ -25,11 +25,10 @@ namespace Assets.Code.Zones
 
         private void OnTriggerEnter(Collider collider)
         {
-            Debug.Log("Something hit me!");
             if (collider.gameObject.GetComponent<PlayerActor>() != null)
             {
                 var zm = ZoneManager.Value as ZoneLoadingManager;
-                zm.EnterScene(Scene);
+                zm.EnterScene(Scene, loadSceneMode: LoadSceneMode.Additive);
             }
         }
 

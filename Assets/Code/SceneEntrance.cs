@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿extern alias mscorlib;
+using mscorlib::System.Threading.Tasks;
 
 using UnityEngine;
 
 using Assets.Code.References;
+using Assets.Code.Zones;
 
 namespace Assets.Code
 {
@@ -16,13 +14,23 @@ namespace Assets.Code
         public SceneVariable Target;
         public GameState.GameState GameState;
 
+        public SharedObjectReference ZoneLoadingManagerReference;
+
+        ZoneLoadingManager ZoneLoadingManager
+        {
+            get
+            {
+                return ZoneLoadingManagerReference?.Value as ZoneLoadingManager;
+            }
+        }
+
         public bool TransitionImmediately = true;
 
-        public void Enter()
+        public async Task Enter()
         {
             GameState.CurrentScene = Target;
             GameState.Save();
-            Target.GoTo();
+            await ZoneLoadingManager.EnterZone(Target.LoadingZone, Target);
         }
 
     }

@@ -52,7 +52,8 @@ namespace Assets.Code.Player
 
             if (actor.velocity.y > maxSpeed)
             {
-                actor.UpdateVelocity(actor.velocity.x, maxSpeed);
+                // TODO: Removed for Fans, not sure if needed?
+                // actor.UpdateVelocity(actor.velocity.x, maxSpeed);
             }
 
             info = actor.Move();

@@ -3,7 +3,8 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
-using Cinemachine;
+
+using Assets.Code.Interactive;
 
 namespace Assets.Code.Player
 {
@@ -13,7 +14,7 @@ namespace Assets.Code.Player
     [RequireComponent(typeof(InputController))]
     [RequireComponent(typeof(RewiredInputSource))]
     [RequireComponent(typeof(BoxCollider))]
-    public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>
+    public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>, IForceReceiver
     {
         public int frame = 0;
 
@@ -33,6 +34,19 @@ namespace Assets.Code.Player
         public InputController Input;
 
         public bool aiming = false;
+
+        #region IForceReceiver Implementation
+
+        public void ReceiveForce(Vector3 force, bool doubleOpposingForce)
+        {
+            velocity += force;
+            if (Vector3.Dot(velocity, force) < 0)
+            {
+                velocity += force;
+            }
+        }
+
+        #endregion
 
         #region IStateMachine Implementation
 
@@ -93,7 +107,10 @@ namespace Assets.Code.Player
         {
             frame += 1;
             States.ForEach(state => state.Tick());
-            CurrentState.Update();
+            if (motionController.Initialized)
+            {
+                CurrentState.Update();
+            }
             var skeleton = GetComponentInChildren<SkeletonAnimator>().skeleton;
             ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
             var pos = states.Fall.LedgeDetect.transform.localPosition;

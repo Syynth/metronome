@@ -10,6 +10,8 @@ namespace Assets.Code
         LayerMask JumpThroughLayer { get; }
         LayerMask AllLayer { get; }
 
+        bool Initialized { get; }
+
         CollisionInfo Move(Vector3 velocity, Vector3 down, List<Collider> ignore, bool findGround = false);
         CollisionInfo CheckMove(Vector3 velocity, Vector3 down, Vector3 position);
 

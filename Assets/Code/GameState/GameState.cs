@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using Assets.Code;
 using System.IO;
+
+using UnityEngine;
+
 using Assets.Code.References;
+using Assets.Code.Zones;
 
 namespace Assets.Code.GameState
 {
@@ -17,9 +15,22 @@ namespace Assets.Code.GameState
         public string SaveName = "New Save";
         public string LastSave = DateTime.Now.ToString(Utils.DateFormat);
 
+        public Inventory Inventory;
+
         public SceneVariable DefaultIntroScene;
 
         public SceneVariable CurrentScene;
+        public SharedObjectReference ZoneLoadingManagerReference;
+
+        public string lastSpawnGuid = null;
+
+        public ZoneLoadingManager ZoneLoadingManager
+        {
+            get
+            {
+                return ZoneLoadingManagerReference.Value as ZoneLoadingManager;
+            }
+        }
 
 
         public void Reinitialize(string SaveName = "New Save")
@@ -30,7 +41,8 @@ namespace Assets.Code.GameState
 
         public void StartGame()
         {
-            CurrentScene.GoTo();
+            Save();
+            ZoneLoadingManager.EnterZone(CurrentScene.LoadingZone, CurrentScene, true);
         }
 
         public void Save()

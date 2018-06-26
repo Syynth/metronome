@@ -4,13 +4,16 @@ using System.Collections.Generic;
 namespace Assets.Code.References
 {
 
-    [CreateAssetMenu(fileName = "Event.asset", menuName = "Status 92/Game Event", order = 3)]
+    [CreateAssetMenu(fileName = "Event.asset", menuName = "Status 92/Game Event", order = 25)]
     public class GameEvent : ScriptableObject
     {
 
         private List<GameEventListener> listeners = new List<GameEventListener>();
 
         public Object DefaultParameter;
+
+        public FloatReference testReference;
+        public IntReference testReference2;
 
         public void Raise()
         {

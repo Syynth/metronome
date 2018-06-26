@@ -6,26 +6,29 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Game/Menus/Main Menu.unity
+    path: Assets/Game/Menus/Main Menu/Main Menu.unity
     guid: 09e1643ec35bc1a448a18b0d904421f7
-  - enabled: 1
-    path: Assets/Game/Menus/New Save Menu.unity
-    guid: 410ab905ec0fe4a46853001c1f403197
-  - enabled: 1
-    path: Assets/Game/Menus/Load Save Menu.unity
-    guid: 4fb3cdc3243a8eb4f8b0de3b79ff0584
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Protoyping/Scenes/test-2.unity
     guid: aa5cde6562a687d40827b1ef17f6944d
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Protoyping/Scenes/custom-jungle-1.unity
     guid: 94a7449e4b7dd214cab793949479f053
+  - enabled: 1
+    path: Assets/Protoyping/Scenes/custom-jungle-4.unity
+    guid: d14a4582d32218b43807a2899ccc5f2c
   - enabled: 1
     path: Assets/Protoyping/Scenes/custom-jungle-2.unity
     guid: ad888518e47898f4088a8d5ef569d155
   - enabled: 1
     path: Assets/Protoyping/Scenes/custom-jungle-3.unity
     guid: de265c8918cb8994f908b0a542c7ed69
-  - enabled: 1
-    path: Assets/Protoyping/Scenes/custom-jungle-4.unity
-    guid: d14a4582d32218b43807a2899ccc5f2c

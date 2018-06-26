@@ -17,6 +17,8 @@ namespace Assets.Code
 
         public LayerMask AllLayer => solidLayer | oneWayLayer;
 
+        public bool Initialized { get; private set; }
+
         public const float skinWidth = 0.02f;
         [Range(1, 89)]
         public float maxClimbAngle = 65f;
@@ -26,6 +28,7 @@ namespace Assets.Code
         void Start()
         {
             body = GetComponent<Rigidbody>();
+            Initialized = true;
         }
 
         bool SweepTest(Vector3 direction, out RaycastHit raycastHit, float maxDistance, List<Collider> ignore)

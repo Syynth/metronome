@@ -105,10 +105,18 @@ namespace Cinemachine.Utility
 
         public static bool TypeIsDefined(string fullname)
         {
-            return (from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                from type in assembly.GetTypes()
-                where type.FullName == fullname
-                select type).Count() > 0;
+            try
+            {
+                return (from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                        from type in assembly.GetTypes()
+                        where type.FullName == fullname
+                        select type).Count() > 0;
+            }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.Log(ex.StackTrace);
+                return false;
+            }
         }
 #endif
 
