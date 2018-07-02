@@ -372,3 +372,21 @@ MonoBehaviour:
     Background: {fileID: 0}
     IsBackgroundRecursive: 0
     IsBackgroundCustom: 0
+  - Type: 1
+    Key: Assets/Game/Global
+    SmallIcon: {fileID: 2800000, guid: 97efd597cd18c564aadb45280476b23a, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 650a564eae901434e86dcb456fcc046a, type: 3}
+    IsIconRecursive: 0
+    IsIconCustom: 0
+    Background: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsBackgroundCustom: 0
+  - Type: 1
+    Key: Assets/Game/Act I
+    SmallIcon: {fileID: 2800000, guid: e4d497fd8f72b5241b762a7ed649ee83, type: 3}
+    LargeIcon: {fileID: 2800000, guid: 0532ea3a1890c8946b6d842beeab51b8, type: 3}
+    IsIconRecursive: 0
+    IsIconCustom: 0
+    Background: {fileID: 0}
+    IsBackgroundRecursive: 0
+    IsBackgroundCustom: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Spine.Unity;
+using KinematicCharacterController;
 
 namespace Assets.Code.Player
 {
@@ -12,7 +13,7 @@ namespace Assets.Code.Player
     {
 
         [SerializeField]
-        private string triggerName = "ledge-hang";
+        private string triggerName = "LedgeHang";
         public override string TriggerName => triggerName;
         public List<Tuple<Collider, float>> ignoreLedges = new List<Tuple<Collider, float>>();
 
@@ -24,13 +25,13 @@ namespace Assets.Code.Player
         public bool grabOneWayPlatforms = true;
         public Vector3 ledgeVertex;
 
-        public override void OnEnter()
+        public override void OnEnter(KinematicCharacterMotor motor)
         {
-            base.OnEnter();
-            actor.states.Jump.count = 0;
-            actor.velocity.y = 0;
-            //actor.states.Jump.count = 0;
-            //actor.GetComponentsInChildren<SkeletonUtilityBone>()
+            base.OnEnter(motor);
+            Actor.GetState<PlayerJump>().count = 0;
+            Actor.velocity.y = 0;
+            //Actor.states.Jump.count = 0;
+            //Actor.GetComponentsInChildren<SkeletonUtilityBone>()
             //    .Where(c => c.mode == SkeletonUtilityBone.Mode.Override && c.gameObject.name.Contains("Arm"))
             //    .Select(c =>
             //    {
@@ -47,29 +48,42 @@ namespace Assets.Code.Player
             ignoreLedges = ignoreLedges.Where(tuple => Time.time < tuple.Item2).ToList();
         }
 
-        public override void Update()
+        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
         {
-            actor.InputX();
-            if (actor.states.Jump.pressed)
+            base.UpdateVelocity(ref velocity, motor);
+            velocity = Vector3.zero;
+        }
+
+        public override void AfterUpdate(float deltaTime, KinematicCharacterMotor motor)
+        {
+            base.AfterUpdate(deltaTime, motor);
+
+            Actor.InputX();
+            if (Actor.GetState<PlayerJump>().pressed)
             {
                 ignoreLedges.Add(Tuple.Create(Ledge, Time.time + 0.08f));
-                actor.ChangeState(actor.states.Jump);
+                Actor.ChangeState<PlayerJump>();
                 return;
             }
-            if (actor.states.Duck.pressed)
+            if (Actor.GetState<PlayerDuck>().pressed)
             {
                 ignoreLedges.Add(Tuple.Create(Ledge, Time.time + 0.08f));
-                actor.ChangeState(actor.states.Fall);
+                Actor.ChangeState<PlayerFall>();
                 return;
             }
-            //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.2f);
+            //Actor.rootBone.up = Vector3.Slerp(Actor.rootBone.up, Vector3.up, 0.2f);
         }
 
         public override void OnExit()
         {
             base.OnExit();
-            actor.velocity.x = 0;
-            actor.GetComponentsInChildren<SkeletonUtilityBone>().Where(c => c.mode == SkeletonUtilityBone.Mode.Override && c.gameObject.name.Contains("Arm")).Select(c => c.enabled = false).ToArray();
+            Actor.velocity.x = 0;
+            Actor.GetComponentsInChildren<SkeletonUtilityBone>()
+                .Where(c =>
+                    c.mode == SkeletonUtilityBone.Mode.Override &&
+                    c.gameObject.name.Contains("Arm"))
+                .Select(c => c.enabled = false)
+                .ToArray();
         }
 
     }

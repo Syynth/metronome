@@ -5,15 +5,17 @@ using System.Linq;
 using System.Collections.Generic;
 
 using Assets.Code.Interactive;
+using Assets.Code.States;
+using KinematicCharacterController;
 
 namespace Assets.Code.Player
 {
 
-    [RequireComponent(typeof(IMotionController))]
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(InputController))]
     [RequireComponent(typeof(RewiredInputSource))]
-    [RequireComponent(typeof(BoxCollider))]
+    [RequireComponent(typeof(PlayerStateMachineController))]
+    [RequireComponent(typeof(KinematicCharacterMotor))]
     public class PlayerActor : MonoBehaviour, IStateMachine<PlayerActor>, IForceReceiver
     {
         public int frame = 0;
@@ -23,15 +25,21 @@ namespace Assets.Code.Player
         public Vector2 input = Vector2.zero;
         public Vector2 aimInput = Vector2.zero;
 
-        public IMotionController motionController;
-
-        public PlayerStates states;
         public List<Tuple<Collider, float>> ignoreColliders;
         public Animator animator;
 
+        [SerializeField]
+        private PlayerEditorStates PlayerEditorStates;
+
         public float duckJoystickThreshold = 0.25f;
 
+        public LayerMask SolidLayer;
+        public LayerMask OneWayLayer;
+
         public InputController Input;
+        public KinematicCharacterMotor Motor;
+
+        public HashSet<Collider> TouchingColliders = new HashSet<Collider>();
 
         public bool aiming = false;
 
@@ -54,66 +62,61 @@ namespace Assets.Code.Player
         public ActorState<PlayerActor> PreviousState { get; set; }
         public ActorState<PlayerActor> NextState { get; set; }
 
-        public void ChangeState(ActorState<PlayerActor> nextState)
+        public TState GetState<TState>() where TState : ActorState<PlayerActor>
         {
+            return _states.FirstOrDefault(state => state.GetType() == typeof(TState)) as TState;
+        }
+
+        public void ChangeState<TState>() where TState : ActorState<PlayerActor>
+        {
+            var nextState = GetState<TState>();
             if (nextState == CurrentState) return;
             NextState = nextState;
             CurrentState.OnExit();
             PreviousState = CurrentState;
             CurrentState = nextState;
             NextState = null;
-            CurrentState.OnEnter();
+            CurrentState.OnEnter(Motor);
         }
 
-        public List<ActorState<PlayerActor>> States
-        {
-            get
-            {
-                return new List<ActorState<PlayerActor>>(
-                    new ActorState<PlayerActor>[] {
-                        states.Run,
-                        states.Jump,
-                        states.Idle,
-                        states.Fall,
-                        states.Duck,
-                        states.LedgeHang
-                    }
-                );
-            }
-        }
+        private HashSet<ActorState<PlayerActor>> _states = new HashSet<ActorState<PlayerActor>>();
+        public ISet<ActorState<PlayerActor>> States => _states;
 
         #endregion
 
         void Start()
         {
             ignoreColliders = new List<Tuple<Collider, float>>();
-            motionController = GetComponents<IMotionController>()
-                .Select(mc => mc as MonoBehaviour)
-                .Where(c => c.enabled)
-                .Select(c => c as IMotionController).First();
             GetComponent<Rigidbody>().isKinematic = true;
             animator = GetComponentInChildren<Animator>();
+            Motor = GetComponent<KinematicCharacterMotor>();
             Input = GetComponent<InputController>();
-
-            States.ForEach(state => state.SetActor(this));
-            States.ForEach(state => state.OnStart());
             
-            CurrentState = states.Idle;
-            PreviousState = states.Idle;
+            new PlayerState[]
+            {
+                PlayerEditorStates.ClimbLadder,
+                PlayerEditorStates.Duck,
+                PlayerEditorStates.Fall,
+                PlayerEditorStates.Idle,
+                PlayerEditorStates.Jump,
+                PlayerEditorStates.LedgeHang,
+                PlayerEditorStates.Run,
+            }.ToList().ForEach(state => _states.Add(state as ActorState<PlayerActor>));
 
+            States.ToList().ForEach(state => state.SetActor(this));
+            States.ToList().ForEach(state => state.OnStart());
+            
+            CurrentState = GetState<PlayerIdle>();
+            PreviousState = GetState<PlayerIdle>();
         }
 
         void FixedUpdate()
         {
             frame += 1;
-            States.ForEach(state => state.Tick());
-            if (motionController.Initialized)
-            {
-                CurrentState.Update();
-            }
+            States.ToList().ForEach(state => state.Tick());
             var skeleton = GetComponentInChildren<SkeletonAnimator>().skeleton;
             ignoreColliders = ignoreColliders.Where(pair => pair.Item2 > Time.time).ToList();
-            var pos = states.Fall.LedgeDetect.transform.localPosition;
+            var pos = GetState<PlayerFall>().LedgeDetect.transform.localPosition;
             if (velocity.x < 0)
             {
                 skeleton.flipX = true;
@@ -124,7 +127,7 @@ namespace Assets.Code.Player
                 skeleton.flipX = false;
                 pos.x = 0.7f;
             }
-            states.Fall.LedgeDetect.transform.localPosition = pos;
+            GetState<PlayerFall>().LedgeDetect.transform.localPosition = pos;
             CurrentState.Render();
         }
 
@@ -132,7 +135,7 @@ namespace Assets.Code.Player
         {
             bool downReleased = input.y >= -duckJoystickThreshold;
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            states.Run.xPressed = input.x != 0;
+            GetState<PlayerRun>().xPressed = input.x != 0;
             aiming = Input.GetButton("Aim");
             if (aiming)
             {
@@ -154,30 +157,35 @@ namespace Assets.Code.Player
                 aimInput = Vector2.zero;
             }
 
-            states.Run.down = Input.GetButton("Run");
+            var run = GetState<PlayerRun>();
+            var jump = GetState<PlayerJump>();
+            var duck = GetState<PlayerDuck>();
+
+            run.down = Input.GetButton("Run");
             
-            var held = states.Jump.held;
-            states.Jump.held = Input.GetButton("Jump");
-            states.Jump.pressed = states.Jump.held && !held;
-            states.Duck.pressed = input.y < -duckJoystickThreshold && downReleased;
-            states.Duck.held = input.y < -duckJoystickThreshold;
+            var held = jump.held;
+            jump.held = Input.GetButton("Jump");
+            jump.pressed = jump.held && !held;
+            duck.pressed = input.y < -duckJoystickThreshold && downReleased;
+            duck.held = input.y < -duckJoystickThreshold;
             var sign = Math.Sign(input.x);
             if (sign == Direction.Right)
             {
-                states.Run.vMax = states.Run.maxSpeed;
+                run.vMax = run.maxSpeed;
             }
             else if (sign == Direction.Left)
             {
-                states.Run.vMax = -states.Run.maxSpeed;
+                run.vMax = -run.maxSpeed;
             }
         }
 
         public void AccelerateX()
         {
-            var runSpeed = states.Run.down ? states.Run.maxSpeed : states.Run.maxSpeed * states.Run.walkThreshold;
-            var maxSpeed = aiming ? states.Run.maxSpeed * 0.2f : runSpeed;
-            var dx = states.Run.acceleration * Mathf.Sign(states.Run.vMax) * Time.deltaTime;
-            if (states.Run.xPressed)
+            var run = GetState<PlayerRun>();
+            var runSpeed = run.down ? run.maxSpeed : run.maxSpeed * run.walkThreshold;
+            var maxSpeed = aiming ? run.maxSpeed * 0.2f : runSpeed;
+            var dx = run.acceleration * Mathf.Sign(run.vMax) * Time.deltaTime;
+            if (run.xPressed)
             {
                 // Accumulate speed when traveling
                 velocity.x += dx;
@@ -190,16 +198,16 @@ namespace Assets.Code.Player
 
                 if (Mathf.Abs(velocity.x) > maxSpeed)
                 {
-                    velocity.x = maxSpeed * Mathf.Sign(states.Run.vMax);
+                    velocity.x = maxSpeed * Mathf.Sign(run.vMax);
                 }
             }
-            if (Mathf.Abs(velocity.x) < states.Run.friction * Time.deltaTime)
+            if (Mathf.Abs(velocity.x) < run.friction * Time.deltaTime)
             {
                 velocity.x = 0;
             }
             else
             {
-                velocity.x -= states.Run.friction * Mathf.Sign(velocity.x) * Time.deltaTime;
+                velocity.x -= run.friction * Mathf.Sign(velocity.x) * Time.deltaTime;
             }
         }
 
@@ -216,6 +224,7 @@ namespace Assets.Code.Player
 
         private void OnTriggerEnter(Collider collider)
         {
+            TouchingColliders.Add(collider);
             Debug.Log("collided with trigger");
             var door = collider.gameObject.GetComponent<SceneEntrance>();
             if (door != null && door.TransitionImmediately)
@@ -224,32 +233,23 @@ namespace Assets.Code.Player
             }
         }
 
-        public CollisionInfo Move()
+        private void OnTriggerExit(Collider collider)
         {
-            return Move(velocity * Time.deltaTime);
-        }
-
-        public CollisionInfo Move(bool findGround)
-        {
-            return motionController.Move(velocity * Time.deltaTime, gravity, ignoreColliders.Select(p => p.Item1).ToList(), findGround);
-        }
-
-        public CollisionInfo Move(Vector3 velocity)
-        {
-            return motionController.Move(velocity, gravity, ignoreColliders.Select(p => p.Item1).ToList());
+            TouchingColliders.Remove(collider);
         }
 
     }
 
     [Serializable]
-    public struct PlayerStates
+    public struct PlayerEditorStates
     {
+        public PlayerDuck Duck;
+        public PlayerFall Fall;
         public PlayerIdle Idle;
         public PlayerJump Jump;
-        public PlayerFall Fall;
-        public PlayerDuck Duck;
-        public PlayerRun Run;
         public PlayerLedgeHang LedgeHang;
+        public PlayerClimbLadder ClimbLadder;
+        public PlayerRun Run;
     }
 
 }

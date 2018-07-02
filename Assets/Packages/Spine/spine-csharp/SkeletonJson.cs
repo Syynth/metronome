@@ -264,6 +264,7 @@ namespace Spine {
 								Attachment attachment = ReadAttachment((Dictionary<String, Object>)entry.Value, skin, slotIndex, entry.Key, skeletonData);
 								if (attachment != null) skin.AddAttachment(slotIndex, entry.Key, attachment);
 							} catch (Exception e) {
+                                UnityEngine.Debug.Log($"Inner exception while reading attachment {entry.Key}: {e.Message}\n{e.StackTrace}");
 								throw new Exception("Error reading attachment: " + entry.Key + ", skin: " + skin, e);
 							}
 						} 

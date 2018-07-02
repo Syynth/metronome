@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Linq;
+using KinematicCharacterController;
 
 namespace Assets.Code.Player
 {
@@ -11,7 +12,7 @@ namespace Assets.Code.Player
     {
 
         [SerializeField]
-        private string triggerName = "jump";
+        private string triggerName = "Jump";
         public override string TriggerName => triggerName;
 
         public bool wallGrab = false;
@@ -20,86 +21,89 @@ namespace Assets.Code.Player
         public bool control = true;
         public int count = 0;
 
-        public float maxHeight = 4f;
-        public float minHeight = 1f;
-        public float timeToApex = 0.4f;
+        public float maxHeight = 5.75f;
+        public float minHeight = 0.5f;
+        public float timeToApex = 0.375f;
         public float maxJumps = 1;
 
         public float minSpeed;
         public float maxSpeed;
 
-        public override void SetActor(PlayerActor actor)
+        public override void SetActor(PlayerActor Actor)
         {
-            base.SetActor(actor);
-            actor.gravity = new Vector3(0, -(2 * maxHeight) / Mathf.Pow(timeToApex, 2));
-            maxSpeed = Mathf.Abs(actor.gravity.y) * timeToApex;
-            minSpeed = Mathf.Sqrt(2 * Mathf.Abs(actor.gravity.y) * minHeight);
+            base.SetActor(Actor);
+            Actor.gravity = new Vector3(0, -(2 * maxHeight) / Mathf.Pow(timeToApex, 2));
+            maxSpeed = Mathf.Abs(Actor.gravity.y) * timeToApex;
+            minSpeed = Mathf.Sqrt(2 * Mathf.Abs(Actor.gravity.y) * minHeight);
         }
 
-        public override void OnEnter()
+        public override void OnEnter(KinematicCharacterMotor motor)
         {
-            base.OnEnter();
-            actor.velocity.y = maxSpeed;
-            // actor.UpdateVelocity(actor.velocity.x, maxSpeed);
+            base.OnEnter(motor);
+            Actor.velocity.y = maxSpeed;
+            // Actor.UpdateVelocity(Actor.velocity.x, maxSpeed);
             count += 1;
             wallGrab = false;
+            motor.ForceUnground();
         }
 
-        public override void Update()
+        public override void BeforeUpdate(float deltaTime, KinematicCharacterMotor motor)
         {
-            base.Update();
-
+            base.BeforeUpdate(deltaTime, motor);
+            base.AfterUpdate(deltaTime, motor);
             if (control)
             {
-                actor.InputX();
-                actor.AccelerateX();
+                Actor.InputX();
+                Actor.AccelerateX();
             }
 
-            actor.AccelerateY();
+            Actor.AccelerateY();
 
             if (!held && control)
             {
-                actor.UpdateVelocity(actor.velocity.x, Mathf.Min(actor.velocity.y, minSpeed));
+                Actor.UpdateVelocity(Actor.velocity.x, Mathf.Min(Actor.velocity.y, minSpeed));
             }
+        }
 
-            info = actor.Move();
+        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
+        {
+            base.UpdateVelocity(ref velocity, motor);
+            velocity = Actor.velocity;
+        }
 
-            if (info.Side)
+        public override void AfterUpdate(float deltaTime, KinematicCharacterMotor motor)
+        {
+            if (Actor.velocity.y <= 0)
             {
-                Debug.Log("Setting velocity.x to 0");
-                actor.velocity.x = 0;
-            }
-
-            if (info.Above)
-            {
-                actor.velocity.y = 0;
-            }
-
-            if (actor.velocity.y <= 0)
-            {
-                actor.states.Fall.descend = true;
-                actor.ChangeState(actor.states.Fall);
+                Actor.GetState<PlayerFall>().descend = true;
+                Actor.ChangeState<PlayerFall>();
                 return;
             }
 
-            var hits = actor.states.Fall.LedgeDetect.GetComponent<Rigidbody>()
+            if (Age < 0.5f)
+            {
+                return; // Skip ledge detect checks for the same ledge you're already on
+            }
+
+            var hits = Actor.GetState<PlayerFall>().LedgeDetect.GetComponent<Rigidbody>()
                 .SweepTestAll(Vector3.down, 0.3f)
                 .Where(
-                    hit => !actor.states.LedgeHang.ignoreLedges
+                    hit => !Actor.GetState<PlayerLedgeHang>()
+                    .ignoreLedges
                     .Select(t => t.Item1)
                     .Contains(hit.collider)
                 );
             if (hits.Count() > 0)
             {
                 var hit = hits.First();
-                if (actor.motionController.CanStand(hit.normal) && Utils.IsInLayerMask(hit.collider.gameObject.layer, actor.motionController.SolidLayer))
+                if (motor.IsStableOnNormal(hit.normal) && Utils.IsInLayerMask(hit.collider.gameObject.layer, Actor.SolidLayer))
                 {
-                    actor.states.LedgeHang.Ledge = hit.collider;
-                    actor.ChangeState(actor.states.LedgeHang);
+                    Actor.GetState<PlayerLedgeHang>().Ledge = hit.collider;
+                    Actor.ChangeState<PlayerLedgeHang>();
                     return;
                 }
             }
-            //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.2f);
+            //Actor.rootBone.up = Vector3.Slerp(Actor.rootBone.up, Vector3.up, 0.2f);
         }
 
     }

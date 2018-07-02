@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -136,6 +137,20 @@ namespace Assets.Code
                 }
             }
             return results;
+        }
+
+        public static List<Type> GetSubTypesOf<T>()
+        {
+            return typeof(T)
+                .Assembly
+                .GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(T)))
+                .ToList();
+        }
+
+        public static List<object> InstantiateForTypes(List<Type> types)
+        {
+            return types.Select(t => Activator.CreateInstance(t)).ToList();
         }
 
     }

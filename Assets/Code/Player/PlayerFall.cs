@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
 using System.Linq;
+
+using KinematicCharacterController;
 
 namespace Assets.Code.Player
 {
@@ -11,9 +12,9 @@ namespace Assets.Code.Player
     {
 
         [SerializeField]
-        private string fallTriggerName = "fall";
+        private string fallTriggerName = "Fall";
         [SerializeField]
-        private string descendTriggerName = "descend";
+        private string descendTriggerName = "Fall";
 
         public bool descend = true;
         public override string TriggerName => descend ? descendTriggerName : fallTriggerName;
@@ -26,81 +27,83 @@ namespace Assets.Code.Player
 
         public override void OnStart()
         {
+            LedgeDetect = Actor.transform.Find("LedgeDetect").gameObject;
             var pos = LedgeDetect.transform.localPosition;
             pos.y = 4.5f;
             LedgeDetect.transform.localPosition = pos;
         }
 
-        public override void Update()
+        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
         {
-            base.Update();
+            base.UpdateVelocity(ref velocity, motor);
 
             if (Age > 4f / 30f && Age < 1f / 3f)
             {
                 skipLedge = false;
             }
 
-            actor.InputX();
-            actor.AccelerateX();
-            actor.AccelerateY();
+            Actor.InputX();
+            Actor.AccelerateX();
+            Actor.AccelerateY();
 
-            if (touchingLedge && actor.input.y > 0)
+            velocity = Actor.velocity;
+
+            if (touchingLedge && Actor.input.y > 0)
             {
-                actor.ChangeState(actor.states.LedgeHang);
+                Actor.ChangeState<PlayerLedgeHang>();
                 return;
             }
 
-            if (actor.velocity.y > maxSpeed)
+            if (Actor.velocity.y > maxSpeed)
             {
                 // TODO: Removed for Fans, not sure if needed?
-                // actor.UpdateVelocity(actor.velocity.x, maxSpeed);
+                // Actor.UpdateVelocity(Actor.velocity.x, maxSpeed);
             }
 
-            info = actor.Move();
-
-            if (info.Side)
-            {
-                Debug.Log("info.Side == true");
-                actor.velocity.x = 0;
-            }
+            //if (info.Side)
+            //{
+            //    Debug.Log("info.Side == true");
+            //    Actor.velocity.x = 0;
+            //}
 
             var hits = LedgeDetect.GetComponent<Rigidbody>()
                 .SweepTestAll(Vector3.down, 0.3f)
                 .Where(
-                    hit => !actor.states.LedgeHang.ignoreLedges
+                    hit => !Actor.GetState<PlayerLedgeHang>().ignoreLedges
                     .Select(t => t.Item1)
                     .Contains(hit.collider)
                 );
             if (hits.Count() > 0)
             {
                 var hit = hits.First();
-                if (actor.motionController.CanStand(hit.normal) && Utils.IsInLayerMask(hit.collider.gameObject.layer, actor.motionController.SolidLayer))
+                if (motor.IsStableOnNormal(hit.normal) && Utils.IsInLayerMask(hit.collider.gameObject.layer, Actor.SolidLayer))
                 {
-                    actor.states.LedgeHang.Ledge = hit.collider;
-                    actor.ChangeState(actor.states.LedgeHang);
+                    Actor.GetState<PlayerLedgeHang>().Ledge = hit.collider;
+                    Actor.ChangeState<PlayerLedgeHang>();
                     return;
                 }
             }
 
-            if (info.Below)
+            if (motor.GroundingStatus.IsStableOnGround)
             {
-                actor.states.Jump.count = 0;
-                if (actor.input.x != 0)
+                Actor.GetState<PlayerJump>().count = 0;
+                if (Actor.input.x != 0)
                 {
-                    actor.ChangeState(actor.states.Run);
+                    Actor.ChangeState<PlayerRun>();
                 }
                 else
                 {
-                    actor.ChangeState(actor.states.Idle);
+                    Actor.ChangeState<PlayerIdle>();
                 }
                 return;
             }
 
-            if (actor.states.Jump.pressed)
+            var jump = Actor.GetState<PlayerJump>();
+            if (jump.pressed)
             {
-                if (actor.states.Jump.count < actor.states.Jump.maxJumps && actor.states.Jump.maxJumps > 1)
+                if (jump.count < jump.maxJumps && jump.maxJumps > 1)
                 {
-                    actor.ChangeState(actor.states.Jump);
+                    Actor.ChangeState<PlayerJump>();
                     return;
                 }
             }

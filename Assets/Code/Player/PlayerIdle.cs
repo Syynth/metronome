@@ -5,6 +5,8 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using KinematicCharacterController;
+using Assets.Code.Interactive;
 
 namespace Assets.Code.Player
 {
@@ -13,99 +15,117 @@ namespace Assets.Code.Player
     public class PlayerIdle : PlayerState
     {
         [SerializeField]
-        private string triggerName = "idle";
+        private string triggerName = "Idle";
         public override string TriggerName => triggerName;
 
-        public override void OnEnter()
+        public override void OnEnter(KinematicCharacterMotor motor)
         {
-            base.OnEnter();
-            actor.velocity.y = 0;
-            actor.states.Jump.wallGrab = false;
-            actor.GetComponentsInChildren<SkeletonUtilityGroundConstraint>().Select(c => c.enabled = true).ToArray();
+            base.OnEnter(motor);
+            Actor.velocity.y = 0;
+            Actor.GetState<PlayerJump>().wallGrab = false;
+            Actor.GetComponentsInChildren<SkeletonUtilityGroundConstraint>().Select(c => c.enabled = true).ToArray();
         }
 
         public override void OnExit()
         {
             base.OnExit();
             
-            actor.GetComponentsInChildren<SkeletonUtilityGroundConstraint>().Select(c => c.enabled = false).ToArray();
+            Actor.GetComponentsInChildren<SkeletonUtilityGroundConstraint>().Select(c => c.enabled = false).ToArray();
         }
 
-        bool CheckRun(IMotionController controller)
+        bool CheckRun()
         {
-            if (actor.input.x != 0)
+            if (Actor.input.x != 0)
             {
-                var dx = Mathf.Sign(actor.input.x);
-                var rightInfo = controller.CheckMove(Utils.Clockwise(actor.gravity.normalized), actor.gravity, actor.transform.position);
-                if (dx > 0 && !rightInfo.Right) return true;
-                var leftInfo = controller.CheckMove(Utils.CounterClockwise(actor.gravity.normalized), actor.gravity, actor.transform.position);
-                if (dx < 0 && !leftInfo.Left) return true;
+                return true;
+                //var dx = Mathf.Sign(Actor.input.x);
+                //var rightInfo = controller.CheckMove(Utils.Clockwise(Actor.gravity.normalized), Actor.gravity, Actor.transform.position);
+                //if (dx > 0 && !rightInfo.Right) return true;
+                //var leftInfo = controller.CheckMove(Utils.CounterClockwise(Actor.gravity.normalized), Actor.gravity, Actor.transform.position);
+                //if (dx < 0 && !leftInfo.Left) return true;
             }
             return false;
         }
 
-        public override void Update()
+        public override void BeforeUpdate(float deltaTime, KinematicCharacterMotor motor)
         {
-            base.Update();
-            var controller = actor.GetComponent<IMotionController>();
-            actor.velocity = actor.gravity * Time.deltaTime;
-            var info = actor.Move();
-            actor.InputX();
+            base.BeforeUpdate(deltaTime, motor);
+            Actor.InputX();
+        }
 
-            if (actor.states.Jump.pressed)
+        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
+        {
+            base.UpdateVelocity(ref velocity, motor);
+            velocity = Vector3.zero;
+        }
+
+        public override void AfterUpdate(float deltaTime, KinematicCharacterMotor motor)
+        {
+            if (Actor.input.y > Actor.duckJoystickThreshold)
             {
-                actor.ChangeState(actor.states.Jump);
+                var ladder = Actor.TouchingColliders.FirstOrDefault(c => c.gameObject.GetComponent<Ladder>());
+                if (ladder != null)
+                {
+                    Actor.GetState<PlayerClimbLadder>().Ladder = ladder.GetComponent<Ladder>();
+                    Actor.ChangeState<PlayerClimbLadder>();
+                    return;
+                }
+            }
+
+            if (Actor.GetState<PlayerJump>().pressed)
+            {
+                Actor.ChangeState<PlayerJump>();
                 return;
             }
-            if (CheckRun(controller))
+
+            if (CheckRun())
             {
-                actor.ChangeState(actor.states.Run);
+                Actor.ChangeState<PlayerRun>();
                 return;
             }
-            Collider collider;
-            if (actor.states.Duck.held && controller.OnJumpThrough(actor.gravity, out collider))
+            Collider collider = motor.GroundingStatus.GroundCollider;
+            if (collider != null && Actor.GetState<PlayerDuck>().held && Utils.IsInLayerMask(collider.gameObject.layer, Actor.OneWayLayer))
             {
-                actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 0.2f));
-                actor.states.Fall.descend = false;
-                actor.ChangeState(actor.states.Fall);
+                Actor.ignoreColliders.Add(Tuple.Create(collider, Time.time + 0.2f));
+                Actor.GetState<PlayerFall>().descend = false;
+                Actor.ChangeState<PlayerFall>();
                 return;
             }
-            if (!info.Below)
+            if (!motor.GroundingStatus.IsStableOnGround)
             {
-                actor.states.Fall.descend = false;
-                actor.ChangeState(actor.states.Fall);
+                Actor.GetState<PlayerFall>().descend = false;
+                Actor.ChangeState<PlayerFall>();
                 return;
             }
-            if (actor.input.y < 0 && info.Below)
-            {
-                actor.ChangeState(actor.states.Duck);
-                return;
-            }
-            //actor.rootBone.up = Vector3.Slerp(actor.rootBone.up, Vector3.up, 0.3f);
+            //if (Actor.input.y < 0 && motor.GroundingStatus.IsStableOnGround)
+            //{
+            //    Actor.ChangeState<PlayerDuck>();
+            //    return;
+            //}
         }
 
         public override void Render()
         {
             base.Render();
-            var skeleton = actor.GetComponentInChildren<SkeletonAnimator>().skeleton;
-            if (actor.aiming)
+            var skeleton = Actor.GetComponentInChildren<SkeletonAnimator>().skeleton;
+            if (Actor.aiming)
             {
-                if (actor.aimInput.x < 0)
+                if (Actor.aimInput.x < 0)
                 {
                     skeleton.flipX = true;
                 }
-                if (actor.aimInput.x > 0)
+                if (Actor.aimInput.x > 0)
                 {
                     skeleton.flipX = false;
                 }
             }
             else
             {
-                if (actor.velocity.x < 0)
+                if (Actor.velocity.x < 0)
                 {
                     skeleton.flipX = true;
                 }
-                if (actor.velocity.x > 0)
+                if (Actor.velocity.x > 0)
                 {
                     skeleton.flipX = false;
                 }

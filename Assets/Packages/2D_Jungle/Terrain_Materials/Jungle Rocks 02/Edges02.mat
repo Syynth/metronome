@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Edges02
-  m_Shader: {fileID: 4800000, guid: 188c7b6d8e591e345b7adf33bb6fefb9, type: 3}
+  m_Shader: {fileID: 4800000, guid: 2070a19f5a0b179408a0210a14fe6c4a, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0

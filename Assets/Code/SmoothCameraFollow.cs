@@ -43,7 +43,7 @@ namespace Assets.Code
 
         void LateUpdate()
         {
-            var percentSpeed = Mathf.Abs(target.velocity.x) / target.states.Run.maxSpeed;
+            var percentSpeed = Mathf.Abs(target.velocity.x) / target.GetState<PlayerRun>().maxSpeed;
             var percentAge = horizontalLagTime != 0 ? age / horizontalLagTime : 0;
 
             if (percentSpeed > 0.5f)
@@ -60,7 +60,7 @@ namespace Assets.Code
 
             var rect = new Rect(p0.x, p1.y, p1.x - p0.x, p1.y - p0.y);
 
-            float gx = target.transform.position.x + (rect.width * minimumHorizontalLead) * Mathf.Sign(target.states.Run.vMax) * Mathf.Min(1, percentSpeed * Mathf.Min(percentAge, 1));
+            float gx = target.transform.position.x + (rect.width * minimumHorizontalLead) * Mathf.Sign(target.GetState<PlayerRun>().vMax) * Mathf.Min(1, percentSpeed * Mathf.Min(percentAge, 1));
             float gy = target.transform.position.y;
 
             float xFac = 1f / horizontalLag;

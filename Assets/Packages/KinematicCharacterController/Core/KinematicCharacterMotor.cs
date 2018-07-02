@@ -717,16 +717,17 @@ namespace KinematicCharacterController
         /// </summary>
         public KinematicCharacterMotorState GetState()
         {
-            KinematicCharacterMotorState state = new KinematicCharacterMotorState();
+            KinematicCharacterMotorState state = new KinematicCharacterMotorState
+            {
+                Position = TransientPosition,
+                Rotation = TransientRotation,
 
-            state.Position = TransientPosition;
-            state.Rotation = TransientRotation;
+                BaseVelocity = _baseVelocity,
+                AttachedRigidbodyVelocity = _attachedRigidbodyVelocity,
 
-            state.BaseVelocity = _baseVelocity;
-            state.AttachedRigidbodyVelocity = _attachedRigidbodyVelocity;
-
-            state.MustUnground = MustUnground;
-            state.LastMovementIterationFoundAnyGround = LastMovementIterationFoundAnyGround;
+                MustUnground = MustUnground,
+                LastMovementIterationFoundAnyGround = LastMovementIterationFoundAnyGround
+            };
             state.GroundingStatus.CopyFrom(GroundingStatus);
             state.AttachedRigidbody = AttachedRigidbody;
 
@@ -858,8 +859,10 @@ namespace KinematicCharacterController
             #endregion
 
             LastGroundingStatus.CopyFrom(GroundingStatus);
-            GroundingStatus = new CharacterGroundingReport();
-            GroundingStatus.GroundNormal = CharacterUp;
+            GroundingStatus = new CharacterGroundingReport
+            {
+                GroundNormal = CharacterUp
+            };
 
             if (_solveMovementCollisions)
             {
@@ -895,8 +898,10 @@ namespace KinematicCharacterController
                                 {
                                     // Resolve along obstruction direction
                                     Vector3 originalResolutionDirection = resolutionDirection;
-                                    HitStabilityReport mockReport = new HitStabilityReport();
-                                    mockReport.IsStable = IsStableOnNormal(resolutionDirection);
+                                    HitStabilityReport mockReport = new HitStabilityReport
+                                    {
+                                        IsStable = IsStableOnNormal(resolutionDirection)
+                                    };
                                     resolutionDirection = GetObstructionNormal(resolutionDirection, mockReport);
                                     float tiltAngle = 90f - Vector3.Angle(originalResolutionDirection, resolutionDirection);
                                     resolutionDistance = resolutionDistance / Mathf.Sin(tiltAngle * Mathf.Deg2Rad);
@@ -1131,8 +1136,10 @@ namespace KinematicCharacterController
                                 {
                                     // Resolve along obstruction direction
                                     Vector3 originalResolutionDirection = resolutionDirection;
-                                    HitStabilityReport mockReport = new HitStabilityReport();
-                                    mockReport.IsStable = IsStableOnNormal(resolutionDirection);
+                                    HitStabilityReport mockReport = new HitStabilityReport
+                                    {
+                                        IsStable = IsStableOnNormal(resolutionDirection)
+                                    };
                                     resolutionDirection = GetObstructionNormal(resolutionDirection, mockReport);
                                     float tiltAngle = 90f - Vector3.Angle(originalResolutionDirection, resolutionDirection);
                                     resolutionDistance = resolutionDistance / Mathf.Sin(tiltAngle * Mathf.Deg2Rad);
@@ -1153,8 +1160,10 @@ namespace KinematicCharacterController
                                                 bool isPhysicsMoverOrDynamicRigidbody = probedRigidbody && (!probedRigidbody.isKinematic || physicsMover);
                                                 if (isPhysicsMoverOrDynamicRigidbody)
                                                 {
-                                                    HitStabilityReport tmpReport = new HitStabilityReport();
-                                                    tmpReport.IsStable = IsStableOnNormal(resolutionDirection);
+                                                    HitStabilityReport tmpReport = new HitStabilityReport
+                                                    {
+                                                        IsStable = IsStableOnNormal(resolutionDirection)
+                                                    };
                                                     if (tmpReport.IsStable)
                                                     {
                                                         LastMovementIterationFoundAnyGround = tmpReport.IsStable;
@@ -1251,7 +1260,7 @@ namespace KinematicCharacterController
         /// <summary>
         /// Determines if motor can be considered stable on given slope normal
         /// </summary>
-        private bool IsStableOnNormal(Vector3 normal)
+        public bool IsStableOnNormal(Vector3 normal)
         {
             return Vector3.Angle(CharacterUp, normal) <= MaxStableSlopeAngle;
         }
@@ -1575,12 +1584,14 @@ namespace KinematicCharacterController
         {
             if (_rigidbodyProjectionHitCount < _internalRigidbodyProjectionHits.Length)
             {
-                RigidbodyProjectionHit rph = new RigidbodyProjectionHit();
-                rph.Rigidbody = hitRigidbody;
-                rph.HitPoint = hitPoint;
-                rph.EffectiveHitNormal = obstructionNormal;
-                rph.HitVelocity = hitVelocity;
-                rph.StableOnHit = hitStabilityReport.IsStable;
+                RigidbodyProjectionHit rph = new RigidbodyProjectionHit
+                {
+                    Rigidbody = hitRigidbody,
+                    HitPoint = hitPoint,
+                    EffectiveHitNormal = obstructionNormal,
+                    HitVelocity = hitVelocity,
+                    StableOnHit = hitStabilityReport.IsStable
+                };
 
                 _internalRigidbodyProjectionHits[_rigidbodyProjectionHitCount] = rph;
                 _rigidbodyProjectionHitCount++;
