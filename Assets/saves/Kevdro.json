@@ -1,0 +1,20 @@
+{
+  "SaveName": "Kevdro",
+  "LastSave": "2018-06-12 18.46.04",
+  "Inventory": {
+    "instanceID": 0
+  },
+  "DefaultIntroScene": {
+    "instanceID": 18408,
+    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/custom-jungle-1.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 19812,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 18408\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 18670\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 12908\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 16622\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  },\r\n  \"ConnectedScenes\": [\r\n    {\r\n      \"instanceID\": 18670\r\n    }\r\n  ]\r\n}"
+  },
+  "CurrentScene": {
+    "instanceID": 17594,
+    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/test-2.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 14752,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 17594\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 0\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  },\r\n  \"ConnectedScenes\": []\r\n}"
+  },
+  "ZoneLoadingManagerReference": {
+    "instanceID": 16796,
+    "instanceData": "{}"
+  },
+  "lastSpawnGuid": ""
+}

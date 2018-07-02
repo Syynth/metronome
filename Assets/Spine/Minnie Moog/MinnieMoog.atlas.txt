@@ -1,0 +1,257 @@
+
+MinnieMoog.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Classic/Ear
+  rotate: false
+  xy: 1532, 605
+  size: 215, 185
+  orig: 215, 185
+  offset: 0, 0
+  index: -1
+Classic/Hair
+  rotate: false
+  xy: 2, 424
+  size: 1528, 1621
+  orig: 1528, 1621
+  offset: 0, 0
+  index: -1
+Classic/Mouth
+  rotate: false
+  xy: 2, 2
+  size: 77, 20
+  orig: 77, 20
+  offset: 0, 0
+  index: -1
+Classic/NeckAx
+  rotate: false
+  xy: 1716, 518
+  size: 43, 85
+  orig: 43, 85
+  offset: 0, 0
+  index: -1
+Classic/Nose
+  rotate: false
+  xy: 1771, 2
+  size: 58, 72
+  orig: 58, 72
+  offset: 0, 0
+  index: -1
+Classic/Stone_Default
+  rotate: true
+  xy: 1532, 426
+  size: 177, 182
+  orig: 177, 182
+  offset: 0, 0
+  index: -1
+Classic/Sunglasses
+  rotate: false
+  xy: 2, 24
+  size: 561, 398
+  orig: 561, 398
+  offset: 0, 0
+  index: -1
+Classic/aEye
+  rotate: false
+  xy: 1532, 792
+  size: 237, 297
+  orig: 237, 297
+  offset: 0, 0
+  index: -1
+Classic/aLowerArm
+  rotate: true
+  xy: 1218, 30
+  size: 392, 551
+  orig: 392, 551
+  offset: 0, 0
+  index: -1
+Classic/aLowerLeg
+  rotate: true
+  xy: 565, 28
+  size: 394, 651
+  orig: 394, 651
+  offset: 0, 0
+  index: -1
+Classic/aUpperArm
+  rotate: false
+  xy: 1771, 557
+  size: 265, 532
+  orig: 265, 532
+  offset: 0, 0
+  index: -1
+Classic/bBrow
+  rotate: true
+  xy: 1716, 438
+  size: 78, 36
+  orig: 78, 36
+  offset: 0, 0
+  index: -1
+Classic/bFoot
+  rotate: false
+  xy: 1532, 1341
+  size: 514, 336
+  orig: 514, 336
+  offset: 0, 0
+  index: -1
+Classic/bHips
+  rotate: false
+  xy: 1771, 76
+  size: 260, 479
+  orig: 260, 479
+  offset: 0, 0
+  index: -1
+Classic/bIris
+  rotate: true
+  xy: 1831, 3
+  size: 71, 149
+  orig: 71, 149
+  offset: 0, 0
+  index: -1
+Classic/bLowerArm
+  rotate: true
+  xy: 1532, 1679
+  size: 366, 514
+  orig: 366, 514
+  offset: 0, 0
+  index: -1
+Classic/bUpperArm
+  rotate: true
+  xy: 1532, 1091
+  size: 248, 497
+  orig: 248, 497
+  offset: 0, 0
+  index: -1
+
+MinnieMoog2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Classic/Bangs
+  rotate: true
+  xy: 744, 1508
+  size: 533, 770
+  orig: 533, 770
+  offset: 0, 0
+  index: -1
+Classic/Belt
+  rotate: true
+  xy: 639, 2
+  size: 466, 224
+  orig: 466, 224
+  offset: 0, 0
+  index: -1
+Classic/Body
+  rotate: false
+  xy: 2, 431
+  size: 552, 847
+  orig: 552, 847
+  offset: 0, 0
+  index: -1
+Classic/HairBand
+  rotate: false
+  xy: 986, 729
+  size: 560, 621
+  orig: 560, 621
+  offset: 0, 0
+  index: -1
+Classic/HairTop
+  rotate: true
+  xy: 1359, 131
+  size: 158, 170
+  orig: 158, 170
+  offset: 0, 0
+  index: -1
+Classic/Head
+  rotate: false
+  xy: 2, 1280
+  size: 740, 761
+  orig: 740, 761
+  offset: 0, 0
+  index: -1
+Classic/Neck
+  rotate: true
+  xy: 865, 88
+  size: 380, 181
+  orig: 380, 181
+  offset: 0, 0
+  index: -1
+Classic/Tail
+  rotate: true
+  xy: 556, 470
+  size: 808, 428
+  orig: 808, 428
+  offset: 0, 0
+  index: -1
+Classic/aBrow
+  rotate: false
+  xy: 744, 1312
+  size: 102, 38
+  orig: 102, 38
+  offset: 0, 0
+  index: -1
+Classic/aFoot2
+  rotate: true
+  xy: 1548, 879
+  size: 528, 353
+  orig: 528, 353
+  offset: 0, 0
+  index: -1
+Classic/aHand
+  rotate: false
+  xy: 1048, 265
+  size: 309, 316
+  orig: 309, 316
+  offset: 0, 0
+  index: -1
+Classic/aHips
+  rotate: true
+  xy: 1516, 1409
+  size: 632, 522
+  orig: 632, 522
+  offset: 0, 0
+  index: -1
+Classic/aIris
+  rotate: false
+  xy: 1351, 1357
+  size: 98, 149
+  orig: 98, 149
+  offset: 0, 0
+  index: -1
+Classic/aUpperLeg
+  rotate: true
+  xy: 744, 1352
+  size: 154, 605
+  orig: 154, 605
+  offset: 0, 0
+  index: -1
+Classic/bEye
+  rotate: true
+  xy: 1048, 99
+  size: 164, 298
+  orig: 164, 298
+  offset: 0, 0
+  index: -1
+Classic/bHand
+  rotate: false
+  xy: 1359, 291
+  size: 254, 290
+  orig: 254, 290
+  offset: 0, 0
+  index: -1
+Classic/bLowerLeg
+  rotate: true
+  xy: 2, 44
+  size: 385, 635
+  orig: 385, 635
+  offset: 0, 0
+  index: -1
+Classic/bUpperLeg
+  rotate: true
+  xy: 986, 583
+  size: 144, 590
+  orig: 144, 590
+  offset: 0, 0
+  index: -1

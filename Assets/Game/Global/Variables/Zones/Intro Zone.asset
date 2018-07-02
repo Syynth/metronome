@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11655129fdfa3c2498502f52a320f040, type: 3}
+  m_Name: Intro Zone
+  m_EditorClassIdentifier: 
+  Name: 
+  Scenes:
+  - {fileID: 11400000, guid: 0cc0256a18c5a864ab0b1f6c24315de4, type: 2}
+  - {fileID: 11400000, guid: 4a42130b4105f934db2ac5e32082679a, type: 2}
