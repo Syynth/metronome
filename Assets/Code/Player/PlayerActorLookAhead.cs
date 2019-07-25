@@ -24,7 +24,7 @@ namespace Assets.Code.Player
 			pos.y = actor.velocity.y / damping.y;
             pos.x = Mathf.Sign(pos.x) * Mathf.Min(maxLookahead.x, Mathf.Abs(pos.x));
             pos.y = Mathf.Sign(pos.y) * Mathf.Min(maxLookahead.y, Mathf.Abs(pos.y));
-            transform.localPosition = pos;	
+            transform.localPosition = pos;
 		}
 
 	}

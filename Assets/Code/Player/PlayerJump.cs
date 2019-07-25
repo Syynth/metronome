@@ -12,7 +12,7 @@ namespace Assets.Code.Player
     {
 
         [SerializeField]
-        private string triggerName = "Jump";
+        private string triggerName = "jump";
         public override string TriggerName => triggerName;
 
         public bool wallGrab = false;
@@ -65,12 +65,6 @@ namespace Assets.Code.Player
             }
         }
 
-        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
-        {
-            base.UpdateVelocity(ref velocity, motor);
-            velocity = Actor.velocity;
-        }
-
         public override void AfterUpdate(float deltaTime, KinematicCharacterMotor motor)
         {
             if (Actor.velocity.y <= 0)
@@ -85,23 +79,9 @@ namespace Assets.Code.Player
                 return; // Skip ledge detect checks for the same ledge you're already on
             }
 
-            var hits = Actor.GetState<PlayerFall>().LedgeDetect.GetComponent<Rigidbody>()
-                .SweepTestAll(Vector3.down, 0.3f)
-                .Where(
-                    hit => !Actor.GetState<PlayerLedgeHang>()
-                    .ignoreLedges
-                    .Select(t => t.Item1)
-                    .Contains(hit.collider)
-                );
-            if (hits.Count() > 0)
+            if (Actor.GetState<PlayerLedgeHang>().DetectLedges(motor))
             {
-                var hit = hits.First();
-                if (motor.IsStableOnNormal(hit.normal) && Utils.IsInLayerMask(hit.collider.gameObject.layer, Actor.SolidLayer))
-                {
-                    Actor.GetState<PlayerLedgeHang>().Ledge = hit.collider;
-                    Actor.ChangeState<PlayerLedgeHang>();
-                    return;
-                }
+                return;
             }
             //Actor.rootBone.up = Vector3.Slerp(Actor.rootBone.up, Vector3.up, 0.2f);
         }

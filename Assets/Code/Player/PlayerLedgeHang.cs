@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Spine.Unity;
 using KinematicCharacterController;
+using Assets.Code.Interactive;
 
 namespace Assets.Code.Player
 {
@@ -13,7 +14,7 @@ namespace Assets.Code.Player
     {
 
         [SerializeField]
-        private string triggerName = "LedgeHang";
+        private string triggerName = "ledge-hang";
         public override string TriggerName => triggerName;
         public List<Tuple<Collider, float>> ignoreLedges = new List<Tuple<Collider, float>>();
 
@@ -24,6 +25,8 @@ namespace Assets.Code.Player
 
         public bool grabOneWayPlatforms = true;
         public Vector3 ledgeVertex;
+
+        public bool GrabbingLadder;
 
         public override void OnEnter(KinematicCharacterMotor motor)
         {
@@ -40,6 +43,7 @@ namespace Assets.Code.Player
             //        return c;
             //    })
             //    .ToArray();
+
         }
 
         public override void Tick()
@@ -48,9 +52,14 @@ namespace Assets.Code.Player
             ignoreLedges = ignoreLedges.Where(tuple => Time.time < tuple.Item2).ToList();
         }
 
-        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
+        public override void BeforeUpdate(float deltaTime, KinematicCharacterMotor motor)
         {
-            base.UpdateVelocity(ref velocity, motor);
+            base.BeforeUpdate(deltaTime, motor);
+            Actor.InputX();
+        }
+
+        public override void UpdateVelocity(ref Vector3 velocity, float deltaTime, KinematicCharacterMotor motor)
+        {
             velocity = Vector3.zero;
         }
 
@@ -58,7 +67,15 @@ namespace Assets.Code.Player
         {
             base.AfterUpdate(deltaTime, motor);
 
-            Actor.InputX();
+            if (Mathf.Abs(Actor.input.y) > Actor.duckJoystickThreshold)
+            {
+                var ladder = Actor.GetState<PlayerClimbLadder>().Ladder; ; 
+                if (ladder != null && GrabbingLadder)
+                {
+                    Actor.ChangeState<PlayerClimbLadder>();
+                    return;
+                }
+            }            
             if (Actor.GetState<PlayerJump>().pressed)
             {
                 ignoreLedges.Add(Tuple.Create(Ledge, Time.time + 0.08f));
@@ -71,12 +88,12 @@ namespace Assets.Code.Player
                 Actor.ChangeState<PlayerFall>();
                 return;
             }
-            //Actor.rootBone.up = Vector3.Slerp(Actor.rootBone.up, Vector3.up, 0.2f);
         }
 
         public override void OnExit()
         {
             base.OnExit();
+            GrabbingLadder = false;
             Actor.velocity.x = 0;
             Actor.GetComponentsInChildren<SkeletonUtilityBone>()
                 .Where(c =>
@@ -84,6 +101,48 @@ namespace Assets.Code.Player
                     c.gameObject.name.Contains("Arm"))
                 .Select(c => c.enabled = false)
                 .ToArray();
+        }
+
+        public bool DetectLedges(KinematicCharacterMotor motor)
+        {
+            var ld = Actor.GetState<PlayerFall>().LedgeDetect;
+            var r = ld.GetComponent<Rigidbody>();
+            var hits = r
+                .SweepTestAll(Vector3.down, 0.3f, QueryTriggerInteraction.Collide)
+                .Where(
+                    hit => !Actor.GetState<PlayerLedgeHang>().ignoreLedges
+                    .Select(t => t.Item1)
+                    .Contains(hit.collider)
+                ).ToArray();
+            if (hits.Count() > 0)
+            {
+                //Debug.Break();
+                var hit = hits.FirstOrDefault(h => Utils.IsInLayerMask(h.collider.gameObject.layer, Actor.SolidLayer));
+                if (motor.IsStableOnNormal(hit.normal) && hit.collider != null)
+                {
+                    var lh = Actor.GetState<PlayerLedgeHang>();
+                    lh.Ledge = hit.collider;
+                    var lc = ld.GetComponent<BoxCollider>();
+                    var overlaps = Physics.OverlapBox(
+                        r.transform.position,
+                        lc.size / 2,
+                        ld.transform.rotation,
+                        1 << LayerMask.NameToLayer("Ladder"),
+                        QueryTriggerInteraction.Collide
+                    );
+                    Debug.Log($"Found {overlaps.Length} ladder triggers, with size {lc.size / 2}");
+                    var ladder = overlaps.Select(h => h?.gameObject.GetComponent<Ladder>()).FirstOrDefault(l => l != null);
+                    if (ladder != null)
+                    {
+                        Debug.Log("Ladder layer collider had ladder component attached");
+                        lh.GrabbingLadder = true;
+                        Actor.GetState<PlayerClimbLadder>().Ladder = ladder;
+                    }
+                    Actor.ChangeState<PlayerLedgeHang>();
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

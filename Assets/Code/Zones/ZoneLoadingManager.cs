@@ -1,5 +1,4 @@
-﻿extern alias mscorlib;
-using mscorlib::System.Threading.Tasks;
+﻿using System.Threading.Tasks;
     
 using System;
 using System.Linq;

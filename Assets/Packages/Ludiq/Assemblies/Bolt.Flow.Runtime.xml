@@ -52,6 +52,418 @@
             Removes unused entries from cached compiled expression.
             </summary>
         </member>
+        <member name="T:Bolt.SelectOnFlow">
+            <summary>
+            Selects a value from a set by matching it with an input flow.
+            </summary>
+        </member>
+        <member name="P:Bolt.SelectOnFlow.exit">
+            <summary>
+            Triggered when any selector is entered.
+            </summary>
+        </member>
+        <member name="P:Bolt.SelectOnFlow.selection">
+            <summary>
+            The selected value.
+            </summary>
+        </member>
+        <member name="T:Bolt.ToggleFlow">
+            <summary>
+            Toggles the control flow with on and off triggers.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.startOn">
+            <summary>
+            Whether the toggle should start in the on state.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.enter">
+            <summary>
+            Entry point to the toggle.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.turnOn">
+            <summary>
+            Trigger to turn on the flow through the toggle.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.turnOff">
+            <summary>
+            Trigger to turn off the flow through the toggle.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.toggle">
+            <summary>
+            Trigger to toggle the flow through the toggle.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.exitOn">
+            <summary>
+            Triggered on entry if the flow is on.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.exitOff">
+            <summary>
+            Triggered on entry if the flow is off.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.turnedOn">
+            <summary>
+            Triggered when the flow gets turned on.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.turnedOff">
+            <summary>
+            Triggered when the flow gets turned off.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleFlow.isOn">
+            <summary>
+            Whether the flow is currently on.
+            </summary>
+        </member>
+        <member name="T:Bolt.ToggleValue">
+            <summary>
+            Toggles between two values with on and off triggers.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.startOn">
+            <summary>
+            Whether the toggle should start in the on state.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.turnOn">
+            <summary>
+            Trigger to turn on the toggle.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.turnOff">
+            <summary>
+            Trigger to turn off the toggle.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.toggle">
+            <summary>
+            Trigger to toggle the state of the toggle.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.onValue">
+            <summary>
+            The value to return if the toggle is on.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.offValue">
+            <summary>
+            The value to return if the toggle is off.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.turnedOn">
+            <summary>
+            Triggered when the flow gets turned on.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.turnedOff">
+            <summary>
+            Triggered when the flow gets turned off.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.isOn">
+            <summary>
+            Whether the flow is currently on.
+            </summary>
+        </member>
+        <member name="P:Bolt.ToggleValue.value">
+            <summary>
+            The value of the toggle selected depending on the state.
+            </summary>
+        </member>
+        <member name="P:Bolt.GenericGuiEventUnit.data">
+            <summary>
+            The event data.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnCancel">
+            <summary>
+            Called when the cancel button is pressed.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnBeginDrag">
+            <summary>
+            Called on the drag object when dragging is about to begin.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnDrag">
+            <summary>
+            When draging is occuring this will be called every time the cursor is moved.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnDrop">
+            <summary>
+            Called on a target that can accept a drop.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnEndDrag">
+            <summary>
+            Called on the drag object when a drag finishes.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnMove">
+            <summary>
+            Called when a move event occurs.
+            </summary>
+        </member>
+        <member name="P:Bolt.OnMove.data">
+            <summary>
+            The axis event data.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnScroll">
+            <summary>
+            Called when a mouse wheel scrolls.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnSubmit">
+            <summary>
+            Called when the submit button is pressed.
+            </summary>
+        </member>
+        <member name="P:Bolt.PointerEventUnit.data">
+            <summary>
+            The pointer event data.
+            </summary>
+        </member>
+        <member name="T:Bolt.Cooldown">
+            <summary>
+            Runs a cooldown timer to throttle flow and outputs remaining measurements.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.enter">
+            <summary>
+            The moment at which to try using the cooldown.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.reset">
+            <summary>
+            Trigger to force reset the cooldown.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.duration">
+            <summary>
+            The total duration of the cooldown.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.unscaledTime">
+            <summary>
+            Whether to ignore the time scale.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.exitReady">
+            <summary>
+            Called upon entry when the cooldown is ready.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.exitNotReady">
+            <summary>
+            Called upon entry when the cooldown is not yet ready.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.tick">
+            <summary>
+            Called each frame while the cooldown timer is active.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.becameReady">
+            <summary>
+            Called when the cooldown timer reaches zero.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.remainingSeconds">
+            <summary>
+            The number of seconds remaining until the cooldown is ready.
+            </summary>
+        </member>
+        <member name="P:Bolt.Cooldown.remainingRatio">
+            <summary>
+            The proportion of the duration remaining until the cooldown is ready (0-1).
+            </summary>
+        </member>
+        <member name="T:Bolt.Once">
+            <summary>
+            Executes an action only once, and a different action afterwards.
+            </summary>
+        </member>
+        <member name="P:Bolt.Once.enter">
+            <summary>
+            The entry point for the action.
+            </summary>
+        </member>
+        <member name="P:Bolt.Once.reset">
+            <summary>
+            Trigger to reset the once check.
+            </summary>
+        </member>
+        <member name="P:Bolt.Once.once">
+            <summary>
+            The action to execute the first time the unit is entered.
+            </summary>
+        </member>
+        <member name="P:Bolt.Once.after">
+            <summary>
+            The action to execute subsequently.
+            </summary>
+        </member>
+        <member name="T:Bolt.Throw">
+            <summary>
+            Throws an exception.
+            </summary>
+        </member>
+        <member name="P:Bolt.Throw.custom">
+            <summary>
+            Whether a custom exception object should be specified manually.
+            </summary>
+        </member>
+        <member name="P:Bolt.Throw.enter">
+            <summary>
+            The entry point to throw the exception.
+            </summary>
+        </member>
+        <member name="P:Bolt.Throw.message">
+            <summary>
+            The message of the exception.
+            </summary>
+        </member>
+        <member name="P:Bolt.Throw.exception">
+            <summary>
+            The exception to throw.
+            </summary>
+        </member>
+        <member name="T:Bolt.Timer">
+            <summary>
+            Runs a timer and outputs elapsed and remaining measurements.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.start">
+            <summary>
+            The moment at which to start the timer.
+            If the timer is already started, this will reset it.
+            If the timer is paused, this will resume it.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.pause">
+            <summary>
+            Trigger to pause the timer.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.resume">
+            <summary>
+            Trigger to resume the timer.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.toggle">
+            <summary>
+            Trigger to toggle the timer.
+            If it is idle, it will start.
+            If it is active, it will pause.
+            If it is paused, it will resume.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.duration">
+            <summary>
+            The total duration of the timer.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.unscaledTime">
+            <summary>
+            Whether to ignore the time scale.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.started">
+            <summary>
+            Called when the timer is started.co
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.tick">
+            <summary>
+            Called each frame while the timer is active.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.completed">
+            <summary>
+            Called when the timer completes.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.elapsedSeconds">
+            <summary>
+            The number of seconds elapsed since the timer started.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.elapsedRatio">
+            <summary>
+            The proportion of the duration that has elapsed (0-1).
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.remainingSeconds">
+            <summary>
+            The number of seconds remaining until the timer is elapsed.
+            </summary>
+        </member>
+        <member name="P:Bolt.Timer.remainingRatio">
+            <summary>
+            The proportion of the duration remaining until the timer is elapsed (0-1).
+            </summary>
+        </member>
+        <member name="T:Bolt.TryCatch">
+            <summary>
+            Handles an exception if it occurs.
+            </summary>
+        </member>
+        <member name="P:Bolt.TryCatch.enter">
+            <summary>
+            The entry point for the try-catch block.
+            </summary>
+        </member>
+        <member name="P:Bolt.TryCatch.try">
+            <summary>
+            The action to attempt.
+            </summary>
+        </member>
+        <member name="P:Bolt.TryCatch.catch">
+            <summary>
+            The action to execute if an exception is thrown.
+            </summary>
+        </member>
+        <member name="P:Bolt.TryCatch.finally">
+            <summary>
+            The action to execute afterwards, regardless of whether there was an exception.
+            </summary>
+        </member>
+        <member name="P:Bolt.TryCatch.exception">
+            <summary>
+            The exception that was thrown in the try block.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnAnimatorIK">
+            <summary>
+            Called by the Animator Component immediately before it updates its internal IK system. 
+            This callback can be used to set the positions of the IK goals and their respective weights.
+            </summary>
+        </member>
+        <member name="P:Bolt.OnAnimatorIK.layerIndex">
+            <summary>
+            The index of the layer on which the IK solver is called.
+            </summary>
+        </member>
+        <member name="T:Bolt.OnAnimatorMove">
+            <summary>
+            Called at each frame after the state machines and the animations have been evaluated, but before On Animator IK.
+            This callback can be used for processing animation movements for modifying root motion.
+            </summary>
+        </member>
+        <member name="P:Bolt.EventUnit`1.coroutine">
+            <summary>
+            Run this event in a coroutine, enabling asynchronous flow like wait units.
+            </summary>
+        </member>
         <member name="T:Bolt.DictionaryContainsKey">
             <summary>
             Checks whether a dictionary contains the specified key.
@@ -105,6 +517,26 @@
         <member name="T:Bolt.WaitForEndOfFrameUnit">
             <summary>
             Delays flow by waiting until the end of the frame.
+            </summary>
+        </member>
+        <member name="T:Bolt.WaitForFlow">
+            <summary>
+            Delays flow by waiting until multiple input flows have been executed.
+            </summary>
+        </member>
+        <member name="P:Bolt.WaitForFlow.resetOnExit">
+            <summary>
+            Whether the activation status should be reset on exit.
+            </summary>
+        </member>
+        <member name="P:Bolt.WaitForFlow.reset">
+            <summary>
+            Trigger to reset the activation status.
+            </summary>
+        </member>
+        <member name="P:Bolt.WaitForFlow.exit">
+            <summary>
+            Triggered after all inputs have been entered at least once.
             </summary>
         </member>
         <member name="T:Bolt.WaitForNextFrameUnit">
@@ -295,27 +727,27 @@
             The complete collision data object.
             </summary>
         </member>
-        <member name="P:Bolt.CollisionEvent2D.collider">
+        <member name="P:Bolt.CollisionEvent2DUnit.collider">
             <summary>
             The collider we hit.
             </summary>
         </member>
-        <member name="P:Bolt.CollisionEvent2D.contacts">
+        <member name="P:Bolt.CollisionEvent2DUnit.contacts">
             <summary>
             The contact points generated by the physics engine.
             </summary>
         </member>
-        <member name="P:Bolt.CollisionEvent2D.relativeVelocity">
+        <member name="P:Bolt.CollisionEvent2DUnit.relativeVelocity">
             <summary>
             The relative linear velocity of the two colliding objects.
             </summary>
         </member>
-        <member name="P:Bolt.CollisionEvent2D.enabled">
+        <member name="P:Bolt.CollisionEvent2DUnit.enabled">
             <summary>
             Whether the collision was enabled or not.
             </summary>
         </member>
-        <member name="P:Bolt.CollisionEvent2D.data">
+        <member name="P:Bolt.CollisionEvent2DUnit.data">
             <summary>
             The complete collision data object.
             </summary>
@@ -756,12 +1188,12 @@
             The action to do after the event has been triggered.
             </summary>
         </member>
-        <member name="P:Bolt.TriggerEvent.collider">
+        <member name="P:Bolt.TriggerEventUnit.collider">
             <summary>
             The other collider involved in the collision.
             </summary>
         </member>
-        <member name="P:Bolt.TriggerEvent2D.collider">
+        <member name="P:Bolt.TriggerEvent2DUnit.collider">
             <summary>
             The other collider involved in the collision.
             </summary>
@@ -796,7 +1228,7 @@
             Whether to ignore the time scale.
             </summary>
         </member>
-        <member name="P:Bolt.GameObjectEventUnit.targetPort">
+        <member name="P:Bolt.GameObjectEventUnit`1.target">
             <summary>
             The game object that listens for the event.
             </summary>
@@ -1001,7 +1433,7 @@
             Checks whether a variable is defined.
             </summary>
         </member>
-        <member name="P:Bolt.IsVariableDefined.isDefined">
+        <member name="P:Bolt.IsVariableDefined.isVariableDefined">
             <summary>
             Whether the variable is defined.
             </summary>
@@ -1129,6 +1561,16 @@
             Invokes a method or a constructor via reflection.
             </summary>
         </member>
+        <member name="P:Bolt.InvokeMember.chainable">
+            <summary>
+            Whether the target should be output to allow for chaining.
+            </summary>
+        </member>
+        <member name="P:Bolt.InvokeMember.targetOutput">
+            <summary>
+            The target object used when setting the value.
+            </summary>
+        </member>
         <member name="P:Bolt.MemberUnit.target">
             <summary>
             The target object.
@@ -1137,6 +1579,16 @@
         <member name="T:Bolt.SetMember">
             <summary>
             Sets the value of a field or property via reflection.
+            </summary>
+        </member>
+        <member name="P:Bolt.SetMember.chainable">
+            <summary>
+            Whether the target should be output to allow for chaining.
+            </summary>
+        </member>
+        <member name="P:Bolt.SetMember.targetOutput">
+            <summary>
+            The target object used when setting the value.
             </summary>
         </member>
         <member name="T:Bolt.CountItems">
@@ -1472,7 +1924,7 @@
         </member>
         <member name="P:Bolt.InsertListItem.item">
             <summary>
-            The item to inert.
+            The item to insert.
             </summary>
         </member>
         <member name="P:Bolt.InsertListItem.exit">
@@ -2789,6 +3241,26 @@
         <member name="P:Bolt.VariableUnit.name">
             <summary>
             The name of the variable.
+            </summary>
+        </member>
+        <member name="M:Bolt.Unit.Requirement(Bolt.ValueInput,Bolt.ControlInput)">
+            <summary>
+            Triggering the destination may fetch the source value.
+            </summary>
+        </member>
+        <member name="M:Bolt.Unit.Requirement(Bolt.ValueInput,Bolt.ValueOutput)">
+            <summary>
+            Getting the value of the destination may fetch the value of the source.
+            </summary>
+        </member>
+        <member name="M:Bolt.Unit.Assignment(Bolt.ControlInput,Bolt.ValueOutput)">
+            <summary>
+            Triggering the source may assign the destination value on the flow.
+            </summary>
+        </member>
+        <member name="M:Bolt.Unit.Succession(Bolt.ControlInput,Bolt.ControlOutput)">
+            <summary>
+            Triggering the source may trigger the destination.
             </summary>
         </member>
     </members>

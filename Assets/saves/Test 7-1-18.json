@@ -1,0 +1,20 @@
+{
+  "SaveName": "Test 7-1-18",
+  "LastSave": "2018-07-01 01.36.39",
+  "Inventory": {
+    "instanceID": 0
+  },
+  "DefaultIntroScene": {
+    "instanceID": 19580,
+    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/custom-jungle-1.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 21170,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 19580\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 19878\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 13340\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 17584\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  },\r\n  \"ConnectedScenes\": [\r\n    {\r\n      \"instanceID\": 19878\r\n    }\r\n  ]\r\n}"
+  },
+  "CurrentScene": {
+    "instanceID": 18670,
+    "instanceData": "{\r\n  \"Value\": \"Assets/Protoyping/Scenes/test-2.unity\",\r\n  \"LoadingZone\": {\r\n    \"instanceID\": 15490,\r\n    \"instanceData\": \"{\\r\\n  \\\"Name\\\": \\\"\\\",\\r\\n  \\\"Scenes\\\": [\\r\\n    {\\r\\n      \\\"instanceID\\\": 18670\\r\\n    },\\r\\n    {\\r\\n      \\\"instanceID\\\": 0\\r\\n    }\\r\\n  ]\\r\\n}\"\r\n  },\r\n  \"ConnectedScenes\": []\r\n}"
+  },
+  "ZoneLoadingManagerReference": {
+    "instanceID": 17778,
+    "instanceData": "{}"
+  },
+  "lastSpawnGuid": ""
+}

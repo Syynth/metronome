@@ -779,16 +779,6 @@
             The last version to which the plugin successfully upgraded.
             </summary>
         </member>
-        <member name="F:Ludiq.ConfigurationPanelTab.EditorPrefs">
-            <summary>
-            Shared across projects, bound to this user.
-            </summary>
-        </member>
-        <member name="F:Ludiq.ConfigurationPanelTab.ProjectSettings">
-            <summary>
-            Shared across users, bound to this project.
-            </summary>
-        </member>
         <member name="T:Ludiq.ReorderableList.Element_Adder_Menu.ElementAdderMenuBuilder">
             <summary>
             Factory methods that create <see cref="T:Ludiq.ReorderableList.Element_Adder_Menu.IElementAdderMenuBuilder`1" />
@@ -3219,16 +3209,9 @@
             Whether programming names should be converted into a more human-readable format.
             </summary>
         </member>
-        <member name="P:Ludiq.LudiqCoreConfiguration.showNonPublicMembers">
+        <member name="P:Ludiq.LudiqCoreConfiguration.maxSearchResults">
             <summary>
-            Whether private and protected members should be included.
-            (Obsolete, not recommended)
-            </summary>
-        </member>
-        <member name="P:Ludiq.LudiqCoreConfiguration.showNonPublicTypes">
-            <summary>
-            Whether private and internal types should be included.
-            (Obsolete, not recommended)
+            The maximum amount of search results to display.
             </summary>
         </member>
         <member name="P:Ludiq.LudiqCoreConfiguration.groupInheritedMembers">
@@ -3236,19 +3219,9 @@
             Whether inherited below should be grouped at the bottom of the options list.
             </summary>
         </member>
-        <member name="P:Ludiq.LudiqCoreConfiguration.parameterStringMode">
-            <summary>
-            How method and constructor parameters should appear.
-            </summary>
-        </member>
         <member name="P:Ludiq.LudiqCoreConfiguration.LanguageIconsSkin">
             <summary>
             The skin to use for language related (C# / VB) icons.
-            </summary>
-        </member>
-        <member name="P:Ludiq.LudiqCoreConfiguration.typeSelectorIcons">
-            <summary>
-            Whether type selector drawers should display the current implementation's icon.
             </summary>
         </member>
         <member name="P:Ludiq.LudiqCoreConfiguration.limitFuzzyFinderHeight">

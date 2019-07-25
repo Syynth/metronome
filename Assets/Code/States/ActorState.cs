@@ -40,7 +40,9 @@ namespace Assets.Code.States
             Age += Time.deltaTime;
         }
 
-        public virtual void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor) { }
+        public virtual void UpdateVelocity(ref Vector3 velocity, float deltaTime, KinematicCharacterMotor motor) { }
+
+        public virtual void UpdateRotation(ref Quaternion rotation, float deltaTime, KinematicCharacterMotor motor) { }
 
         public virtual void OnExit()
         {

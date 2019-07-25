@@ -34,6 +34,11 @@
             Align the bottom edges of the selected elements.
             </summary>
         </member>
+        <member name="T:Ludiq.WidgetList`1">
+            <summary>
+            A list of widgets that can be safely iterated over even if the collection changes during iteration.
+            </summary>
+        </member>
         <member name="F:Ludiq.DistributeOperation.DistributeLeftEdges">
             <summary>
             Distribute the selected elements so that the left  edges
@@ -92,6 +97,11 @@
             Whether graph elements should snap to grid.
             </summary>
         </member>
+        <member name="P:Ludiq.LudiqGraphsConfiguration.graphSidebarThreshold">
+            <summary>
+            The window size at which the graph window should start displaying a sidebar.
+            </summary>
+        </member>
         <member name="P:Ludiq.LudiqGraphsConfiguration.panSpeed">
             <summary>
             The speed at which the mouse scroll pans the graph.
@@ -132,12 +142,6 @@
             The control scheme to use for pan and zoom.
             Unity: pan with [MMB], zoom with [Ctrl + Scroll Wheel].
             Unreal: pan with [MMB] or [Alt + LMB], zoom with [Scroll Wheel].
-            </summary>
-        </member>
-        <member name="P:Ludiq.LudiqGraphsConfiguration.matchGraphToSelection">
-            <summary>
-            Whether changing the selection should automatically open
-            the first graph on that object. 
             </summary>
         </member>
         <member name="P:Ludiq.LudiqGraphsConfiguration.clearGraphSelection">

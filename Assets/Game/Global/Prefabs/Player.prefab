@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 65483810000074202}
   - component: {fileID: 114244593984730264}
   - component: {fileID: 54813313615562976}
-  - component: {fileID: 65242429839948712}
   m_Layer: 2
   m_Name: LedgeDetect
   m_TagString: Untagged
@@ -338,6 +337,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 25e6bee72ad344a4798bc46b71454d2f, type: 2}
   - {fileID: 2100000, guid: 60c65b93998fa7b4eb54d4dd9384822e, type: 2}
@@ -394,6 +394,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: c680675e0607f644ca8b1e6cb4d087fb, type: 2}
   m_StaticBatchInfo:
@@ -459,18 +460,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &65242429839948712
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1096724823274958}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3333, y: 0.333, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65483810000074202
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -492,7 +481,7 @@ Animator:
   m_GameObject: {fileID: 1547890621595380}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9f11a71f3b0d30248af6793f8ab66363, type: 2}
+  m_Controller: {fileID: 9100000, guid: ebf33bb3cdbcece42b4a8a7b0c63deb9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -500,6 +489,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114057031132159178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -747,7 +737,7 @@ MonoBehaviour:
   gravity: {x: 0, y: -4, z: 0}
   input: {x: 0, y: 0}
   aimInput: {x: 0, y: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 95142002830823342}
   PlayerEditorStates:
     Duck:
       Active: 0
@@ -799,11 +789,12 @@ MonoBehaviour:
       held: 0
       grabOneWayPlatforms: 1
       ledgeVertex: {x: 0, y: 0, z: 0}
+      GrabbingLadder: 0
     ClimbLadder:
       Active: 0
       Age: 0
       AnimationName: 
-      triggerName: Ladder
+      triggerName: ladder-climb
       Ladder: {fileID: 0}
       ClimbSpeed: 3
     Run:
@@ -844,6 +835,7 @@ LineRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 9b2c6d15597216f479786849464949b2, type: 2}
   m_StaticBatchInfo:
@@ -874,12 +866,15 @@ LineRenderer:
     widthCurve:
       serializedVersion: 2
       m_Curve:
-      - serializedVersion: 2
+      - serializedVersion: 3
         time: 0
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -945,6 +940,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: f7793ef031e058b42a56300eec393be3, type: 2}
   m_StaticBatchInfo:

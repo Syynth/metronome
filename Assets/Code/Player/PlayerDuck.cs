@@ -10,7 +10,7 @@ namespace Assets.Code.Player
     public class PlayerDuck : PlayerState
     {
         [SerializeField]
-        private string triggerName = "Crouch";
+        private string triggerName = "duck";
         public override string TriggerName => triggerName;
 
         public bool pressed = false;
@@ -33,7 +33,7 @@ namespace Assets.Code.Player
             base.BeforeUpdate(deltaTime, motor);
         }
 
-        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
+        public override void UpdateVelocity(ref Vector3 velocity, float deltaTime, KinematicCharacterMotor motor)
         {
             Actor.InputX();
             Actor.velocity.x = 0;

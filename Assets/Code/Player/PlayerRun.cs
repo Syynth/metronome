@@ -85,11 +85,6 @@ namespace Assets.Code.Player
             Actor.AccelerateX();
         }
 
-        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
-        {
-            velocity = Actor.velocity;
-        }
-
         public override void AfterUpdate(float deltaTime, KinematicCharacterMotor motor)
         {
             base.AfterUpdate(deltaTime, motor);

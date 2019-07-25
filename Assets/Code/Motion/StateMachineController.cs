@@ -31,10 +31,13 @@ namespace Assets.Code.Motion
 
         public override void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
-            Actor.CurrentState.UpdateVelocity(ref currentVelocity, Motor);
+            Actor.CurrentState.UpdateVelocity(ref currentVelocity, deltaTime, Motor);
         }
 
-        public override void UpdateRotation(ref Quaternion currentRotation, float deltaTime) { }
+        public override void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
+        {
+            Actor.CurrentState.UpdateRotation(ref currentRotation, deltaTime, Motor);
+        }
 
         public override bool IsColliderValidForCollisions(Collider coll)
         {

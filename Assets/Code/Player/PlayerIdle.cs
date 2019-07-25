@@ -15,7 +15,7 @@ namespace Assets.Code.Player
     public class PlayerIdle : PlayerState
     {
         [SerializeField]
-        private string triggerName = "Idle";
+        private string triggerName = "idle";
         public override string TriggerName => triggerName;
 
         public override void OnEnter(KinematicCharacterMotor motor)
@@ -53,9 +53,8 @@ namespace Assets.Code.Player
             Actor.InputX();
         }
 
-        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
+        public override void UpdateVelocity(ref Vector3 velocity, float deltaTime, KinematicCharacterMotor motor)
         {
-            base.UpdateVelocity(ref velocity, motor);
             velocity = Vector3.zero;
         }
 

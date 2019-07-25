@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 
 using KinematicCharacterController;
+using Assets.Code.Interactive;
 
 namespace Assets.Code.Player
 {
@@ -12,9 +13,9 @@ namespace Assets.Code.Player
     {
 
         [SerializeField]
-        private string fallTriggerName = "Fall";
+        private string fallTriggerName = "fall";
         [SerializeField]
-        private string descendTriggerName = "Fall";
+        private string descendTriggerName = "descend";
 
         public bool descend = true;
         public override string TriggerName => descend ? descendTriggerName : fallTriggerName;
@@ -33,9 +34,9 @@ namespace Assets.Code.Player
             LedgeDetect.transform.localPosition = pos;
         }
 
-        public override void UpdateVelocity(ref Vector3 velocity, KinematicCharacterMotor motor)
+        public override void BeforeUpdate(float deltaTime, KinematicCharacterMotor motor)
         {
-            base.UpdateVelocity(ref velocity, motor);
+            base.BeforeUpdate(deltaTime, motor);
 
             if (Age > 4f / 30f && Age < 1f / 3f)
             {
@@ -45,8 +46,10 @@ namespace Assets.Code.Player
             Actor.InputX();
             Actor.AccelerateX();
             Actor.AccelerateY();
+        }
 
-            velocity = Actor.velocity;
+        public override void AfterUpdate(float deltaTime, KinematicCharacterMotor motor)
+        {
 
             if (touchingLedge && Actor.input.y > 0)
             {
@@ -66,22 +69,17 @@ namespace Assets.Code.Player
             //    Actor.velocity.x = 0;
             //}
 
-            var hits = LedgeDetect.GetComponent<Rigidbody>()
-                .SweepTestAll(Vector3.down, 0.3f)
-                .Where(
-                    hit => !Actor.GetState<PlayerLedgeHang>().ignoreLedges
-                    .Select(t => t.Item1)
-                    .Contains(hit.collider)
-                );
-            if (hits.Count() > 0)
+            if (Actor.GetState<PlayerLedgeHang>().DetectLedges(motor))
             {
-                var hit = hits.First();
-                if (motor.IsStableOnNormal(hit.normal) && Utils.IsInLayerMask(hit.collider.gameObject.layer, Actor.SolidLayer))
-                {
-                    Actor.GetState<PlayerLedgeHang>().Ledge = hit.collider;
-                    Actor.ChangeState<PlayerLedgeHang>();
-                    return;
-                }
+                return;
+            }
+
+            var l = Actor.TouchingColliders.FirstOrDefault(c => c.GetComponent<Ladder>() != null);
+            if (l != null)
+            {
+                Actor.GetState<PlayerClimbLadder>().Ladder = l.GetComponent<Ladder>();
+                Actor.ChangeState<PlayerClimbLadder>();
+                return;
             }
 
             if (motor.GroundingStatus.IsStableOnGround)

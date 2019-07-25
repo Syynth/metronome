@@ -1,0 +1,17 @@
+{
+  "SaveName": "Test 7-2-18",
+  "LastSave": "2018-07-01 01.36.39",
+  "Inventory": {
+    "instanceID": 0
+  },
+  "DefaultIntroScene": {
+    "instanceID": 0
+  },
+  "CurrentScene": {
+    "instanceID": 0
+  },
+  "ZoneLoadingManagerReference": {
+    "instanceID": 0
+  },
+  "lastSpawnGuid": ""
+}

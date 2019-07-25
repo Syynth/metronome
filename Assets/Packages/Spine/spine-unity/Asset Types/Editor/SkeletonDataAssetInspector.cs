@@ -661,19 +661,20 @@ namespace Spine.Unity.Editor {
 			return skeletonJSON.objectReferenceValue != null;
 		}
 
-		Texture m_previewTex = new Texture();
+        
 
 		public override void OnInteractivePreviewGUI (Rect r, GUIStyle background) {
 			this.InitPreview();
+            Texture m_previewTex = new RenderTexture((int)r.width, (int)r.height, 24);
 
-			if (Event.current.type == EventType.Repaint) {
+            if (Event.current.type == EventType.Repaint) {
 				if (m_requireRefresh) {
 					this.m_previewUtility.BeginPreview(r, background);
 					this.DoRenderPreview(true);
-					this.m_previewTex = this.m_previewUtility.EndPreview();
+					m_previewTex = this.m_previewUtility.EndPreview();
 					m_requireRefresh = false;
 				}
-				if (this.m_previewTex != null)
+				if (m_previewTex != null)
 					GUI.DrawTexture(r, m_previewTex, ScaleMode.StretchToFill, false);
 			}
 

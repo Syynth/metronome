@@ -29,24 +29,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1114473264376110
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4037482665481046}
-  - component: {fileID: 65824056311607466}
-  - component: {fileID: 114695751101042588}
-  - component: {fileID: 114878775668013122}
-  m_Layer: 0
-  m_Name: Trigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1211108143191714
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,9 +38,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4051185651986664}
   - component: {fileID: 33326032850973914}
-  - component: {fileID: 65656972683069398}
   - component: {fileID: 23114051841296388}
-  m_Layer: 8
+  - component: {fileID: 65765127081617654}
+  m_Layer: 0
   m_Name: Left Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +160,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4563160039896394}
-  m_Layer: 8
+  - component: {fileID: 65724016796601584}
+  - component: {fileID: 114545581158574088}
+  m_Layer: 10
   m_Name: Ladder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,9 +232,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4464462496684918}
   - component: {fileID: 33422573004899394}
-  - component: {fileID: 65437217422275328}
   - component: {fileID: 23542973767587536}
-  m_Layer: 8
+  - component: {fileID: 65833852267340360}
+  m_Layer: 0
   m_Name: Right Rail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,19 +254,6 @@ Transform:
   m_Father: {fileID: 4819404786866488}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!4 &4037482665481046
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114473264376110}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4563160039896394}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4051185651986664
 Transform:
   m_ObjectHideFlags: 1
@@ -341,17 +312,16 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1725871365283456}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.39, y: -7.41, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.14353512, w: 0.98964524}
+  m_LocalPosition: {x: -4.72, y: -1.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4051185651986664}
   - {fileID: 4464462496684918}
   - {fileID: 4819404786866488}
-  - {fileID: 4037482665481046}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -16.505001}
 --- !u!4 &4642550398740674
 Transform:
   m_ObjectHideFlags: 1
@@ -465,6 +435,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -499,6 +470,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -533,6 +505,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -567,6 +540,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -601,6 +575,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -635,6 +610,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -669,6 +645,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -703,6 +680,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -737,6 +715,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -771,6 +750,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -805,6 +785,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: bf814e31a9bdf6a4ca53cead152e8851, type: 2}
   m_StaticBatchInfo:
@@ -903,19 +884,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1391199499108352}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65437217422275328
+--- !u!65 &65724016796601584
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1991759339121146}
+  m_GameObject: {fileID: 1725871365283456}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.75, y: 8, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65656972683069398
+--- !u!65 &65765127081617654
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -927,45 +908,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65824056311607466
+--- !u!65 &65833852267340360
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114473264376110}
+  m_GameObject: {fileID: 1991759339121146}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 8, z: 1}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114695751101042588
+--- !u!114 &114545581158574088
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114473264376110}
+  m_GameObject: {fileID: 1725871365283456}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b11d2c5029a735149a071d67940cff0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InPlane: 1
---- !u!114 &114878775668013122
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114473264376110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c9bfe760a258784bac7a3dfe4c2018d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LadderSegmentBottom: {x: 0, y: 0, z: 0}
-  LadderSegmentLength: 0
-  BottomReleasePoint: {fileID: 0}
-  TopReleasePoint: {fileID: 0}
 --- !u!136 &136067025325112988
 CapsuleCollider:
   m_ObjectHideFlags: 1
