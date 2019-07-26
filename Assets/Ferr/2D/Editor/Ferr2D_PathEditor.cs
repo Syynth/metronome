@@ -80,7 +80,7 @@ public class Ferr2D_PathEditor : Editor {
 		Undo.RecordObject(target, "Modified Path");
 		
         // draw the path line
-		if (Event.current.type == EventType.repaint)
+		if (Event.current.type == EventType.Repaint)
 			DoPath(path);
 		
 		// Check for drag-selecting multiple points
@@ -99,7 +99,7 @@ public class Ferr2D_PathEditor : Editor {
 			UpdateDependentsSmart(path, false, false);
 			EditorUtility.SetDirty (target);
 			prevChanged = true;
-		} else if (Event.current.type == EventType.used) {
+		} else if (Event.current.type == EventType.Used) {
 			if (prevChanged == true) {
 				UpdateDependentsSmart(path, false, true);
 			}
@@ -178,7 +178,7 @@ public class Ferr2D_PathEditor : Editor {
 	
 	private void    DragSelect           (Ferr2D_Path path) {
 		
-		if (Event.current.type == EventType.repaint) {
+		if (Event.current.type == EventType.Repaint) {
 			if (drag) {
 				Vector3 pt1 = HandleUtility.GUIPointToWorldRay(dragStart).GetPoint(0.2f);
 				Vector3 pt2 = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition).GetPoint(0.2f);
@@ -190,20 +190,20 @@ public class Ferr2D_PathEditor : Editor {
 		
 		if (Event.current.shift && Event.current.control) {
 			switch(Event.current.type) {
-			case EventType.mouseDrag:
+			case EventType.MouseDrag:
 				SceneView.RepaintAll();
 				break;
-			case EventType.mouseMove:
+			case EventType.MouseMove:
 				SceneView.RepaintAll();
 				break;
-			case EventType.mouseDown:
+			case EventType.MouseDown:
 				if (Event.current.button != 0) break;
 				
 				dragStart = Event.current.mousePosition;
 				drag      = true;
 				
 				break;
-			case EventType.mouseUp:
+			case EventType.MouseUp:
 				if (Event.current.button != 0) break;
 				
 				Vector2 dragEnd = Event.current.mousePosition;
@@ -225,7 +225,7 @@ public class Ferr2D_PathEditor : Editor {
 				drag = false;
 				SceneView.RepaintAll();
 				break;
-			case EventType.layout :
+			case EventType.Layout :
 				HandleUtility.AddDefaultControl(GetHashCode());
 				break;
 			}
@@ -255,7 +255,7 @@ public class Ferr2D_PathEditor : Editor {
 			}
 		}
 		
-		if (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Delete && selectedPoints.Count > 0) {
+		if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Delete && selectedPoints.Count > 0) {
 			deleteSelected = true;
 			GUI.changed = true;
 			Event.current.Use();
